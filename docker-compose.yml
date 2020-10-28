@@ -56,6 +56,9 @@ services:
       PUBLIC_STORAGE_PRODUCT_PICTURE: "$PUBLIC_STORAGE_PRODUCT_PICTURE"
       # i18n.
       DEFAULT_LOCALE: "$DEFAULT_LOCALE"
+      # LogRocket.
+      # LOGROCKET_ID
+      # LOGROCKET_DEV_MODE_ALLOWED
     volumes:
       - ./src/webapp:/usr/src/app
 
