@@ -4,8 +4,8 @@ query users($search: String, $role: Role, $sortBy: UsersSortBy, $sortOrder: Sort
       id
       firstName
       lastName
-      email,
-      locale,
+      email
+      locale
       role
     }
     count
