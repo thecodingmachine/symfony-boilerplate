@@ -24,6 +24,12 @@ There are comments on the *README* to help you customize its content.
 
 :::
 
+:::note
+
+If you don't need it, you should remove the *.github* folder.
+
+:::
+
 
 
 
