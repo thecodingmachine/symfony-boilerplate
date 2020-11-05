@@ -163,13 +163,11 @@ Make sure you have read the following documentations:
 **Day-to-day guidelines**
 
 * [Web application guidelines](src/webapp/README.md)
-* [API guidelines](src/api/README.md)``
+* [API guidelines](src/api/README.md)
 
 **In-depth explanations**
 
-* https://thecodingmachine.github.io/symfony-boilerplate/docs/VERSION
-
-> Update the previous link with the version of the boilerplate in use.
+* See [docs](docs) folder.
 
 ### How to stop the stack?
 

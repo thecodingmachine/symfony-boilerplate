@@ -2,7 +2,7 @@ module.exports = {
   title: 'Symfony Boilerplate',
   tagline: 'A Symfony boilerplate with GraphQL and Nuxt.js',
   url: 'https://thecodingmachine.github.io',
-  baseUrl: '/symfony-boilerplate',
+  baseUrl: '/symfony-boilerplate/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'thecodingmachine', // Usually your GitHub org/user name.
