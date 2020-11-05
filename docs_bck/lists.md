@@ -43,7 +43,7 @@ For "sort by" and "sort order" values, we use enumerators
 GraphQLite recognizes an enumerator as a valid value for your GraphQL request.
 
 Each enumerator's key (i.e., `FIRST_NAME`) is a GraphQL value, while each enumerator's value (i.e., `first_name`)
-is valid SQL expression. 
+is a valid SQL expression. 
 
 See `search` method in [src/api/src/Domain/Dao/UserDao](../src/api/src/Domain/Dao/UserDao.php) for an example of usage.
 

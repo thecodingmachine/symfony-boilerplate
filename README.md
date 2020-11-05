@@ -1,4 +1,6 @@
-**Caution:** this is still work in progress.
+This is a template of a *README*.
+
+Official documentation: https://thecodingmachine.github.io/symfony-boilerplate
 
 ---
 
@@ -22,7 +24,7 @@ Install the latest version of [Docker](https://docs.docker.com/install/) and
 We strongly recommend installing [Vagrant](https://www.vagrantup.com/) and 
 [VirtualBox](https://www.virtualbox.org/).
 
-Indeed, Docker currently has huge performance issues on macOS, and using Vagrant allows us to have an almost 
+Indeed, Docker currently has substantial performance issues on macOS, and using Vagrant allows us to have an almost 
 Linux-like experience regarding performances.
 
 #### Windows
@@ -50,7 +52,7 @@ If you're using Vagrant, check there is no application running on port 80 (like 
 If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
 From here, you'll be able to run all the next commands like Linux users!
 
-> Update the variable `PROJECT_NAME` from the [Makefile](Makefile) with your project name.
+> Update the variable `VAGRANT_PROJECT_NAME` from the [Makefile](Makefile) with your project name.
 > Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
 
 ### Starting the Docker Compose stack
@@ -161,20 +163,13 @@ Make sure you have read the following documentations:
 **Day-to-day guidelines**
 
 * [Web application guidelines](src/webapp/README.md)
-* [API guidelines](src/api/README.md)
+* [API guidelines](src/api/README.md)``
 
 **In-depth explanations**
 
-* [Configuration - development environment, API, web application](docs/configuration.md)
-* [Security](docs/security.md)
-* [Internationalization (i18n)](docs/i18n.md)
-* [Emails](docs/emails.md)
-* [Forms validation](docs/forms_validation.md)
-* [Lists](docs/lists.md)
-* [Resources - assets, temporary files, uploaded files](docs/resources.md)
-* [Housekeeping - or how to keep everything up-to-date](docs/housekeeping.md)
+* https://thecodingmachine.github.io/symfony-boilerplate/docs/VERSION
 
-> Don't hesitate to update these documentations but also add your documentations.
+> Update the previous link with the version of the boilerplate in use.
 
 ### How to stop the stack?
 
