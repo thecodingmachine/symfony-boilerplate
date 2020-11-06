@@ -2,3 +2,5 @@
 title: Validation
 slug: /guides/validation
 ---
+
+> no need for this.$nuxt.error here as it does not works on the contrary to calling it directly in the "main" component.

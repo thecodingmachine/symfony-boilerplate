@@ -3,8 +3,6 @@ title: Security
 slug: /guides/security
 ---
 
-This guide will explain how to secure the API and web application.
-
 ## API
 
 Security for the API has many scopes:
