@@ -2,7 +2,7 @@
 
 This is a template of a *README*.
 
-Official documentation: https://thecodingmachine.github.io/symfony-boilerplate
+Documentation: https://thecodingmachine.github.io/symfony-boilerplate
 
 ---
 
