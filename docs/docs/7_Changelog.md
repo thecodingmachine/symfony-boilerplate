@@ -1,4 +1,4 @@
 ---
-title: Changelog
+title: CHANGELOG
 slug: /changelog
 ---

@@ -15,6 +15,18 @@ On macOS and Windows, Docker currently has substantial performance issues.
 * 🚦 `vagrant halt`: stops the virtual machine.
 * 💣 `vagrant destroy`: destroys the virtual machine.
 
+:::note
+
+📣 On Windows, we strongly advise using a Linux-like terminal to run the `make vagrant` command. 
+
+:::
+
+:::note
+
+📣 With `vagrant ssh`, you may run the *Makefile*'s instructions like a Linux user.
+
+:::
+
 ## Configuration
 
 Vagrant's configuration consists of three files:
@@ -33,6 +45,6 @@ The later replaces placeholders from the *Vagrantfile.template* by the variables
 
 :::note
 
-You should never commit the *Vagrantfile*.
+📣 You should never commit the *Vagrantfile*.
 
 :::

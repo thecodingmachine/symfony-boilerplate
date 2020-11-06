@@ -39,7 +39,7 @@ docker --version
 docker-compose --version
 ```
 
-It will re-create the Vagrant VM with the latest version of Docker and Docker Compose.
+It will re-create the Vagrant VM with the latest versions of Docker and Docker Compose.
 
 ### Docker Compose file
 
@@ -72,7 +72,7 @@ For VirtualBox, open the application, it should tell you to download the newer v
 
 :::note
 
-From time to time, you may also update the `VAGRANT_BOX` variable from the *Makefile*
+📣 From time to time, you may also update the `VAGRANT_BOX` variable from the *Makefile*
 with a newer [Ubuntu box](https://app.vagrantup.com/bento). The update process for Vagrant users is the same as updating
 the variable `DOCKER_COMPOSE_VERSION`.
 

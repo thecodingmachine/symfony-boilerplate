@@ -3,7 +3,7 @@ title: Configuration
 slug: /webapp/configuration
 ---
 
-General documentation on how to configure Nuxt.js. More details are available in the [Features](../features/i18n) section
+General documentation on how to configure Nuxt.js. More details are available in the [Guides](../guides/i18n) section
 or in the [official documentation](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-build).
 
 ### nuxt.config.js
@@ -15,7 +15,7 @@ the instruction `process.env.YOUR_ENVIRONMENT_VARIABLE_NAME`.
 
 :::note
 
-Put them under the `environment` property of your `webapp` service in your *docker-compose.yml* file.
+📣 Put them under the `environment` property of your `webapp` service in your *docker-compose.yml* file.
 
 :::
 
@@ -34,8 +34,12 @@ The value is available in your code thanks to `this.$config.apiURL` (or `$config
 
 :::note
 
-`privateRuntimeConfig` should contain your secrets. 
+📣 `privateRuntimeConfig` should contain your secrets.
 
-Values from this section **are only available when Nuxt.js executes your code on the server.**
+:::
+
+:::note
+
+📣 Values from this section **are only available when Nuxt.js executes your code on the server.**
 
 :::

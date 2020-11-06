@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 
 const features = [
   {
-    title: 'A solid Development Environment',
+    title: 'Development Environment',
     imageUrl: 'img/undraw_docusaurus_mountain.svg',
     description: (
       <>

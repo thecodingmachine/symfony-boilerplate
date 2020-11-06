@@ -25,6 +25,6 @@ See https://symfony.com/doc/current/setup/upgrade_major.html.
 
 :::note
 
-Make sure your Symfony bundles are ready before updating.
+📣 Make sure your Symfony bundles are ready before updating.
 
 :::

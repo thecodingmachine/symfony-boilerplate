@@ -11,9 +11,11 @@ They will help you set up a complete development environment close to your targe
 ## Usage
 
 * 🚀 `make up`: starts the Docker Compose stack.
-* 💣 `make down`: stops the Docker Compose stack.
-* 📢 `docker-compose logs -f`: displays the logs of **all** your services.
-* 📢 `docker-compose logs -f [SERVICE_NAME]` displays the logs of one service.
+* 🚦 `make down`: stops the Docker Compose stack.
+* 🚇 `make api`: runs `bash` in the `api` service.
+* 🚇 `make webapp`: runs `bash` in the `webapp` service.
+* 📚 `docker-compose logs -f`: displays the logs of **all** your services.
+* 📘 `docker-compose logs -f [SERVICE_NAME]` displays the logs of one service.
 
 ## Configuration
 
@@ -53,10 +55,14 @@ service_foo:
 
 :::note
 
-When adding a new variable in the *.env* file, don't forget to update the template *.env.dist* with it.
+📣 When adding a new variable in the *.env* file, don't forget to update the template *.env.dist* with it.
 It will help other developers to notice this change and update their *.env* files accordingly.
 
-You should never commit the *.env* file as it may contain secrets; always use dummy values for your secrets 
+:::
+
+:::note
+
+📣 You should never commit the *.env* file as it may contain secrets; always use dummy values for your secrets 
 in the *.env.dist* template.
 
 :::
@@ -76,8 +82,8 @@ services:
         labels:
             - traefik.enable=true
             - traefik.http.routers.your_service_name_router.rule=Host(`your_service_subdomain.$DOMAIN`)
-            - traefik.http.routers.your_service_name_router.service=your_service_name_service
             # If your service runs on another port than 80.
+            # - traefik.http.routers.your_service_name_router.service=your_service_name_service
             # - traefik.http.services.your_service_name_service.loadbalancer.server.port=3000
         environment:
             FOO: "BAR"
@@ -87,7 +93,7 @@ services:
 
 :::note
 
-Always add a service code source in the *src* folder.
+📣 Always add a service source code in the *src* folder.
 
 :::
 

@@ -12,20 +12,20 @@ Many services compose this boilerplate.
 
 This layer has two services:
 
-1. The GraphQL API, built with Symfony 5 and [GraphQLite](https://graphqlite.thecodingmachine.io/).
-2. The Web Application, built with Nuxt.js.
+1. The GraphQL API, built with [Symfony 5](https://symfony.com/) and [GraphQLite](https://graphqlite.thecodingmachine.io/).
+2. The Web Application, built with [Nuxt.js](https://nuxtjs.org).
 
 ## Data layer
 
 This layer has 3 services:
 
-1. MySQL for hosting session and business data.
-2. Redis for asynchronous tasks (e.g., emails).
+1. MySQL for storing sessions and business data.
+2. Redis for queueing asynchronous tasks (e.g., emails).
 3. [MinIO](https://min.io/) for storing files (e.g., uploads).
 
 :::note
 
-In production, you may externalize them to the equivalent services from your provider.
+📣 In production, you may externalize them to the equivalent services from your provider.
 
 :::
 

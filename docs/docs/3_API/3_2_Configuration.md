@@ -3,7 +3,7 @@ title: Configuration
 slug: /api/configuration
 ---
 
-General documentation on how to configure Symfony. More details are available in the [Features](../features/i18n) section
+General documentation on how to configure Symfony. More details are available in the [Guides](../guides/i18n) section
 or in the [official documentation](https://symfony.com/doc/current/configuration.html).
 
 ## Symfony
@@ -43,7 +43,7 @@ See the [official documentation](https://symfony.com/doc/current/configuration/e
 
 :::note
 
-In your development environment, do not put these environment variables in the *.env* file 
+📣 In your development environment, do not put these environment variables in the *.env* file 
 from the *src/api* folder, but instead, put them under the `environment` key from the `api` service of 
 your *docker-compose.yml* file.
 

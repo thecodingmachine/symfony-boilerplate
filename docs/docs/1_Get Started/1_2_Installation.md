@@ -12,7 +12,7 @@ git remote add boilerplate https://github.com/thecodingmachine/symfony-boilerpla
 Finally, pull the source code from a [release](https://github.com/thecodingmachine/symfony-boilerplate/tags) to 
 your current branch:
 
-```bash script title="console"
+```bash title="console"
 git pull boilerplate [TAG]
 ```
 
@@ -20,13 +20,13 @@ You may now follow the instructions of the *README*! 😋
 
 :::note
 
-There are comments on the *README* to help you customize its content.
+📣 There are comments on the *README* to help you customize its content.
 
 :::
 
 :::note
 
-If you don't need it, you should remove the *.github* folder.
+📣 If you don't need it, you should remove the *.github* folder.
 
 :::
 
