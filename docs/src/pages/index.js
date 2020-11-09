@@ -12,7 +12,7 @@ const features = [
     imageUrl: 'img/docker.svg',
     description: (
       <>
-          Static analysis tools for your code and a Docker Compose stack
+          Static analysis tools for your source code and a Docker Compose stack
           that will help you building a solid infrastructure in production.
       </>
     ),
