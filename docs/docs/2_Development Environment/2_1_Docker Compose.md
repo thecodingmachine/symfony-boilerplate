@@ -10,12 +10,12 @@ They will help you set up a complete development environment close to your targe
 
 ## Usage
 
-* 🚀 `make up`: starts the Docker Compose stack.
-* 🚦 `make down`: stops the Docker Compose stack.
-* 🚇 `make api`: runs `bash` in the `api` service.
-* 🚇 `make webapp`: runs `bash` in the `webapp` service.
-* 📚 `docker-compose logs -f`: displays the logs of **all** your services.
-* 📘 `docker-compose logs -f [SERVICE_NAME]` displays the logs of one service.
+* 🚀&nbsp;&nbsp;`make up`: starts the Docker Compose stack.
+* 🚦&nbsp;&nbsp;`make down`: stops the Docker Compose stack.
+* 🚇&nbsp;&nbsp;`make api`: runs `bash` in the `api` service.
+* 🚇&nbsp;&nbsp;`make webapp`: runs `bash` in the `webapp` service.
+* 📚&nbsp;&nbsp;`docker-compose logs -f`: displays the logs of **all** your services.
+* 📘&nbsp;&nbsp;`docker-compose logs -f [SERVICE_NAME]` displays the logs of one service.
 
 ## Configuration
 
@@ -55,14 +55,14 @@ service_foo:
 
 :::note
 
-📣 When adding a new variable in the *.env* file, don't forget to update the template *.env.dist* with it.
+📣&nbsp;&nbsp;When adding a new variable in the *.env* file, don't forget to update the template *.env.dist* with it.
 It will help other developers to notice this change and update their *.env* files accordingly.
 
 :::
 
 :::note
 
-📣 You should never commit the *.env* file as it may contain secrets; always use dummy values for your secrets 
+📣&nbsp;&nbsp;You should never commit the *.env* file as it may contain secrets; always use dummy values for your secrets 
 in the *.env.dist* template.
 
 :::
@@ -93,7 +93,7 @@ services:
 
 :::note
 
-📣 Always add a service source code in the *src* folder.
+📣&nbsp;&nbsp;Always add a service source code in the *src* folder.
 
 :::
 

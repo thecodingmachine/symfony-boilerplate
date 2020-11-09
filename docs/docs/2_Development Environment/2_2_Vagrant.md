@@ -9,21 +9,21 @@ On macOS and Windows, Docker currently has substantial performance issues.
 
 ## Usage
 
-* 📦 `make vagrant`: creates the *Vagrantfile*.
-* 🚀 `vagrant up`: installs and starts the virtual machine.
-* 🚇 `vagrant ssh`: connects to the virtual machine.
-* 🚦 `vagrant halt`: stops the virtual machine.
-* 💣 `vagrant destroy`: destroys the virtual machine.
+* 📦&nbsp;&nbsp;`make vagrant`: creates the *Vagrantfile*.
+* 🚀&nbsp;&nbsp;`vagrant up`: installs and starts the virtual machine.
+* 🚇&nbsp;&nbsp;`vagrant ssh`: connects to the virtual machine.
+* 🚦&nbsp;&nbsp;`vagrant halt`: stops the virtual machine.
+* 💣&nbsp;&nbsp;`vagrant destroy`: destroys the virtual machine.
 
 :::note
 
-📣 On Windows, we strongly advise using a Linux-like terminal to run the `make vagrant` command. 
+📣&nbsp;&nbsp;On Windows, we strongly advise using a Linux-like terminal to run the `make vagrant` command. 
 
 :::
 
 :::note
 
-📣 With `vagrant ssh`, you may run the *Makefile*'s instructions like a Linux user.
+📣&nbsp;&nbsp;With `vagrant ssh`, you may run the *Makefile*'s instructions like a Linux user.
 
 :::
 
@@ -45,6 +45,6 @@ The later replaces placeholders from the *Vagrantfile.template* by the variables
 
 :::note
 
-📣 You should never commit the *Vagrantfile*.
+📣&nbsp;&nbsp;You should never commit the *Vagrantfile*.
 
 :::

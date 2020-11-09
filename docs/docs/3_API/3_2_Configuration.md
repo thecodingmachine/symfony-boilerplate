@@ -43,7 +43,7 @@ See the [official documentation](https://symfony.com/doc/current/configuration/e
 
 :::note
 
-📣 In your development environment, do not put these environment variables in the *.env* file 
+📣&nbsp;&nbsp;In your development environment, do not put these environment variables in the *.env* file 
 from the *src/api* folder, but instead, put them under the `environment` key from the `api` service of 
 your *docker-compose.yml* file.
 

@@ -15,7 +15,7 @@ the instruction `process.env.YOUR_ENVIRONMENT_VARIABLE_NAME`.
 
 :::note
 
-📣 Put them under the `environment` property of your `webapp` service in your *docker-compose.yml* file.
+📣&nbsp;&nbsp;Put them under the `environment` property of your `webapp` service in your *docker-compose.yml* file.
 
 :::
 
@@ -34,12 +34,12 @@ The value is available in your code thanks to `this.$config.apiURL` (or `$config
 
 :::note
 
-📣 `privateRuntimeConfig` should contain your secrets.
+📣&nbsp;&nbsp;`privateRuntimeConfig` should contain your secrets.
 
 :::
 
 :::note
 
-📣 Values from this section **are only available when Nuxt.js executes your code on the server.**
+📣&nbsp;&nbsp;Values from this section **are only available when Nuxt.js executes your code on the server.**
 
 :::

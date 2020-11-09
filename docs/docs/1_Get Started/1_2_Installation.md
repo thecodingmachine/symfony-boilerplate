@@ -20,13 +20,13 @@ You may now follow the instructions of the *README*! 😋
 
 :::note
 
-📣 There are comments on the *README* to help you customize its content.
+📣&nbsp;&nbsp;There are comments on the *README* to help you customize its content.
 
 :::
 
 :::note
 
-📣 If you don't need it, you should remove the *.github* folder.
+📣&nbsp;&nbsp;If you don't need it, you should remove the *.github* folder.
 
 :::
 

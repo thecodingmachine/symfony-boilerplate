@@ -7,7 +7,7 @@ This documentation will help you to keep everything up-to-date.
 
 Please read it carefully, as those actions will ensure your project is still relevant year after year.
 
-👉 The sooner, the better!
+👉&nbsp;&nbsp;The sooner, the better!
 
 ## Nuxt.js
 

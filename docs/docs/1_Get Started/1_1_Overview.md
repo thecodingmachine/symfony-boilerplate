@@ -25,7 +25,7 @@ This layer has 3 services:
 
 :::note
 
-📣 In production, you may externalize them to the equivalent services from your provider.
+📣&nbsp;&nbsp;In production, you may externalize them to the equivalent services from your provider.
 
 :::
 

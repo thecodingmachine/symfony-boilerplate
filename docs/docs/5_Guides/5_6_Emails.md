@@ -20,7 +20,7 @@ increase the unstack rate.
 
 :::note
 
-📣 In your development environment, the API and the consumer are one; the `make consume` command starts the consumer
+📣&nbsp;&nbsp;In your development environment, the API and the consumer are one; the `make consume` command starts the consumer
 inside the `api` service. In your remote environments (like production), the API and the consumer should be two 
 different services.
 
@@ -37,7 +37,7 @@ Most of the configuration comes from the following environment variables:
 
 :::note
 
-📣 The Symfony parameters `app.mail_from_address` and `app.mail_from_name` take their values from the last two 
+📣&nbsp;&nbsp;The Symfony parameters `app.mail_from_address` and `app.mail_from_name` take their values from the last two 
 environment variables. The *src/api/src/UseCase/CreateEmail.php* use case reads these parameters to fill the 
 `from` property from the email - more on that in the next chapter.
 
@@ -59,7 +59,7 @@ protected function create(User $user, string $subjectId, string $template, array
 
 :::note
 
-📣 This class does only create an `Email` object (it does not send it.).
+📣&nbsp;&nbsp;This class does only create an `Email` object (it does not send it.).
 
 ::: 
 
@@ -110,7 +110,7 @@ $this->mailer->send($email);
 
 :::note
 
-📣 Always put your classes extending `CreateEmail` on the same level as the use case requiring it. 
+📣&nbsp;&nbsp;Always put your classes extending `CreateEmail` on the same level as the use case requiring it. 
 See, for instance, the *src/api/src/UseCase/User/ResetPassword* use case.
 
 :::
@@ -126,7 +126,7 @@ the wrapping elements (header, footer, etc.).
 
 :::note
 
-📣 Of course, you may update the *emails.html.twig* template.
+📣&nbsp;&nbsp;Of course, you may update the *emails.html.twig* template.
 
 :::
 

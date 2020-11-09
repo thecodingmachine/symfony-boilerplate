@@ -7,7 +7,7 @@ This documentation will help you to keep everything up-to-date.
 
 Please read it carefully, as those actions will ensure your project is still relevant year after year.
 
-👉 The sooner, the better!
+👉&nbsp;&nbsp;The sooner, the better!
 
 ## Docker and Docker compose
 
@@ -72,7 +72,7 @@ For VirtualBox, open the application, it should tell you to download the newer v
 
 :::note
 
-📣 From time to time, you may also update the `VAGRANT_BOX` variable from the *Makefile*
+📣&nbsp;&nbsp;From time to time, you may also update the `VAGRANT_BOX` variable from the *Makefile*
 with a newer [Ubuntu box](https://app.vagrantup.com/bento). The update process for Vagrant users is the same as updating
 the variable `DOCKER_COMPOSE_VERSION`.
 

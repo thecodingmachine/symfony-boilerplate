@@ -92,7 +92,7 @@ Your `Storable` classes have to implement the `getExtension` method from the `St
 
 :::note
 
-📣 You may also add your methods with validation annotations.
+📣&nbsp;&nbsp;You may also add your methods with validation annotations.
 
 :::
 
@@ -134,7 +134,7 @@ For private files, the storage should extend the *src/api/src/Domain/Storage/Pri
 
 :::note
 
-📣 Both `PublicStorage` and `PrivateStorage` classes extend the *src/api/src/Domain/Storage/Storage/Storage.php* class.
+📣&nbsp;&nbsp;Both `PublicStorage` and `PrivateStorage` classes extend the *src/api/src/Domain/Storage/Storage/Storage.php* class.
 
 :::
 
@@ -166,14 +166,14 @@ the web application after.
 
 :::note
 
-📣 Your `Storages` must implement the `getDirectoryName` method 
+📣&nbsp;&nbsp;Your `Storages` must implement the `getDirectoryName` method 
 from the `Storage` class. In the storage service's bucket, it is the directory's name, which contains the files.
 
 :::
 
 :::note
 
-📣 We recommend using a Symfony parameter to hold a public directory name (coming itself from an environment variable). 
+📣&nbsp;&nbsp;We recommend using a Symfony parameter to hold a public directory name (coming itself from an environment variable). 
 Indeed, the web application will need to know the directory name to create the public URL to the files 
 from this directory, so it is better to use the same variable for your `api` and `webapp` services.
 
@@ -191,7 +191,7 @@ $this->productPictureStorage->deleteAll($filenames);
 
 :::note
 
-📣 If you have a lot of files to delete, it might be better to do that action asynchronously.
+📣&nbsp;&nbsp;If you have a lot of files to delete, it might be better to do that action asynchronously.
 See *src/api/src/UseCase/Product/DeleteProduct.php*.
 
 :::
@@ -227,7 +227,7 @@ php bin/console app:init-storage:s3
 
 :::note
 
-📣 In your development environment, the service `api` runs this command automatically on startup.
+📣&nbsp;&nbsp;In your development environment, the service `api` runs this command automatically on startup.
 
 :::
 
@@ -298,7 +298,7 @@ Examples:
 
 :::note
 
-📣 In case of `InvalidStorable`, errors are available under the directory name key (i.e., for product pictures 
+📣&nbsp;&nbsp;In case of `InvalidStorable`, errors are available under the directory name key (i.e., for product pictures 
 its `product_picture`).
 
 :::

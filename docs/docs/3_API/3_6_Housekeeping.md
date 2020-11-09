@@ -7,7 +7,7 @@ This documentation will help you to keep everything up-to-date.
 
 Please read it carefully, as those actions will ensure your project is still relevant year after year.
 
-👉 The sooner, the better!
+👉&nbsp;&nbsp;The sooner, the better!
 
 ## Symfony
 
@@ -25,6 +25,6 @@ See https://symfony.com/doc/current/setup/upgrade_major.html.
 
 :::note
 
-📣 Make sure your Symfony bundles are ready before updating.
+📣&nbsp;&nbsp;Make sure your Symfony bundles are ready before updating.
 
 :::

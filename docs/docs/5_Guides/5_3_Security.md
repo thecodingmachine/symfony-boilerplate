@@ -46,7 +46,7 @@ In the boilerplate, we have already implemented those methods! 😉
 We store the sessions' data in the MySQL database (`sessions` table). We configured this behavior in the configuration
 files *src/api/config/packages/framework.yaml* and *src/api/config/services.yaml*. 
 
-The migration *src/api/migrations/Version20200424093138* generates the `sessions` table.
+The migration *src/api/migrations/Version20200424093138.php* generates the `sessions` table.
 
 #### Session cookie
 
@@ -58,7 +58,7 @@ from `https://bar.com`.
 
 :::note
 
-📣 You may customize the domain thanks to the `COOKIE_DOMAIN` environment variable from the `api` service.
+📣&nbsp;&nbsp;You may customize the domain thanks to the `COOKIE_DOMAIN` environment variable from the `api` service.
 
 ::: 
 
@@ -132,7 +132,7 @@ $this->security->isGranted(Role::getSymfonyRole(Role::MERCHANT()));
 
 :::note
 
-📣 A user **must have one role**; otherwise authentication won't work.
+📣&nbsp;&nbsp;A user **must have one role**; otherwise authentication won't work.
 
 ::: 
 
@@ -236,7 +236,7 @@ public function updateFoo(
 
 :::note
 
-📣 Contrary to Symfony's routes, always put the `@Logged` annotation before the `@Security` and `@InjectUser` annotations 
+📣&nbsp;&nbsp;Contrary to Symfony's routes, always put the `@Logged` annotation before the `@Security` and `@InjectUser` annotations 
 on your GraphQL entry points. The web application needs to know the difference between unauthenticated (`401`) 
 and access denied (`403`)!
 
@@ -297,7 +297,7 @@ Take a closer look at those methods from `ProductVoter` for a better understandi
 
 :::note
 
-📣 In your Symfony's routes, you may not have access to a `Model` directly but an `id` instead. 
+📣&nbsp;&nbsp;In your Symfony's routes, you may not have access to a `Model` directly but an `id` instead. 
 The *src/api/src/Infrastructure/Controller/Order/OrderInvoiceController.php*
 and *src/api/src/Infrastructure/Security/Voter/OrderVoter.php* classes show how to handle that kind of scenario.
 
@@ -324,7 +324,7 @@ The current configuration only authorizes HTTP requests from the main domain (an
 
 :::note
 
-📣 never use `*` as `CORS_ALLOW_ORIGIN` because it opens your API to the world. As there is no CSRF protection, a
+📣&nbsp;&nbsp;Never use `*` as `CORS_ALLOW_ORIGIN` because it opens your API to the world. As there is no CSRF protection, a
 malicious hacker will be able to hijack the connexion of one of your authenticated users to do bad things. Also, make sure
 you don't have XSS vulnerabilities. 
 
