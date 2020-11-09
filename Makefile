@@ -5,6 +5,8 @@ VAGRANT_MEMORY=4096
 VAGRANT_CPUS=2
 VAGRANT_DOCKER_COMPOSE_VERSION=1.27.3
 
+.PHONY: up down webapp api consume vagrant
+
 # Start the Docker Compose stack.
 up:
 	docker-compose up -d
