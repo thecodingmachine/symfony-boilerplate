@@ -1,8 +1,14 @@
+<p align="center">
+    <img src="https://thecodingmachine.github.io/symfony-boilerplate/img/logo.svg" alt="Symfony Boilerplate" width="250" height="250" />
+</p>
+<h3 align="center">Symfony Boilerplate</h3>
+<p align="center"><a href="https://thecodingmachine.github.io/symfony-boilerplate">Documentation</a></p>
+
+---
+
 **🚧 WIP**
 
-This is a template of a *README*.
-
-Documentation: https://thecodingmachine.github.io/symfony-boilerplate
+This is a template of a *README*. Adapt it according to the comments and your needs.
 
 ---
 
