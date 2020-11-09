@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 const features = [
   {
     title: 'Development Environment',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    imageUrl: 'img/docker.svg',
     description: (
       <>
           Static analysis tools for your code and a Docker Compose stack
@@ -19,7 +19,7 @@ const features = [
   },
   {
     title: 'GraphQL API',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    imageUrl: 'img/graphqlite.svg',
     description: (
       <>
           Thanks to <a href="https://graphqlite.thecodingmachine.io/">GraphQLite</a>,
@@ -29,7 +29,7 @@ const features = [
   },
   {
     title: 'Nuxt.js',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    imageUrl: 'img/nuxtjs.svg',
     description: (
       <>
           Vue.js with Server-side Rendering (SSR)! Also, no more struggle with forms validation and access control,
