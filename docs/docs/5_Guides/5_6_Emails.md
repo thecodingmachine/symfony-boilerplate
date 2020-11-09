@@ -111,7 +111,7 @@ $this->mailer->send($email);
 :::note
 
 📣 Always put your classes extending `CreateEmail` on the same level as the use case requiring it. 
-See, for instance, the *src/api/src/UseCase/User/ResetPassword.php* use case.
+See, for instance, the *src/api/src/UseCase/User/ResetPassword* use case.
 
 :::
 
