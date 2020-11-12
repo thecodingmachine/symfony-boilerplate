@@ -80,64 +80,70 @@ A workaround solution is to add the flag `--prefer-source` to your Composer comm
 
 ## Database
 
-### Structure
-
-Doctrine migrations manage the database structure.
-They can be found in the `migrations` folder.
-
-Run the following command to create a new migration:
+### Create a migration
 
 ```
 php bin/console doctrine:migrations:generate
 ```
 
+This command will generate a new empty migration in the *src/api/migrations* folder.
+
 Add a meaningful description:
 
-```
+```php
 public function getDescription() : string
 {
     return 'Create X, Y and Z tables.';
 }
 ```
 
-Throw an exception in the `down` function:
+And throw the following exception the `down` method:
 
-```
+```php
 public function down(Schema $schema) : void
 {
     throw new RuntimeException('Never rollback a migration!');
 }
 ```
 
-Next you have to apply this migration to the database:
+You may now update the `up` method.
+
+### Apply migrations
 
 ```
 php bin/console doctrine:migrations:migrate -n
 ```
 
-If everything went smooth, regenerate the TDBM models and DAOs with:
+This command will apply the new migrations to the database.
 
-```
-php bin/console tdbm:generate
-```
+If you've edited an existing migration, you'll have to reset the database first:
 
-**You must verify you didn't break anything: use the static analysis tools and tests.**
-
-If you're updating an existing table edit the migration where the table is defined
-instead of creating a new migration.
-**You should only do that if the current migration has not been applied on a 
-remote environment like your production.**
-
-Once done, reset the database, recreate it, apply the migrations and finally
-regenerate the TDBM models and DAOs with:
-
-```
+```bash title="console"
 php bin/console doctrine:database:drop -n --force &&
 php bin/console doctrine:database:create -n &&
-php bin/console doctrine:migrations:migrate -n &&
+php bin/console doctrine:migrations:migrate -n
+```
+
+📣&nbsp;&nbsp;You should **only** do that if a remote environment like your production did not already apply the migration.
+
+
+### Generate PHP classes:
+
+```
 php bin/console tdbm:generate
 ```
 
-### Data for development
+This command will regenerate the TDBM `Models` and `DAOs`.
 
-// TODO
+### Development data
+
+The [DevFixturesCommand.php](src/Infrastructure/Command/DevFixturesCommand.php) class provides a Symfony command for 
+initializing your development database with dummy data:
+
+```
+php bin/console app:fixtures:dev
+```
+
+It uses the class [AppFixtures.php](src/Infrastructure/Fixtures/AppFixtures.php) for that task.
+
+You should edit according to your needs.
