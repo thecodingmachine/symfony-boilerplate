@@ -3,7 +3,7 @@ title: Database
 slug: /api/database
 ---
 
-We are using [TDBM](https://github.com/thecodingmachine/tdbm) as ORM. It is an alternative to Doctrine or Eloquent, 
+The boilerplate uses [TDBM](https://github.com/thecodingmachine/tdbm) as ORM. It is an alternative to Doctrine or Eloquent, 
 yet it is pretty close.
 
 The main difference is that with TDBM, you write your database's tables first before generating your models.

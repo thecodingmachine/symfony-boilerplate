@@ -4,39 +4,15 @@ A PHP application based on Symfony and with GraphQL endpoints.
 
 **All commands have to be run in the `api` service (`make api`).**
 
-## Code
-
-#### Comments
-
-Comments should only be added if a piece of code is not clear enough.
-**Most of the time, using explicit class/function/exception names should be enough.**
-
-Anyway, comments have to start with an uppercase and end with a punctuation.
-
-For instance:
-
-```php
-// this code do X because of Y <- incorrect
-// Do X because of Y. <- correct
-``` 
-
-### Creating a use case
-
-### Tests
-
-// TODO explain how to write tests.
-// TODO explain that a use case must be injected somewhere before being usable in tests.
-// TODO group tests.
-
-Before pushing your commits to the repository or even while coding, run the following command:
+## Tests
 
 ```
 composer pest
 ```
 
-It will execute all tests and display the result and the code coverage in your terminal.
+This command will execute all tests and display the result and the code coverage in your terminal.
 
-Speaking of code coverage, an HTML output is also available under the `converage` folder.
+An HTML output is also available under the `coverage` folder.
 Do not hesitate to take a look at it!
 
 You can also run tests per group, for instance:
@@ -45,7 +21,7 @@ You can also run tests per group, for instance:
 pest --group=user,company
 ```
 
-### Static analysis tools
+## Static analysis tools
 
 Before pushing your commits to the repository or even while coding, run the following commands:
 
