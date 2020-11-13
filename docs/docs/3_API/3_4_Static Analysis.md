@@ -21,21 +21,17 @@ It will parse your PHP source code, catch common mistakes plus format it.
 
 It's quite strict, but that's for your good! 😁
 
-### Fix
+This command will try to fix and format your source code:
 
 ```bash title="console"
 composer csfix
 ```
 
-This command will try to fix and format your source code.
-
-### Check
+This command will verify your source code:
 
 ```bash title="console"
 composer cscheck
 ```
-
-This command will verify your source code.
 
 ## PHPStan
 
@@ -43,8 +39,6 @@ This command will verify your source code.
 code without actually running it.
 
 In the boilerplate, we set it to the maximum level.
-
-### Usage
 
 ```bash title="console"
 composer phpstan
@@ -59,8 +53,6 @@ In other words, il will ensure that:
  
 * You don't call the classes from the `Instrastructure` namespace outside of itself.
 * You don't call the classes from the `UseCase` namespace in the `Domain` namespace.
-                                                   
-### Usage
 
 ```bash title="console"
 composer deptrac
@@ -68,9 +60,7 @@ composer deptrac
 
 ## YAML configuration
 
-Symfony provides a linter that checks common errors in YAML files.
-
-### Usage
+Symfony provides a linter that checks common errors in YAML files:
 
 ```bash title="console"
 composer yaml-lint
@@ -78,9 +68,7 @@ composer yaml-lint
 
 ## Composer normalize
 
-[Composer normalize](https://github.com/ergebnis/composer-normalize) normalizes your *composer.json* file's structure.
-
-### Usage
+[Composer normalize](https://github.com/ergebnis/composer-normalize) normalizes your *composer.json* file's structure:
 
 ```bash title="console"
 COMPOSER_MEMORY_LIMIT=-1 composer normalize

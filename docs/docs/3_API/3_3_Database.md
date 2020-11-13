@@ -158,7 +158,7 @@ TDBM generates the first class, and it contains the default getters and setters.
 
 You cannot modify it, but instead, edit the second class as TDBM does not override it.
 
-The second class is where you should put your validation annotations. More on that subject in the [validation](/docs/guides/validation)
+The second class is where you should put your validation annotations. More on that subject in the [Validation](/docs/guides/validation)
 guide.
 
 :::note
@@ -256,6 +256,12 @@ class FooDao extends BaseFoorDao
 }
 ```
 
+:::note
+
+📣&nbsp;&nbsp;Now, wherever you call the `save` method, your DAO will validate the `Model` data.
+
+:::
+
 ### Delete
 
 The base `DAO` provides a method `delete` which takes the `Model` instance as parameter:
@@ -289,7 +295,7 @@ $foos = $this->fooDao->findAll();
 
 :::note
 
-📣&nbsp;&nbsp;This method returns a `ResultIterator`, a sort of array of instances. See the [lists](/docs/guides/lists)
+📣&nbsp;&nbsp;This method returns a `ResultIterator`, a sort of array of instances. See the [Lists](/docs/guides/lists)
 guide for more details.
 
 :::
@@ -326,7 +332,7 @@ The third argument is the sort order and direction.
 
 :::note
 
-📣&nbsp;&nbsp;This method returns a `ResultIterator`, a sort of array of instances. See the [lists](/docs/guides/lists)
+📣&nbsp;&nbsp;This method returns a `ResultIterator`, a sort of array of instances. See the [Lists](/docs/guides/lists)
 guide for more details.
 
 :::

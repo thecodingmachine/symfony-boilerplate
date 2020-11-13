@@ -23,9 +23,9 @@ According to the `APP_ENV` value of the `api` service, files from the following 
 * *src/api/config/packages/test*
 * *src/api/config/packages/prod*
 
-will extend the default configurations.
+will extend/override the default configurations.
 
-You often don't want to extend a configuration directly but instead create a variable. For instance,
+You often don't want to extend/override a configuration directly but instead create a variable. For instance,
 the `DATABASE_URL` value contains secrets (the database hostname, password, etc.) you should not commit.
 Also, you might use `APP_ENV=prod` for different environments (like staging and production), which do not use the same 
 database.
@@ -49,7 +49,7 @@ your *docker-compose.yml* file.
 
 :::
 
-## Parameters
+### Parameters
 
 If you need the value of an environment variable in your code, use the Symfony parameters.
 
@@ -70,3 +70,27 @@ public function __construct(
     $this->foo = $parameters->get('app.foo');
 }
 ```
+
+## Composer
+
+:::note
+
+📣&nbsp;&nbsp;All commands have to be run in the `api` service (`make api`).
+
+:::
+
+When installing a PHP dependency, ask yourself if it is a `dev` dependency or not:
+
+```
+composer require [--dev] [package]
+COMPOSER_MEMORY_LIMIT=-1 composer normalize
+```
+
+As we're using Symfony, make sure to choose the package with Symfony support (aka bundle) if available.
+
+:::note
+
+📣&nbsp;&nbsp;Vagrant users might encounter some issues with Composer. 
+A workaround solution is to add the flag `--prefer-source` to your Composer command.
+
+:::

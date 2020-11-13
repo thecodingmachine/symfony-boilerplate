@@ -12,7 +12,8 @@ Many services compose this boilerplate.
 
 This layer has two services:
 
-1. The GraphQL API, built with [Symfony 5](https://symfony.com/) and [GraphQLite](https://graphqlite.thecodingmachine.io/).
+1. The GraphQL API, built with [Symfony 5](https://symfony.com/), [TDBM](https://github.com/thecodingmachine/tdbm), and 
+[GraphQLite](https://graphqlite.thecodingmachine.io/).
 2. The Web Application, built with [Nuxt.js](https://nuxtjs.org).
 
 ## Data layer

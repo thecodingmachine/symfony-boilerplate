@@ -76,7 +76,7 @@ cp .env.dist .env
 
 Next, make sure there is no application running on port 80 (Vagrant users can skip this check).
 
-**Vagrant users: the first time you start the Docker Compose stack, you have to "comment" the following 
+**📣&nbsp;&nbsp;Vagrant users: the first time you start the Docker Compose stack, you have to "comment" the following 
 environment variables from the `api` service in the [docker-compose.yml](docker-compose.yml) file: 
 `STARTUP_COMMANDS_2`, `STARTUP_COMMAND_3`, and `STARTUP_COMMAND_4`. Indeed, `composer install` fails miserably, 
 but there is a workaround. See below.**
@@ -90,12 +90,12 @@ make up
 It may take some time as each container will also set up itself, such as installing dependencies (PHP, JavaScript, etc.), 
 compiling sources (JavaScript), or running migrations to set up the database structure.
 
-**In some cases, the `api` service will try to run the migrations before the `mysql` service is ready. If so, restart
+**📣&nbsp;&nbsp;In some cases, the `api` service will try to run the migrations before the `mysql` service is ready. If so, restart
 the `api` service with `docker-compose up -d api`.**
 
 The containers will be ready faster next time you run this command as the first run is doing most of the setup.
 
-**Vagrant users: enter the `api` service with `make api`. Here, run `composer install --prefer-source` 
+**📣&nbsp;&nbsp;Vagrant users: enter the `api` service with `make api`. Here, run `composer install --prefer-source` 
 (and prepare some coffee). When done, exit the container, uncomment the previous environments variables,
 and rerun `make up`.**
 
