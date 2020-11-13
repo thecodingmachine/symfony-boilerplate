@@ -98,3 +98,9 @@ For instance:
 * Your REST controllers.
 * Your Symfony Commands.
 * Etc.
+
+:::note
+
+📣&nbsp;&nbsp;The `App\Infrastructure` namespace can call classes from all namespaces.
+
+:::
