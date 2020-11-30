@@ -43,7 +43,7 @@ Vagrant might also be a solution regarding performances.
 If not possible, you may also directly run the commands specified in the [Makefile](Makefile). 
 For instance, instead of running `make up`, run `docker-compose up -d`.
 
-#### Hosts
+### Hosts
 
 Update your `hosts` file with the following entries:
 
