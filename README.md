@@ -43,19 +43,28 @@ Vagrant might also be a solution regarding performances.
 If not possible, you may also directly run the commands specified in the [Makefile](Makefile). 
 For instance, instead of running `make up`, run `docker-compose up -d`.
 
-### macOS and Windows
+#### Hosts
 
-Update your `hosts` file with the following entry:
+Update your `hosts` file with the following entries:
 
 ```
-127.0.0.1   *.localhost
+127.0.0.1   traefik.companies-and-products.localhost
+127.0.0.1   companies-and-products.localhost
+127.0.0.1   api.companies-and-products.localhost
+127.0.0.1   phpmyadmin.companies-and-products.localhost
+127.0.0.1   minio.companies-and-products.localhost
+127.0.0.1   mailhog.companies-and-products.localhost
 ```
 
-On macOS, run `sudo nano /etc/hosts` to edit it.
+> Update the domain with the one used in your project.
+
+On Linux and macOS, run `sudo nano /etc/hosts` to edit it.
 
 On Windows, edit the file `C:\Windows\System32\drivers\etc\hosts` with administrative privileges.
 
-If you're using Vagrant, check there is no application running on port 80 (like Apache or another virtual machine).
+### Vagrant
+
+Check there is no application running on port 80 (like Apache or another virtual machine).
 
 If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
 From here, you'll be able to run all the next commands like Linux users!
@@ -106,7 +115,7 @@ Once everything is ready, the following endpoints should be available:
 * http://api.companies-and-products.localhost (API)
 * http://phpmyadmin.companies-and-products.localhost (phpMyAdmin, a web interface for your MySQL database)
 * http://minio.companies-and-products.localhost (S3 compatible storage)
-* http://mailhog.companies-and-products.loclahost (Emails catcher)
+* http://mailhog.companies-and-products.localhost (Emails catcher)
 
 > Update the domain with the one used in your project.
 
