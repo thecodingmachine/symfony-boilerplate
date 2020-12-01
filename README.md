@@ -62,17 +62,7 @@ On Linux and macOS, run `sudo nano /etc/hosts` to edit it.
 
 On Windows, edit the file `C:\Windows\System32\drivers\etc\hosts` with administrative privileges.
 
-### Vagrant
-
-Check there is no application running on port 80 (like Apache or another virtual machine).
-
-If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
-From here, you'll be able to run all the next commands like Linux users!
-
-> Update the variable `VAGRANT_PROJECT_NAME` from the [Makefile](Makefile) with your project name.
-> Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
-
-### Starting the Docker Compose stack
+### First start
 
 Copy the file [.env.dist](.env.dist) to a file named `.env`. For instance:
 
@@ -83,12 +73,44 @@ cp .env.dist .env
 > Edit the [.env.dist](.env.dist) by updating the default values of `DOMAIN`, `MYSQL_DATABASE` and `APP_SECRET`
 > environment variables.
 
-Next, make sure there is no application running on port 80 (Vagrant users can skip this check).
+---
 
-**📣&nbsp;&nbsp;Vagrant users: the first time you start the Docker Compose stack, you have to "comment" the following 
-environment variables from the `api` service in the [docker-compose.yml](docker-compose.yml) file: 
-`STARTUP_COMMANDS_2`, `STARTUP_COMMAND_3`, and `STARTUP_COMMAND_4`. Indeed, `composer install` fails miserably, 
-but there is a workaround. See below.**
+#### Vagrant user
+
+"Comment" the `STARTUP_COMMAND_3` and `STARTUP_COMMAND_4` environment variables from the `api` service 
+in the [docker-compose.yml](docker-compose.yml) file.
+
+Next, run:
+
+```
+docker-compose up webapp api
+```
+
+📣&nbsp;&nbsp;This command start the `webapp` and `api` service. While booting, these services install the JavaScript
+and PHP dependencies. We cannot do that directly in the Vagrant VM as `yarn` and `composer install` fail miserably the
+first time.
+
+Once the services have installed the dependencies, you may stop them with:
+
+```
+CTRL+C
+docker-compose down
+```
+
+Don't forget to uncomment the previous environments variables from the `api` service 
+in the [docker-compose.yml](docker-compose.yml) file.
+
+Next, check there is no application running on port 80 (like Apache or another virtual machine).
+
+If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
+From here, you'll be able to run all the next commands like Linux users!
+
+> Update the variable `VAGRANT_PROJECT_NAME` from the [Makefile](Makefile) with your project name.
+> Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
+
+---
+
+Next, make sure there is no application running on port 80 (Vagrant users can skip this check).
 
 Good? You may now start all the Docker containers with the following commands:
 
@@ -99,14 +121,10 @@ make up
 It may take some time as each container will also set up itself, such as installing dependencies (PHP, JavaScript, etc.), 
 compiling sources (JavaScript), or running migrations to set up the database structure.
 
-**📣&nbsp;&nbsp;In some cases, the `api` service will try to run the migrations before the `mysql` service is ready. If so, restart
-the `api` service with `docker-compose up -d api`.**
+**📣&nbsp;&nbsp;In some cases, the `api` service will try to run the migrations before the `mysql` service is ready. 
+If so, restart the `api` service with `docker-compose up -d api`.**
 
 The containers will be ready faster next time you run this command as the first run is doing most of the setup.
-
-**📣&nbsp;&nbsp;Vagrant users: enter the `api` service with `make api`. Here, run `composer install --prefer-source` 
-(and prepare some coffee). When done, exit the container, uncomment the previous environments variables,
-and rerun `make up`.**
 
 Once everything is ready, the following endpoints should be available:
 
