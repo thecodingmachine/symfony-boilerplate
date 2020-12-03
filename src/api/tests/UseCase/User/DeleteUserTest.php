@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Domain\Dao\CompanyDao;
 use App\Domain\Dao\ResetPasswordTokenDao;
 use App\Domain\Dao\UserDao;
 use App\Domain\Enum\Locale;
 use App\Domain\Enum\Role;
-use App\Domain\Model\Company;
 use App\Domain\Model\User;
 use App\UseCase\User\DeleteUser;
 use App\UseCase\User\ResetPassword\ResetPassword;
@@ -22,9 +20,9 @@ beforeEach(function (): void {
     $merchant = new User(
         'foo',
         'bar',
-        'merchant@foo.com',
+        'user@foo.com',
         Locale::EN(),
-        Role::MERCHANT()
+        Role::USER()
     );
     $merchant->setId('1');
     $userDao->save($merchant);
@@ -67,30 +65,6 @@ it(
 
         assertCount(0, $resetPasswordTokenDao->findAll());
         $resetPasswordTokenDao->getById($user->getId());
-    }
-)
-    ->throws(TDBMException::class)
-    ->group('user');
-
-it(
-    "deletes the merchant's companies",
-    function (): void {
-        $userDao = self::$container->get(UserDao::class);
-        assert($userDao instanceof UserDao);
-        $companyDao = self::$container->get(CompanyDao::class);
-        assert($companyDao instanceof CompanyDao);
-        $deleteUser = self::$container->get(DeleteUser::class);
-        assert($deleteUser instanceof DeleteUser);
-
-        $merchant = $userDao->getById('1');
-        $company  = new Company(
-            $merchant,
-            'foo'
-        );
-        $companyDao->save($company);
-
-        $deleteUser->deleteUser($merchant);
-        $companyDao->getById($company->getId());
     }
 )
     ->throws(TDBMException::class)

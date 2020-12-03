@@ -41,8 +41,7 @@ it(
 )
     ->with([
         ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::ADMINISTRATOR()],
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::MERCHANT()],
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::FR(), Role::CLIENT()],
+        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER()],
     ])
     ->group('user');
 
@@ -65,7 +64,7 @@ it(
             'bar',
             'foo@bar.com',
             Locale::EN(),
-            Role::CLIENT()
+            Role::USER()
         );
 
         $createUser->createUser(

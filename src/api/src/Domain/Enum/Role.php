@@ -8,14 +8,12 @@ use MyCLabs\Enum\Enum;
 
 /**
  * @method static Role ADMINISTRATOR()
- * @method static Role MERCHANT()
- * @method static Role CLIENT()
+ * @method static Role USER()
  */
 final class Role extends Enum
 {
     private const ADMINISTRATOR = 'ADMINISTRATOR';
-    private const MERCHANT      = 'MERCHANT';
-    private const CLIENT        = 'CLIENT';
+    private const USER          = 'USER';
 
     /**
      * @return string[]
@@ -24,8 +22,7 @@ final class Role extends Enum
     {
         return [
             self::ADMINISTRATOR,
-            self::MERCHANT,
-            self::CLIENT,
+            self::USER,
         ];
     }
 

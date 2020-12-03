@@ -23,9 +23,9 @@ beforeEach(function (): void {
     $user = new User(
         'foo',
         'bar',
-        'merchant@foo.com',
+        'foo.bar@foo.com',
         Locale::EN(),
-        Role::MERCHANT()
+        Role::USER()
     );
     $userDao->save($user);
 });
@@ -45,7 +45,7 @@ it(
         assert($message instanceof SendEmailMessage);
     }
 )
-    ->with(['merchant@foo.com'])
+    ->with(['foo.bar@foo.com'])
     ->group('user');
 
 it(
@@ -91,6 +91,6 @@ it(
         $resetPasswordTokenDao->getById($firstResetPasswordToken->getId());
     }
 )
-    ->with(['merchant@foo.com'])
+    ->with(['foo.bar@foo.com'])
     ->throws(TDBMException::class)
     ->group('user');

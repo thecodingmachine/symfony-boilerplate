@@ -30,7 +30,7 @@ abstract class CreateEmail
      */
     protected function create(User $user, string $subjectId, string $template, array $context): TemplatedEmail
     {
-        $context['title'] = $this->parameters->get('app.mail_title');
+        $context['title']  = $this->parameters->get('app.mail_title');
         $context['domain'] = 'emails';
         $context['locale'] = strval($user->getLocale());
 
