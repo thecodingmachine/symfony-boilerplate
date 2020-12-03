@@ -117,7 +117,7 @@ services:
       # Mailer.
       MAILER_DSN: "smtp://null:null@mailhog:1025"
       MAIL_FROM_ADDRESS: "no-reply@$DOMAIN"
-      MAIL_FROM_NAME: "Companies and products"
+      MAIL_FROM_NAME: "$APP_NAME"
       MAIL_WEBAPP_URL: "http://$DOMAIN/"
       MAIL_WEBAPP_UPDATE_PASSWORD_ROUTE_FORMAT: "%s/update-password/%s/%s" # {locale}/update-password/{resetPasswordTokenId}/{plainToken}
     volumes:
