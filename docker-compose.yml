@@ -39,12 +39,13 @@ services:
       # Either Vagrant or Docker requires the usage of polling, otherwise Nuxt.js does not recompile our code
       # as fast as we would like.
       CHOKIDAR_USEPOLLING: "1"
-      CHOKIDAR_INTERVAL: "1000" # Lower values might increase CPU usage.
+      CHOKIDAR_INTERVAL: "5000" # Lower values might increase CPU usage.
       # Host 0.0.0.0 is designated to tell Nuxt.js to resolve a host address, which is accessible to connections outside
       # of the host machine.
       HOST: "0.0.0.0"
       # Nuxt.js
       # ---------------------
+      APP_NAME: "$APP_NAME"
       # API.
       API_URL: "http://$API_SUBDOMAIN.$DOMAIN/"
       # GraphQL.
@@ -82,6 +83,7 @@ services:
       STARTUP_COMMAND_4: "php bin/console app:init-storage:s3"
       # Symfony.
       # ---------------------
+      APP_NAME: "$APP_NAME"
       APP_ENV: "dev"
       APP_DEBUG: "1"
       # Note: in your remote environments, make sure you do not change

@@ -1,7 +1,13 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="primary">
-    <b-navbar-brand :to="localePath({ name: 'index' })"
-      >Companies and Products</b-navbar-brand
+  <b-navbar toggleable="lg" type="light" variant="light">
+    <b-navbar-brand :to="localePath({ name: 'index' })">
+      <img
+        :src="logoImageURL"
+        class="d-inline-block align-middle"
+        style="width: 2.5rem; height: 2.5rem"
+        alt="Logo"
+      />
+      {{ appName }}</b-navbar-brand
     >
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -13,7 +19,7 @@
           :to="localePath({ name: 'admin-users' })"
           :active="$route.path === localePath({ name: 'admin-users' })"
         >
-          {{ $t('components.layouts.header.administration_link') }}
+          {{ $t('components.layouts.header.administration') }}
         </b-nav-item>
       </b-navbar-nav>
 
@@ -23,7 +29,7 @@
             <em>{{ user.firstName + ' ' + user.lastName }}</em>
           </template>
           <b-dropdown-item href="#" @click="logout">{{
-            $t('components.layouts.header.logout_link')
+            $t('common.logout')
           }}</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item
@@ -31,7 +37,7 @@
           right
           :to="localePath({ name: 'login' })"
           :active="$route.path === localePath({ name: 'login' })"
-          >{{ $t('components.layouts.header.login_link') }}</b-nav-item
+          >{{ $t('common.login') }}</b-nav-item
         >
         <b-nav-item-dropdown right>
           <template #button-content>
@@ -52,15 +58,20 @@
 </template>
 
 <script>
-import Roles from '@/mixins/roles'
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import LogoutMutation from '@/services/mutations/auth/logout.mutation.gql'
+import logo from '@/assets/images/logo.svg'
+import { Roles } from '@/mixins/roles'
+import { LogoutMutation } from '@/graphql/auth/logout.mutation'
+import { Auth } from '@/mixins/auth'
 
 export default {
-  mixins: [Roles],
+  mixins: [Auth, Roles],
+  data() {
+    return {
+      appName: this.$config.appName,
+      logoImageURL: logo,
+    }
+  },
   computed: {
-    ...mapState('auth', ['user']),
-    ...mapGetters('auth', ['isAuthenticated', 'isGranted']),
     availableLocales() {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale)
     },
@@ -69,7 +80,6 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('auth', ['resetUser']),
     async logout() {
       await this.$graphql.request(LogoutMutation)
       this.resetUser()

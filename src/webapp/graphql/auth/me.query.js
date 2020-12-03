@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
-import MeFragment from '@/services/fragments/auth/me.fragment'
+import { MeFragment } from '@/graphql/auth/me.fragment'
 
-export default gql`
+export const MeQuery = gql`
   query me {
     me {
       ... on User {

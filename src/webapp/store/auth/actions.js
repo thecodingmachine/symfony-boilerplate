@@ -1,4 +1,4 @@
-import MeQuery from '@/services/queries/auth/me.query.js'
+import { MeQuery } from '@/graphql/auth/me.query'
 
 export default {
   async me({ commit }) {

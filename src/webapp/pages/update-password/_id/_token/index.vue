@@ -1,25 +1,22 @@
 <template>
-  <div>
+  <b-card>
     <b-form
       v-if="!success && !hasTokenValidationFailed"
       @submit.stop.prevent="onSubmit"
     >
       <b-form-group
         id="input-group-new-password"
-        :label="$t('pages.update_password.form.new_password.label') + ' *'"
+        :label="$t('pages.update_password.new_password.label_required')"
         label-for="input-new-password"
       >
         <b-form-input
           id="input-new-password"
           v-model="form.newPassword"
           type="password"
-          :placeholder="
-            $t('pages.update_password.form.new_password.placeholder')
-          "
+          :placeholder="$t('pages.update_password.new_password.placeholder')"
           autofocus
           trim
           required
-          :disabled="isFormReadOnly"
           :state="formState('newPassword')"
         />
         <b-form-invalid-feedback :state="formState('newPassword')">
@@ -29,7 +26,7 @@
       <b-form-group
         id="input-group-password-confirmation"
         :label="
-          $t('pages.update_password.form.password_confirmation.label') + ' *'
+          $t('pages.update_password.password_confirmation.label_required')
         "
         label-for="input-password-confirmation"
       >
@@ -38,57 +35,55 @@
           v-model="form.passwordConfirmation"
           type="password"
           :placeholder="
-            $t('pages.update_password.form.password_confirmation.placeholder')
+            $t('pages.update_password.password_confirmation.placeholder')
           "
           trim
           required
-          :disabled="isFormReadOnly"
           :state="formState('passwordConfirmation')"
         />
         <b-form-invalid-feedback :state="formState('passwordConfirmation')">
           <ErrorsList :errors="formErrors('passwordConfirmation')" />
         </b-form-invalid-feedback>
       </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="isFormReadOnly">
-        <b-spinner v-show="isFormReadOnly" small type="grow"></b-spinner>
-        {{
-          isFormReadOnly
-            ? $t('pages.update_password.form.submitting')
-            : $t('pages.update_password.form.submit')
-        }}
+      <b-button type="submit" variant="primary">
+        {{ $t('common.update') }}
       </b-button>
     </b-form>
-    <div v-else-if="!success && hasTokenValidationFailed">
-      <p>{{ $t('pages.update_password.invalid_token') }}</p>
+    <div v-else-if="!success && hasTokenValidationFailed" class="text-center">
+      <p>
+        <b-icon icon="exclamation-circle" variant="primary" font-scale="4">
+        </b-icon>
+      </p>
+      <p>{{ $t('pages.update_password.invalid_token_message') }}</p>
 
-      <div class="d-flex justify-content-center">
-        <b-link :to="localePath({ name: 'reset-password' })">{{
-          $t('pages.update_password.retry_link')
-        }}</b-link>
-      </div>
+      <b-link class="card-link" :to="localePath({ name: 'reset-password' })">{{
+        $t('common.retry')
+      }}</b-link>
     </div>
-    <div v-else>
-      <p>{{ $t('pages.update_password.success') }}</p>
+    <div v-else class="text-center">
+      <p>
+        <b-icon icon="check-circle" variant="primary" font-scale="4"> </b-icon>
+      </p>
+      <p>{{ $t('pages.update_password.success_message') }}</p>
 
-      <div class="d-flex justify-content-center">
-        <b-link :to="localePath({ name: 'login' })">{{
-          $t('pages.update_password.login_link')
-        }}</b-link>
-      </div>
+      <b-link class="card-link" :to="localePath({ name: 'login' })">{{
+        $t('common.login')
+      }}</b-link>
     </div>
-  </div>
+  </b-card>
 </template>
 
 <script>
-import Form from '@/mixins/form'
-import VerifyResetPasswordTokenMutation from '@/services/mutations/auth/verify_reset_password_token.mutation.gql'
-import UpdatePasswordMutation from '@/services/mutations/auth/update_password.mutation.gql'
 import ErrorsList from '@/components/forms/ErrorsList'
+import { GlobalOverlay } from '@/mixins/global-overlay'
+import { Form } from '@/mixins/form'
+import { VerifyResetPasswordTokenMutation } from '@/graphql/auth/verify_reset_password_token.mutation'
+import { UpdatePasswordMutation } from '@/graphql/auth/update_password.mutation'
 
 export default {
   components: { ErrorsList },
-  layout: 'box',
-  mixins: [Form],
+  layout: 'card',
+  mixins: [Form, GlobalOverlay],
   middleware: ['redirect-if-authenticated'],
   async asyncData(context) {
     try {
@@ -124,7 +119,7 @@ export default {
   methods: {
     async onSubmit() {
       this.resetFormErrors()
-      this.isFormReadOnly = true
+      this.displayGlobalOverlay()
 
       try {
         const result = await this.$graphql.request(UpdatePasswordMutation, {
@@ -138,7 +133,8 @@ export default {
         this.email = result.updatePassword.email
       } catch (e) {
         this.hydrateFormErrors(e)
-        this.isFormReadOnly = false
+      } finally {
+        this.hideGlobalOverlay()
       }
     },
   },

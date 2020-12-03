@@ -1,64 +1,62 @@
 <template>
-  <b-form @submit.stop.prevent="onSubmit">
-    <b-form-group
-      id="input-group-email"
-      :label="$t('pages.login.form.email.label') + ' *'"
-      label-for="input-email"
-    >
-      <b-form-input
-        id="input-email"
-        v-model="form.email"
-        type="text"
-        :placeholder="$t('pages.login.form.email.placeholder')"
-        autofocus
-        trim
-        required
-        :disabled="isFormReadOnly"
-      />
-    </b-form-group>
-    <b-form-group
-      id="input-group-password"
-      :label="$t('pages.login.form.password.label') + ' *'"
-      label-for="input-password"
-    >
-      <b-form-input
-        id="input-password"
-        v-model="form.password"
-        type="password"
-        :placeholder="$t('pages.login.form.password.placeholder')"
-        trim
-        required
-        :disabled="isFormReadOnly"
-      />
-    </b-form-group>
-    <b-form-invalid-feedback :state="formState('Security')" class="mb-3">
-      {{ $t('pages.login.form.error') }}
-    </b-form-invalid-feedback>
-    <b-button type="submit" variant="primary" :disabled="isFormReadOnly">
-      <b-spinner v-show="isFormReadOnly" small type="grow"></b-spinner>
-      {{
-        isFormReadOnly
-          ? $t('pages.login.form.submitting')
-          : $t('pages.login.form.submit')
-      }}
-    </b-button>
-    <b-link
-      v-if="!isFormReadOnly"
-      :to="localePath({ name: 'reset-password', query: { email: form.email } })"
-      >{{ $t('pages.login.form.forgot_password_link') }}</b-link
-    >
-  </b-form>
+  <b-card>
+    <b-form @submit.stop.prevent="onSubmit">
+      <b-form-group
+        id="input-group-email"
+        :label="$t('common.email.label_required')"
+        label-for="input-email"
+      >
+        <b-form-input
+          id="input-email"
+          v-model="form.email"
+          type="text"
+          :placeholder="$t('common.email.placeholder')"
+          autofocus
+          trim
+          required
+        />
+      </b-form-group>
+      <b-form-group
+        id="input-group-password"
+        :label="$t('pages.login.password.label_required')"
+        label-for="input-password"
+      >
+        <b-form-input
+          id="input-password"
+          v-model="form.password"
+          type="password"
+          :placeholder="$t('pages.login.password.placeholder')"
+          trim
+          required
+        />
+      </b-form-group>
+      <b-form-invalid-feedback :state="formState('Security')" class="mb-3">
+        {{ $t('pages.login.error_message') }}
+      </b-form-invalid-feedback>
+      <b-button type="submit" variant="primary" class="card-link">
+        {{ $t('common.login') }}
+      </b-button>
+      <b-link
+        class="card-link"
+        :to="
+          localePath({ name: 'reset-password', query: { email: form.email } })
+        "
+        >{{ $t('pages.login.forgot_password') }}</b-link
+      >
+    </b-form>
+  </b-card>
 </template>
 
 <script>
-import Form from '@/mixins/form'
-import LoginMutation from '@/services/mutations/auth/login.mutation.js'
-import { mapMutations } from 'vuex'
-import UpdateLocaleMutation from '@/services/mutations/auth/update_locale.mutation.gql'
+import { GlobalOverlay } from '@/mixins/global-overlay'
+import { Form } from '@/mixins/form'
+import { UpdateLocaleMutation } from '@/graphql/auth/update_locale.mutation'
+import { LoginMutation } from '@/graphql/auth/login.mutation'
+import { Auth } from '@/mixins/auth'
 
 export default {
-  layout: 'box',
-  mixins: [Form],
+  layout: 'card',
+  mixins: [Auth, Form, GlobalOverlay],
   middleware: ['redirect-if-authenticated'],
   data() {
     return {
@@ -70,10 +68,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['setUser']),
     async onSubmit() {
       this.resetFormErrors()
-      this.isFormReadOnly = true
+      this.displayGlobalOverlay()
 
       try {
         const result = await this.$graphql.request(LoginMutation, {
@@ -100,7 +97,8 @@ export default {
         }
       } catch (e) {
         this.hydrateFormErrors(e, true)
-        this.isFormReadOnly = false
+      } finally {
+        this.hideGlobalOverlay()
       }
     },
   },

@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request'
 
-export default gql`
+export const MeFragment = gql`
   fragment MeFragment on User {
     id
     firstName

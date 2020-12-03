@@ -1,16 +1,21 @@
 const appendError = (array = [], error) => [...array, error]
 
-export default {
+export const Form = {
   data() {
     return {
-      isFormReadOnly: false,
+      // Internal usage.
       allFormErrors: {},
     }
   },
   methods: {
+    // Resets the form's errors.
+    // You should call it in your onSubmit() implementation.
     resetFormErrors() {
       this.allFormErrors = {}
     },
+    // Takes GraphQL errors and hydrates mixin errors.
+    // You should call it in your catch statement from
+    // your onSubmit() implementation.
     hydrateFormErrors(e, isLogin = false) {
       if (
         typeof e === 'undefined' ||
@@ -45,14 +50,21 @@ export default {
         }
       })
     },
+    // Returns the Bootstrap's form's state if the
+    // GraphQL key has an error or not.
     formState(key) {
       return typeof this.allFormErrors[key] === 'undefined' ? null : false
     },
+    // Returns true if the GraphQL key has an error.
     hasFormErrors(key) {
       return typeof this.allFormErrors[key] !== 'undefined'
     },
+    // Returns all errors from a GraphQL key.
     formErrors(key) {
       return this.allFormErrors[key] || []
+    },
+    onSubmit() {
+      // To implement in your component.
     },
   },
 }

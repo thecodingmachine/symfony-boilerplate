@@ -1,134 +1,77 @@
 export default {
+  // All translations that you use in different places.
   common: {
-    first_name: 'First name',
-    last_name: 'Last name',
-    email: 'Email',
-    locale: 'Locale',
-    role: 'Role',
+    email: {
+      label: 'Email',
+      label_required: 'Email *',
+      placeholder: 'Enter your email',
+    },
+    login: 'Login',
+    logout: 'Logout',
+    submit: 'Submit',
+    retry: 'Retry',
+    create: 'Create',
+    update: 'Update',
+    delete: 'Delete',
+    send_email: 'Send email',
+    all: 'All',
     multiple_files: {
       placeholder: 'Choose files or drop them here...',
       drop_placeholder: 'Drop files here...',
     },
-    browse_files_text: 'Browse',
-    reset_files_button: 'Reset files',
-    delete_button: 'Delete',
-  },
-  components: {
-    layouts: {
-      header: {
-        administration_link: 'Administration',
-        logout_link: 'Logout',
-        login_link: 'Login',
-      },
-    },
-    pages: {
-      products: {
-        product_card: {
-          from: 'From',
-        },
-      },
-    },
-  },
-  layouts: {
-    error: {
-      generic: 'An error occurred',
-      not_found: 'Page not found',
-      access_forbidden: 'Access forbidden',
-      home_page_link: 'Home page',
-    },
-  },
-  mixins: {
+    browse_files: 'Browse',
+    reset_files: 'Reset files',
     roles: {
-      all: 'All',
       select: 'Select a role',
       administrator: 'Administrator',
       merchant: 'Merchant',
       client: 'Client',
     },
   },
-  pages: {
-    root: {
-      search: 'Search...',
-    },
-    login: {
-      form: {
-        email: {
-          label: 'Email',
-          placeholder: 'Enter your email',
-        },
-        password: {
-          label: 'Password',
-          placeholder: 'Enter your password',
-        },
-        error: 'The provided email or password is incorrect.',
-        submit: 'Login',
-        submitting: 'Login...',
-        forgot_password_link: 'I forgot my password',
+  // Translations of your components.
+  components: {
+    layouts: {
+      header: {
+        administration: 'Administration',
       },
+    },
+  },
+  // Translations of your layouts.
+  layouts: {
+    error: {
+      generic_message: 'An error occurred',
+      not_found_message: 'Page not found',
+      access_forbidden_message: 'Access forbidden',
+      home_page: 'Home page',
+    },
+  },
+  // Translations of your mixins.
+  mixins: {},
+  // Translations of your pages.
+  pages: {
+    login: {
+      password: {
+        label_required: 'Password *',
+        placeholder: 'Enter your password',
+      },
+      error_message: 'The provided email or password is incorrect.',
+      forgot_password: 'I forgot my password',
     },
     reset_password: {
-      login_link: 'Back to login',
-      retry_link: 'Retry',
-      form: {
-        email: {
-          label: 'Email',
-          placeholder: 'Enter your email',
-        },
-        submit: 'Send email',
-        submitting: 'Sending...',
-      },
-      success:
-        'If the address {email} exists in our system, an email has been delivered with instructions to help you change your password.',
+      success_message:
+        'If the address exists in our system, an email has been delivered with instructions to help you change your password.',
     },
     update_password: {
-      form: {
-        new_password: {
-          label: 'New password',
-          placeholder: 'Enter your new password',
-        },
-        password_confirmation: {
-          label: 'Password confirmation',
-          placeholder: 'Enter again your new password',
-        },
-        submit: 'Update',
-        submitting: 'Updating...',
+      new_password: {
+        label_required: 'New password *',
+        placeholder: 'Enter your new password',
       },
-      invalid_token: 'Your token has either expired or is invalid.',
-      retry_link: 'Retry',
-      success: 'Your password has been updated.',
-      login_link: 'Login',
-    },
-    products: {
-      form: {
-        name: {
-          label: 'Name',
-          placeholder: 'Enter a name',
-        },
-        price: {
-          label: 'Price',
-          placeholder: 'Enter a price',
-        },
-        pictures: {
-          label: 'Pictures',
-        },
-        new_pictures: {
-          label: 'New pictures',
-        },
-        create_submit: 'Create product',
-        create_submitting: 'Creating...',
-        update_submit: 'Update product',
-        update_submitting: 'Updating...',
+      password_confirmation: {
+        label_required: 'Password confirmation *',
+        placeholder: 'Enter again your new password',
       },
-    },
-    admin: {
-      users: {
-        title: 'Users list',
-        form: {
-          search: 'Search...',
-          role: 'Role',
-          export: 'Export',
-        },
-      },
+      invalid_token_message: 'Your token has either expired or is invalid.',
+      success_message: 'Your password has been updated.',
     },
   },
 }

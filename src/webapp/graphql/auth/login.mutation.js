@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
-import MeFragment from '@/services/fragments/auth/me.fragment'
+import { MeFragment } from '@/graphql/auth/me.fragment'
 
-export default gql`
+export const LoginMutation = gql`
   mutation login($userName: String!, $password: String!) {
     login(userName: $userName, password: $password) {
       ... on User {

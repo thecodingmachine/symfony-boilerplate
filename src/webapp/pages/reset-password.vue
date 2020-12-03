@@ -1,71 +1,70 @@
 <template>
-  <div>
+  <b-card>
     <b-form v-if="!success" @submit.stop.prevent="onSubmit">
       <b-form-group
         id="input-group-email"
-        :label="$t('pages.reset_password.form.email.label') + ' *'"
+        :label="$t('common.email.label_required')"
         label-for="input-email"
       >
         <b-form-input
           id="input-email"
           v-model="form.email"
           type="text"
-          :placeholder="$t('pages.reset_password.form.email.placeholder')"
+          :placeholder="$t('common.email.placeholder')"
           autofocus
           trim
           required
-          :disabled="isFormReadOnly"
           :state="formState('email')"
         />
         <b-form-invalid-feedback :state="formState('email')">
           <ErrorsList :errors="formErrors('email')" />
         </b-form-invalid-feedback>
       </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="isFormReadOnly">
-        <b-spinner v-show="isFormReadOnly" small type="grow"></b-spinner>
-        {{
-          isFormReadOnly
-            ? $t('pages.reset_password.form.submitting')
-            : $t('pages.reset_password.form.submit')
-        }}
+      <b-button type="submit" variant="primary" class="card-link">
+        {{ $t('common.send_email') }}
       </b-button>
       <b-link
-        v-if="!isFormReadOnly"
+        class="card-link"
         :to="localePath({ name: 'login', query: { email: form.email } })"
-        >{{ $t('pages.reset_password.login_link') }}</b-link
+        >{{ $t('common.login') }}</b-link
       >
     </b-form>
-    <div v-else>
+    <div v-else class="text-center">
       <p>
-        {{ $t('pages.reset_password.success', { email: form.email }) }}
+        <b-icon icon="check-circle" variant="primary" font-scale="4"> </b-icon>
+      </p>
+      <h5>
+        {{ form.email }}
+      </h5>
+      <p>
+        {{ $t('pages.reset_password.success_message') }}
       </p>
 
       <b-nav align="center">
         <b-nav-item>
           <b-link
             :to="localePath({ name: 'login', query: { email: form.email } })"
-            >{{ $t('pages.reset_password.login_link') }}</b-link
+            >{{ $t('common.login') }}</b-link
           >
         </b-nav-item>
         <b-nav-item>
-          <b-link @click="resetForm">{{
-            $t('pages.reset_password.retry_link')
-          }}</b-link>
+          <b-link @click="resetForm">{{ $t('common.retry') }}</b-link>
         </b-nav-item>
       </b-nav>
     </div>
-  </div>
+  </b-card>
 </template>
 
 <script>
-import Form from '@/mixins/form'
-import ResetPasswordMutation from '@/services/mutations/auth/reset_password.mutation.gql'
 import ErrorsList from '@/components/forms/ErrorsList'
+import { GlobalOverlay } from '@/mixins/global-overlay'
+import { Form } from '@/mixins/form'
+import { ResetPasswordMutation } from '@/graphql/auth/reset_password.mutation'
 
 export default {
-  layout: 'box',
+  layout: 'card',
   components: { ErrorsList },
-  mixins: [Form],
+  mixins: [Form, GlobalOverlay],
   middleware: ['redirect-if-authenticated'],
   data() {
     return {
@@ -78,7 +77,7 @@ export default {
   methods: {
     async onSubmit() {
       this.resetFormErrors()
-      this.isFormReadOnly = true
+      this.displayGlobalOverlay()
 
       try {
         await this.$graphql.request(ResetPasswordMutation, {
@@ -89,10 +88,9 @@ export default {
       } catch (e) {
         this.hydrateFormErrors(e)
       } finally {
-        this.isFormReadOnly = false
+        this.hideGlobalOverlay()
       }
     },
-
     resetForm() {
       this.success = false
       this.form.email = ''

@@ -15,7 +15,7 @@ const buildFilters = ({ filters, currentPage: page, sortBy, sortOrder }) => {
   }
 }
 
-export default {
+export const List = {
   data() {
     return {
       // Your filters.
@@ -52,7 +52,7 @@ export default {
     }
   },
   computed: {
-    // Calculate the current offset.
+    // Calculates and returns the current offset.
     // You cannot call it in asyncData, as "this" is not available.
     // Call calculateOffset instead.
     offset() {
