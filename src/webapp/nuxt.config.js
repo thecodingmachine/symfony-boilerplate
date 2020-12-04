@@ -105,6 +105,8 @@ export default {
       'FormFilePlugin',
       'BadgePlugin',
       'IconsPlugin',
+      'VBTogglePlugin',
+      'SidebarPlugin',
     ],
     directivePlugins: [],
   },

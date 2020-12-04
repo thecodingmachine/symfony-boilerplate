@@ -6,7 +6,9 @@
       spinner-variant="primary"
       rounded="sm"
     >
-      <Nuxt />
+      <b-container fluid class="mt-3">
+        <Nuxt />
+      </b-container>
     </b-overlay>
   </div>
 </template>

@@ -1,0 +1,42 @@
+.left-menu {
+  @include media-breakpoint-between(md, xl) {
+    max-width: 300px;
+  }
+
+  @include media-breakpoint-between(xs, sm) {
+    width: 100%;
+  }
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: $black !important;
+
+  .navbar-text {
+    color: $navbar-dark-color;
+  }
+
+  .nav-pills {
+    .nav-link {
+      padding: 4px 8px;
+      margin: 1px 0 1px 0;
+    }
+
+    @include media-breakpoint-between(md, xl) {
+      .nav-link:hover,
+      .show > .nav-link {
+        color: $white;
+        background-color: $navbar-dark-color;
+      }
+    }
+  }
+}
+
+.left-menu-button-mobile {
+  bottom: 2rem;
+  position: fixed;
+  right: 1rem;
+  z-index: 200;
+  color: $white;
+  background-color: $black !important;
+  border: 1px solid $black;
+}

@@ -39,7 +39,7 @@ services:
       # Either Vagrant or Docker requires the usage of polling, otherwise Nuxt.js does not recompile our code
       # as fast as we would like.
       CHOKIDAR_USEPOLLING: "1"
-      CHOKIDAR_INTERVAL: "5000" # Lower values might increase CPU usage.
+      CHOKIDAR_INTERVAL: "3000" # Lower values might increase CPU usage.
       # Host 0.0.0.0 is designated to tell Nuxt.js to resolve a host address, which is accessible to connections outside
       # of the host machine.
       HOST: "0.0.0.0"
