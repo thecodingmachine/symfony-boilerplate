@@ -6,8 +6,6 @@ export default {
       label_required: 'Email *',
       placeholder: 'Enter your email',
     },
-    login: 'Login',
-    logout: 'Logout',
     submit: 'Submit',
     retry: 'Retry',
     create: 'Create',
@@ -27,15 +25,20 @@ export default {
       merchant: 'Merchant',
       client: 'Client',
     },
-  },
-  // Translations of your components.
-  components: {
-    layouts: {
-      header: {
-        administration: 'Administration',
-      },
+    images: {
+      profilePicture: 'Profile picture',
+    },
+    nav: {
+      login: 'Login',
+      logout: 'Logout',
+      my_profile: 'My profil',
+      dashboard: 'Dashboard',
+      administration: 'Administration',
+      users: 'Users',
     },
   },
+  // Translations of your components.
+  components: {},
   // Translations of your layouts.
   layouts: {
     error: {

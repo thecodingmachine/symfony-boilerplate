@@ -6,8 +6,6 @@ export default {
       label_required: 'Email *',
       placeholder: 'Entrer votre email',
     },
-    login: 'Se connecter',
-    logout: 'Se déconnecter',
     submit: 'Envoyer',
     retry: 'Réessayer',
     create: 'Créer',
@@ -27,12 +25,28 @@ export default {
       merchant: 'Marchand',
       client: 'Client',
     },
+    images: {
+      profilePicture: 'Photo de profil',
+    },
+    nav: {
+      login: 'Se connecter',
+      logout: 'Se déconnecter',
+      my_profile: 'Mon profil',
+      dashboard: 'Tableau de bord',
+      administration: 'Administration',
+      users: 'Utilisateurs',
+    },
   },
   // Translations of your components.
   components: {
     layouts: {
       header: {
+        dashboard: 'Tableau de bord',
+      },
+      left_menu: {
+        my_profile: 'Mon profil',
         administration: 'Administration',
+        users: 'Utilisateurs',
       },
     },
   },

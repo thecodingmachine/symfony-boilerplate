@@ -26,7 +26,7 @@
       <b-link
         class="card-link"
         :to="localePath({ name: 'login', query: { email: form.email } })"
-        >{{ $t('common.login') }}</b-link
+        >{{ $t('common.nav.login') }}</b-link
       >
     </b-form>
     <div v-else class="text-center">
@@ -44,7 +44,7 @@
         <b-nav-item>
           <b-link
             :to="localePath({ name: 'login', query: { email: form.email } })"
-            >{{ $t('common.login') }}</b-link
+            >{{ $t('common.nav.login') }}</b-link
           >
         </b-nav-item>
         <b-nav-item>

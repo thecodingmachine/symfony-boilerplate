@@ -34,7 +34,7 @@
         {{ $t('pages.login.error_message') }}
       </b-form-invalid-feedback>
       <b-button type="submit" variant="primary" class="card-link">
-        {{ $t('common.login') }}
+        {{ $t('common.nav.login') }}
       </b-button>
       <b-link
         class="card-link"
@@ -93,7 +93,7 @@ export default {
         if (this.redirect !== '') {
           this.$router.push(this.redirect)
         } else {
-          this.$router.push(this.localePath({ name: 'index' }))
+          this.$router.push(this.localePath({ name: 'dashboard' }))
         }
       } catch (e) {
         this.hydrateFormErrors(e, true)

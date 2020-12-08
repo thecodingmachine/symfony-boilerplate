@@ -67,7 +67,7 @@
       <p>{{ $t('pages.update_password.success_message') }}</p>
 
       <b-link class="card-link" :to="localePath({ name: 'login' })">{{
-        $t('common.login')
+        $t('common.nav.login')
       }}</b-link>
     </div>
   </b-card>

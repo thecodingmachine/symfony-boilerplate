@@ -15,30 +15,40 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item
-          v-if="isGranted(ADMINISTRATOR)"
-          :to="localePath({ name: 'admin-users' })"
-          :active="$route.path === localePath({ name: 'admin-users' })"
+          v-if="isAuthenticated"
+          :to="localePath({ name: 'dashboard' })"
+          :active="$route.path === localePath({ name: 'dashboard' })"
         >
-          {{ $t('components.layouts.header.administration') }}
+          {{ $t('common.nav.dashboard') }}
         </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown v-if="isAuthenticated" right>
           <template #button-content>
-            <em>{{ user.firstName + ' ' + user.lastName }}</em>
+            <b-img
+              :src="defaultProfilePictureURL"
+              rounded="circle"
+              class="align-middle"
+              style="width: 1.7rem; height: 1.7rem; border: 1px solid black"
+              :alt="$t('common.images.profilePicture')"
+            ></b-img
+            >&nbsp;
+            {{ user.firstName + ' ' + user.lastName }}
           </template>
-          <b-dropdown-item href="#" @click="logout">{{
-            $t('common.logout')
-          }}</b-dropdown-item>
+          <b-dropdown-item> {{ $t('common.nav.my_profile') }} </b-dropdown-item>
+          <b-dropdown-item @click="logout">
+            {{ $t('common.nav.logout') }}
+          </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item
           v-if="!isAuthenticated"
           right
           :to="localePath({ name: 'login' })"
           :active="$route.path === localePath({ name: 'login' })"
-          >{{ $t('common.login') }}</b-nav-item
         >
+          {{ $t('common.nav.login') }}
+        </b-nav-item>
         <b-nav-item-dropdown right>
           <template #button-content>
             {{ currentLocale }}
@@ -58,17 +68,15 @@
 </template>
 
 <script>
-import logo from '@/assets/images/logo.svg'
-import { Roles } from '@/mixins/roles'
 import { LogoutMutation } from '@/graphql/auth/logout.mutation'
 import { Auth } from '@/mixins/auth'
+import { Images } from '@/mixins/images'
 
 export default {
-  mixins: [Auth, Roles],
+  mixins: [Auth, Images],
   data() {
     return {
       appName: this.$config.appName,
-      logoImageURL: logo,
     }
   },
   computed: {

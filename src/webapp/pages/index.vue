@@ -26,7 +26,7 @@
         <li class="list-inline-item">
           <b-button
             variant="outline-primary"
-            href="https://github.com/thecodingmaching/symfony-boilerplate"
+            href="https://github.com/thecodingmachine/symfony-boilerplate"
             target="_blank"
             >GitHub</b-button
           >
