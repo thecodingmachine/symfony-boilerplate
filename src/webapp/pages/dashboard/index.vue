@@ -5,5 +5,6 @@
 <script>
 export default {
   layout: 'dashboard',
+  middleware: ['redirect-if-not-authenticated'],
 }
 </script>

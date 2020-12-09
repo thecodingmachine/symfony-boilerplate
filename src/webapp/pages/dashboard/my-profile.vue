@@ -74,6 +74,7 @@ export default {
   components: { FilesList, ErrorsList },
   layout: 'dashboard',
   mixins: [Form, Auth, Roles, Images, GlobalOverlay],
+  middleware: ['redirect-if-not-authenticated'],
   data() {
     return {
       form: {
