@@ -1316,9 +1316,9 @@
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
 "@types/node@*":
-  version "14.14.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.10.tgz#5958a82e41863cfc71f2307b3748e3491ba03785"
-  integrity sha512-J32dgx2hw8vXrSbu4ZlVhn1Nm3GbeCFNw2FWL8S5QKucHGY0cyNwjdQdO+KMBZ4wpmC7KhLCiNsdk1RFRIYUQQ==
+  version "14.14.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.11.tgz#fc25a4248a5e8d0837019b1d170146d07334abe0"
+  integrity sha512-BJ97wAUuU3NUiUCp44xzUFquQEvnk1wu7q4CMEUYKJWjdkr0YWYDsm4RFtAvxYsNjLsKcrFt6RvK8r+mnzMbEQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -3530,9 +3530,9 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.612:
-  version "1.3.619"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.619.tgz#4dc529ae802f5c9c31e7eea830144340539b62b4"
-  integrity sha512-WFGatwtk7Fw0QcKCZzfGD72hvbcXV8kLY8aFuj0Ip0QRnOtyLYMsc+wXbSjb2w4lk1gcAeNU1/lQ20A+tvuypQ==
+  version "1.3.620"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.620.tgz#c6f36a7e398acc9d7d12743a6f58d536fbc58700"
+  integrity sha512-YbgWXUR2Mu+Fp6rm3GZ5YJdNo8SgZKLUTNSl2PNvdOcM8OIz07jRJnRkIaV9vdszFv9UUuGChh19w9qSuoLJgw==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -5095,9 +5095,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.6.tgz#f1c46a2a93a253e7b3905115e74d527cd23061a1"
+  integrity sha512-IZUoxEjNjubzrmvzZU4lKP7OnYmX72XRl3sqkfJhBKweKi5rnGi5+IUdlj/H1M+Ip5JQ1WzaDMOBRY90Ajc5jg==
 
 inquirer@^7.3.3:
   version "7.3.3"
@@ -5721,11 +5721,6 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
-
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
@@ -5783,7 +5778,7 @@ logrocket-vuex@^0.0.3:
   resolved "https://registry.yarnpkg.com/logrocket-vuex/-/logrocket-vuex-0.0.3.tgz#e11d65d384f0c9fdac72f984436cc038adf3db90"
   integrity sha1-4R1l04Twyf2scvmEQ2zAOK3z25A=
 
-logrocket@^1.0.7:
+logrocket@^1.0.14:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-1.0.14.tgz#afe61a6b993691a706154e83fe2c05e8174a650d"
   integrity sha512-notwwiIiXOmWSKQDsW8UrFJPu81u9rd6YaIFBmx6uF0XtXXwNQ+Mvteh5WHdABWcQ2nN4I7QkQrCAocYDx7OVg==
@@ -5894,14 +5889,15 @@ md5.js@^1.3.4:
     safe-buffer "^5.1.2"
 
 mdast-util-from-markdown@^0.8.0:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/mdast-util-from-markdown/-/mdast-util-from-markdown-0.8.2.tgz#d9b5c4eae245e742de8542b9a9fe642c400e8f42"
-  integrity sha512-lEiC6zP3sLGJmseGHf33YInftqOs1p4Z3U/mxEtjMkNjWTHBJx5rPjbgTbpHba11/H/TgB0fgiaiQk0lzdgKHg==
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/mdast-util-from-markdown/-/mdast-util-from-markdown-0.8.4.tgz#2882100c1b9fc967d3f83806802f303666682d32"
+  integrity sha512-jj891B5pV2r63n2kBTFh8cRI2uR9LQHsXG1zSDqfhXkIlDzrTcIlbB5+5aaYEkl8vOPIOPLf8VT7Ere1wWTMdw==
   dependencies:
     "@types/mdast" "^3.0.0"
     mdast-util-to-string "^2.0.0"
-    micromark "~2.10.0"
+    micromark "~2.11.0"
     parse-entities "^2.0.0"
+    unist-util-stringify-position "^2.0.0"
 
 mdast-util-to-markdown@^0.5.0:
   version "0.5.4"
@@ -6011,10 +6007,10 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
-micromark@~2.10.0:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/micromark/-/micromark-2.10.1.tgz#cd73f54e0656f10e633073db26b663a221a442a7"
-  integrity sha512-fUuVF8sC1X7wsCS29SYQ2ZfIZYbTymp0EYr6sab3idFjigFFjGa5UwoniPlV9tAgntjuapW1t9U+S0yDYeGKHQ==
+micromark@~2.11.0:
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/micromark/-/micromark-2.11.2.tgz#e8b6a05f54697d2d3d27fc89600c6bc40dd05f35"
+  integrity sha512-IXuP76p2uj8uMg4FQc1cRE7lPCLsfAXuEfdjtdO55VRiFO1asrCSQ5g43NmPqFtRwzEnEhafRVzn2jg0UiKArQ==
   dependencies:
     debug "^4.0.0"
     parse-entities "^2.0.0"
@@ -6490,9 +6486,9 @@ nuxt-graphql-request@^3.1.2:
     graphql-request "^3.3.0"
 
 nuxt-i18n@^6.15.1:
-  version "6.15.4"
-  resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.15.4.tgz#bcb50a36381055d506042352091bfda3735dbb7c"
-  integrity sha512-nh01qUl1PHIzrQ86PhOvitkWjW7kbt41fjBxLf277tbqA5LYun4kDmCUhnhs1uocPcvtb2QH/LzJL3hAHQSb8w==
+  version "6.16.0"
+  resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.16.0.tgz#07d939d771473dfd38795cc7b22f1273b78f8b73"
+  integrity sha512-DKNcQokMVyobq19vmmicWMwFyRnOZp2Ljd6IlBfN0t/WChDmGlYkzobDSs6MJVpGl8uCHAZfqExMdz+qrjQ58g==
   dependencies:
     "@babel/parser" "^7.5.5"
     "@babel/traverse" "^7.5.5"
@@ -6501,15 +6497,15 @@ nuxt-i18n@^6.15.1:
     cookie "^0.4.0"
     is-https "^2.0.0"
     js-cookie "^2.2.1"
-    lodash.clonedeep "^4.5.0"
+    klona "^2.0.4"
     vue-i18n "^8.18.1"
 
 nuxt-logrocket@^1.2.10:
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/nuxt-logrocket/-/nuxt-logrocket-1.2.10.tgz#cc63cc4dbe2f82750868ade7ddea1080b0b26335"
-  integrity sha512-2IBDLbeUtyZKRX3TvlaMgHI2eetR1/V6+dMAtB9l2ow7wAOzUjwYEQGLswouKJunvZonfNeDNi7UpOx09+kVDg==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/nuxt-logrocket/-/nuxt-logrocket-1.4.0.tgz#f5c06104999ce237a0d1eaef653286259ca99ebb"
+  integrity sha512-F2+wQrKUYId6NOcl5Mqomwe2JDpOsQmsCpHjncHe+EVczCynCjFJjAApBZi655d+y867zO9NzUoylyhCoXuSJQ==
   dependencies:
-    logrocket "^1.0.7"
+    logrocket "^1.0.14"
     logrocket-vuex "^0.0.3"
 
 nuxt@^2.14.10:

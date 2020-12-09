@@ -1,12 +1,10 @@
-import { ADMINISTRATOR, CLIENT, MERCHANT } from '@/enums/roles'
+import { ADMINISTRATOR, USER } from '@/enums/roles'
 
 function level(role) {
   switch (role) {
     case ADMINISTRATOR:
-      return 3
-    case MERCHANT:
       return 2
-    case CLIENT:
+    case USER:
       return 1
     default:
       return 0
