@@ -51,7 +51,11 @@
               <ErrorsList :errors="formErrors('profile_picture')" />
             </b-form-invalid-feedback>
           </b-form-group>
-          <b-button type="submit" variant="primary">
+          <b-button
+            type="submit"
+            variant="primary"
+            :disabled="form.profilePicture === null"
+          >
             {{ $t('common.update') }}
           </b-button>
         </b-form>
