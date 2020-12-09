@@ -19,7 +19,7 @@
           spinner-variant="primary"
           rounded="sm"
         >
-          <b-col class="vh-100 pt-3">
+          <b-col class="vh-100 p-3">
             <Nuxt />
           </b-col>
         </b-overlay>

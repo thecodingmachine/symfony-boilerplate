@@ -176,6 +176,27 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
     }
 
     /**
+     * The getter for the "profile_picture" column.
+     *
+     * @return string|null
+     * @GraphqlField
+     */
+    public function getProfilePicture() : ?string
+    {
+        return $this->get('profile_picture', 'users');
+    }
+
+    /**
+     * The setter for the "profile_picture" column.
+     *
+     * @param string|null $profilePicture
+     */
+    public function setProfilePicture(?string $profilePicture) : void
+    {
+        $this->set('profile_picture', $profilePicture, 'users');
+    }
+
+    /**
      * The getter for the "role" column.
      *
      * @return string
@@ -238,6 +259,7 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
         $array['email'] = $this->getEmail();
         $array['password'] = $this->getPassword();
         $array['locale'] = $this->getLocale();
+        $array['profilePicture'] = $this->getProfilePicture();
         $array['role'] = $this->getRole();
         return $array;
     }

@@ -4,6 +4,7 @@ export const defaultUserData = {
   lastName: '',
   email: '',
   locale: '',
+  profilePicture: null,
   role: '',
 }
 

@@ -10,4 +10,9 @@ export const Images = {
       defaultProfilePictureWhiteURL: defaultProfilePictureWhite,
     }
   },
+  methods: {
+    getUserProfilePictureURL(filename) {
+      return this.$config.apiURL + 'users/profile-picture/' + filename
+    },
+  },
 }

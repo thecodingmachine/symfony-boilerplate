@@ -88,6 +88,10 @@ schema:
           length: 2
           not_null: true
           comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
+        profile_picture:
+          type: string
+          length: 255
+          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
         role:
           type: string
           length: 255

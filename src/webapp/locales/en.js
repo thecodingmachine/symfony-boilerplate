@@ -14,19 +14,22 @@ export default {
     send_email: 'Send email',
     all: 'All',
     multiple_files: {
-      placeholder: 'Choose files or drop them here...',
-      drop_placeholder: 'Drop files here...',
+      placeholder: 'Choose files',
+      drop_placeholder: 'Drop files',
     },
-    browse_files: 'Browse',
-    reset_files: 'Reset files',
+    single_file: {
+      placeholder: 'Choose a file',
+      drop_placeholder: 'Drop file',
+    },
+    browse: 'Browse',
+    reset: 'Reset',
     roles: {
       select: 'Select a role',
       administrator: 'Administrator',
-      merchant: 'Merchant',
-      client: 'Client',
+      user: 'User',
     },
-    images: {
-      profilePicture: 'Profile picture',
+    user: {
+      profile_picture: 'Profile picture',
     },
     nav: {
       login: 'Login',

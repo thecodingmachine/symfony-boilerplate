@@ -14,19 +14,22 @@ export default {
     send_email: "Envoyer l'email",
     all: 'Tous',
     multiple_files: {
-      placeholder: 'Choisir des fichiers ou glisser/déposer les ici...',
-      drop_placeholder: 'Déposer les fichiers ici...',
+      placeholder: 'Choisir des fichiers',
+      drop_placeholder: 'Déposer les fichiers',
     },
-    browse_files: 'Parcourir',
-    reset_files: 'Réinitialiser les fichiers',
+    single_file: {
+      placeholder: 'Choisir un fichier',
+      drop_placeholder: 'Déposer le fichier',
+    },
+    browse: 'Parcourir',
+    reset: 'Réinitialiser',
     roles: {
       select: 'Sélectionner un rôle',
       administrator: 'Administateur',
-      merchant: 'Marchand',
-      client: 'Client',
+      user: 'Utilisateur',
     },
-    images: {
-      profilePicture: 'Photo de profil',
+    user: {
+      profile_picture: 'Photo de profil',
     },
     nav: {
       login: 'Se connecter',

@@ -48,10 +48,6 @@ export default {
   publicRuntimeConfig: {
     appName: process.env.APP_NAME,
     apiURL: process.env.API_URL,
-    productPictureURL:
-      process.env.PUBLIC_STORAGE_URL +
-      process.env.PUBLIC_STORAGE_PRODUCT_PICTURE +
-      '/',
   },
 
   privateRuntimeConfig: {

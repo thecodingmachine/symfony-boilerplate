@@ -1,12 +1,11 @@
-import { ADMINISTRATOR, CLIENT, MERCHANT } from '@/enums/roles'
+import { ADMINISTRATOR, USER } from '@/enums/roles'
 
 export const Roles = {
   data() {
     return {
       // Enums to use in your component.
       ADMINISTRATOR,
-      MERCHANT,
-      CLIENT,
+      USER,
     }
   },
   methods: {
@@ -20,9 +19,24 @@ export const Roles = {
             : this.$t('common.roles.select'),
         },
         { value: ADMINISTRATOR, text: this.$t('common.roles.administrator') },
-        { value: MERCHANT, text: this.$t('common.roles.merchant') },
-        { value: CLIENT, text: this.$t('common.roles.client') },
+        { value: USER, text: this.$t('common.roles.user') },
       ]
+    },
+    // Returns the translation from a enum value.
+    roleTranslationFromEnum(role) {
+      return this.$t('common.roles.' + role.toLowerCase())
+    },
+    // Returns a color variant (Bootstrap) according
+    // to a enum value.
+    roleColorVariantFromEnum(role) {
+      switch (role) {
+        case ADMINISTRATOR:
+          return 'primary'
+        case USER:
+          return 'secondary'
+        default:
+          return 'light'
+      }
     },
   },
 }

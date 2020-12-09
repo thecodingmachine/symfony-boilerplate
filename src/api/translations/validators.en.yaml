@@ -11,14 +11,4 @@ user:
   invalid_role: "This value is not a valid role."
   not_compromised_password: "This password has been leaked in a data breach, it must not be used. Please use another password."
   wrong_password_confirmation: "This value is not equal to the previous value."
-
-company:
-  name_not_unique: "This name is not available."
-  user_not_a_merchant: "The user is not a merchant."
-
-product:
-  name_not_unique: "This name is not available."
   pictures_extensions: "Some files' extensions are not \".png\" or \".jpg\"."
-
-order:
-  order_invoice_extension: "The file extension is not \".pdf\"."

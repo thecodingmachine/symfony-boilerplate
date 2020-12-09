@@ -12,11 +12,15 @@ export default function ({ app, store, error }) {
 
       // If the user is authenticated, update his locale.
       if (store.getters['auth/isAuthenticated']) {
-        await app.$graphql.request(UpdateLocaleMutation, {
-          locale: mutation.payload.toUpperCase(),
-        })
+        try {
+          await app.$graphql.request(UpdateLocaleMutation, {
+            locale: mutation.payload.toUpperCase(),
+          })
 
-        store.commit('auth/setUserLocale', mutation.payload)
+          store.commit('auth/setUserLocale', mutation.payload)
+        } catch (e) {
+          error(e)
+        }
       }
     }
   })

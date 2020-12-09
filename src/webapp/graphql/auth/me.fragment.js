@@ -7,6 +7,7 @@ export const MeFragment = gql`
     lastName
     email
     locale
+    profilePicture
     role
   }
 `

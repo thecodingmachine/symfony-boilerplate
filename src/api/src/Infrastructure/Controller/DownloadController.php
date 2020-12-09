@@ -10,15 +10,33 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 abstract class DownloadController extends AbstractController
 {
-    protected function createResponseWithAttachment(string $filename, string $fileContent): Response
+    private function createResponse(string $filename, string $fileContent, string $disposition): Response
     {
         $response          = new Response($fileContent);
         $dispositionHeader = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $disposition,
             $filename
         );
         $response->headers->set('Content-Disposition', $dispositionHeader);
 
         return $response;
+    }
+
+    protected function createResponseWithAttachment(string $filename, string $fileContent): Response
+    {
+        return $this->createResponse(
+            $filename,
+            $fileContent,
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT
+        );
+    }
+
+    protected function createResponseInline(string $filename, string $fileContent): Response
+    {
+        return $this->createResponse(
+            $filename,
+            $fileContent,
+            ResponseHeaderBag::DISPOSITION_INLINE
+        );
     }
 }

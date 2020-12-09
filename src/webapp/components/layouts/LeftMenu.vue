@@ -2,17 +2,28 @@
   <b-nav vertical pills>
     <b-row class="justify-content-center">
       <b-img
-        :src="defaultProfilePictureWhiteURL"
+        :src="
+          user.profilePicture !== null
+            ? getUserProfilePictureURL(user.profilePicture)
+            : defaultProfilePictureWhiteURL
+        "
         rounded="circle"
         style="width: 5rem; height: 5rem; border: 1px solid white"
-        :alt="$t('common.images.profilePicture')"
+        :alt="$t('common.user.profile_picture')"
       ></b-img>
     </b-row>
     <b-row class="justify-content-center mt-2 text-white">
       {{ user.firstName + ' ' + user.lastName }}
     </b-row>
-    <b-row class="justify-content-center mb-3 text-white">
-      <b-link>{{ $t('common.nav.my_profile') }}</b-link>
+    <b-row class="justify-content-center mt-1">
+      <b-badge pill :variant="roleColorVariantFromEnum(user.role)">{{
+        roleTranslationFromEnum(user.role)
+      }}</b-badge>
+    </b-row>
+    <b-row class="justify-content-center mt-1 mb-3 text-white">
+      <b-link :to="localePath({ name: 'dashboard-my-profile' })">{{
+        $t('common.nav.my_profile')
+      }}</b-link>
     </b-row>
     <b-nav-item
       :to="localePath({ name: 'dashboard' })"

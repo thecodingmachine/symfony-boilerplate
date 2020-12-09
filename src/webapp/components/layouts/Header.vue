@@ -27,16 +27,22 @@
         <b-nav-item-dropdown v-if="isAuthenticated" right>
           <template #button-content>
             <b-img
-              :src="defaultProfilePictureURL"
+              :src="
+                user.profilePicture !== null
+                  ? getUserProfilePictureURL(user.profilePicture)
+                  : defaultProfilePictureURL
+              "
               rounded="circle"
               class="align-middle"
               style="width: 1.7rem; height: 1.7rem; border: 1px solid black"
-              :alt="$t('common.images.profilePicture')"
+              :alt="$t('common.user.profile_picture')"
             ></b-img
             >&nbsp;
             {{ user.firstName + ' ' + user.lastName }}
           </template>
-          <b-dropdown-item> {{ $t('common.nav.my_profile') }} </b-dropdown-item>
+          <b-dropdown-item :to="localePath({ name: 'dashboard-my-profile' })">
+            {{ $t('common.nav.my_profile') }}
+          </b-dropdown-item>
           <b-dropdown-item @click="logout">
             {{ $t('common.nav.logout') }}
           </b-dropdown-item>

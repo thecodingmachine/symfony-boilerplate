@@ -11,14 +11,4 @@ user:
   invalid_role: "Cette valeur n'est pas un rôle valide."
   not_compromised_password: "Ce mot de passe a été découvert lors d'un vole de données, il ne doit pas être utilisé. Merci d'utiliser un autre mot de passe."
   wrong_password_confirmation: "Cette valeur n'est pas égale à la précédente."
-
-company:
-  name_not_unique: "Ce nom n'est pas disponible."
-  user_not_a_merchant: "L'utilisateur n'est pas un marchand."
-
-product:
-  name_not_unique: "Ce nom n'est pas disponible."
-  pictures_extensions: "Certaines extensions de fichiers ne sont pas \".png\" ou \".jpg\"."
-
-order:
-  order_invoice_extension: "L'extension du fichier n'est pas \".pdf\"."
+  pictures_extensions: "Some files' extensions are not \".png\" or \".jpg\"."

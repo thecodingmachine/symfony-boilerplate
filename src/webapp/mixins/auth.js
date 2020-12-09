@@ -6,6 +6,11 @@ export const Auth = {
     ...mapGetters('auth', ['isAuthenticated', 'isGranted']),
   },
   methods: {
-    ...mapMutations('auth', ['setUser', 'setUserLocale', 'resetUser']),
+    ...mapMutations('auth', [
+      'setUser',
+      'setUserLocale',
+      'setUserProfilePicture',
+      'resetUser',
+    ]),
   },
 }
