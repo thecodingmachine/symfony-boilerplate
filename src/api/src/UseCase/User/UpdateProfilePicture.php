@@ -57,6 +57,9 @@ final class UpdateProfilePicture
         ?ProfilePicture $profilePicture = null
     ): User {
         if ($profilePicture === null) {
+            $user->setProfilePicture(null);
+            $this->userDao->save($user);
+
             return $user;
         }
 
