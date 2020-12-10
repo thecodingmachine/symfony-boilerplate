@@ -24,7 +24,7 @@
           class="justify-content-center mb-3"
         >
           <b-img
-            :src="getUserProfilePictureURL(user.profilePicture)"
+            :src="userProfilePictureURL(user.profilePicture)"
             rounded="circle"
             style="width: 10rem; height: 10rem; border: 1px solid black"
             :alt="$t('common.user.profile_picture')"
@@ -69,10 +69,10 @@ import { Form } from '@/mixins/form'
 import { Auth } from '@/mixins/auth'
 import ErrorsList from '@/components/forms/ErrorsList'
 import { Roles } from '@/mixins/roles'
-import { UpdateMyProfile } from '@/graphql/users/update_my_profile.mutation'
 import { Images } from '@/mixins/images'
 import FilesList from '@/components/forms/FilesList'
 import { GlobalOverlay } from '@/mixins/global-overlay'
+import { UpdateProfilePictureMutation } from '@/graphql/users/update_profile_picture.mutation'
 
 export default {
   components: { FilesList, ErrorsList },
@@ -92,11 +92,14 @@ export default {
       this.displayGlobalOverlay()
 
       try {
-        const result = await this.$graphql.request(UpdateMyProfile, {
-          profilePicture: this.form.profilePicture,
-        })
+        const result = await this.$graphql.request(
+          UpdateProfilePictureMutation,
+          {
+            profilePicture: this.form.profilePicture,
+          }
+        )
 
-        this.setUserProfilePicture(result.updateMyProfile.profilePicture)
+        this.setUserProfilePicture(result.updateProfilePicture.profilePicture)
         this.form.profilePicture = null
       } catch (e) {
         this.hydrateFormErrors(e)

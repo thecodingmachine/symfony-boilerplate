@@ -4,7 +4,7 @@
       <b-img
         :src="
           user.profilePicture !== null
-            ? getUserProfilePictureURL(user.profilePicture)
+            ? userProfilePictureURL(user.profilePicture)
             : defaultProfilePictureWhiteURL
         "
         rounded="circle"

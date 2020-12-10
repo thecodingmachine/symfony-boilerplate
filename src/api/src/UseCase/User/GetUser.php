@@ -14,11 +14,11 @@ final class GetUser
     /**
      * @Query
      * @Logged
-     * @Security("is_granted('GET_USER', user)")
+     * @Security("is_granted('GET_USER', user1)")
      */
-    public function user(User $user): User
+    public function user(User $user1): User
     {
         // GraphQLite black magic.
-        return $user;
+        return $user1;
     }
 }

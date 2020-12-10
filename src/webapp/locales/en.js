@@ -10,8 +10,15 @@ export default {
     retry: 'Retry',
     create: 'Create',
     update: 'Update',
+    edit: 'Edit',
     delete: 'Delete',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
     send_email: 'Send email',
+    browse: 'Browse',
+    reset: 'Reset',
+    search: 'Search',
+    export: 'Export',
     all: 'All',
     multiple_files: {
       placeholder: 'Choose files',
@@ -21,14 +28,29 @@ export default {
       placeholder: 'Choose a file',
       drop_placeholder: 'Drop file',
     },
-    browse: 'Browse',
-    reset: 'Reset',
-    roles: {
-      select: 'Select a role',
-      administrator: 'Administrator',
-      user: 'User',
-    },
     user: {
+      first_name: {
+        label: 'First name',
+        label_required: 'First name *',
+        placeholder: 'Enter a first name',
+      },
+      last_name: {
+        label: 'Last name',
+        label_required: 'Last name *',
+        placeholder: 'Enter a last name',
+      },
+      locale: {
+        label: 'Locale',
+        label_required: 'Locale *',
+        select: 'Select a locale',
+      },
+      role: {
+        label: 'Role',
+        label_required: 'Role *',
+        select: 'Select a role',
+        administrator: 'Administrator',
+        user: 'User',
+      },
       profile_picture: 'Profile picture',
     },
     nav: {
@@ -39,9 +61,20 @@ export default {
       administration: 'Administration',
       users: 'Users',
     },
+    list: {
+      actions: 'Actions',
+    },
   },
   // Translations of your components.
-  components: {},
+  components: {
+    forms: {
+      confirm_delete: {
+        enter_confirm: 'Enter "Confirm"',
+        danger_zone_message:
+          'Warning, this section allows you to carry out dangerous and irremediable actions.',
+      },
+    },
+  },
   // Translations of your layouts.
   layouts: {
     error: {
@@ -52,9 +85,18 @@ export default {
     },
   },
   // Translations of your mixins.
-  mixins: {},
+  mixins: {
+    generic_toast: {
+      success_message: 'Success 🎉',
+    },
+  },
   // Translations of your pages.
   pages: {
+    home: {
+      welcome: 'Welcome!',
+      message:
+        'The Symfony Boilerplate provides a dummy application with core concepts and functionalities to help you build a modern web application.',
+    },
     login: {
       password: {
         label_required: 'Password *',

@@ -11,26 +11,24 @@ use App\Domain\Model\Storable\ProfilePicture;
 use App\Domain\Model\User;
 use App\Domain\Throwable\InvalidModel;
 use App\Domain\Throwable\InvalidStorable;
-use App\UseCase\User\ResetPassword\ResetPassword;
 use Psr\Http\Message\UploadedFileInterface;
 use TheCodingMachine\GraphQLite\Annotations\Logged;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
 use TheCodingMachine\GraphQLite\Annotations\Security;
 
-final class CreateUser
+use function strval;
+
+final class UpdateUser
 {
     private UserDao $userDao;
     private UpdateProfilePicture $updateProfilePicture;
-    private ResetPassword $resetPassword;
 
     public function __construct(
         UserDao $userDao,
-        UpdateProfilePicture $updateProfilePicture,
-        ResetPassword $resetPassword
+        UpdateProfilePicture $updateProfilePicture
     ) {
         $this->userDao              = $userDao;
         $this->updateProfilePicture = $updateProfilePicture;
-        $this->resetPassword        = $resetPassword;
     }
 
     /**
@@ -41,7 +39,8 @@ final class CreateUser
      * @Logged
      * @Security("is_granted('ROLE_ADMINISTRATOR')")
      */
-    public function createUser(
+    public function updateUser(
+        User $user,
         string $firstName,
         string $lastName,
         string $email,
@@ -54,7 +53,8 @@ final class CreateUser
             $storable = ProfilePicture::createFromUploadedFile($profilePicture);
         }
 
-        return $this->create(
+        return $this->update(
+            $user,
             $firstName,
             $lastName,
             $email,
@@ -68,7 +68,8 @@ final class CreateUser
      * @throws InvalidModel
      * @throws InvalidStorable
      */
-    public function create(
+    public function update(
+        User $user,
         string $firstName,
         string $lastName,
         string $email,
@@ -76,13 +77,11 @@ final class CreateUser
         Role $role,
         ?ProfilePicture $profilePicture = null
     ): User {
-        $user = new User(
-            $firstName,
-            $lastName,
-            $email,
-            $locale,
-            $role
-        );
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setEmail($email);
+        $user->setLocale(strval($locale));
+        $user->setRole(strval($role));
 
         if ($profilePicture === null) {
             $this->userDao->save($user);
@@ -91,15 +90,12 @@ final class CreateUser
         }
 
         $this->userDao->validate($user);
-        $user = $this
+
+        return $this
             ->updateProfilePicture
             ->update(
                 $user,
                 $profilePicture
             );
-
-        $this->resetPassword->resetPassword($email);
-
-        return $user;
     }
 }

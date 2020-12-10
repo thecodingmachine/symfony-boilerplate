@@ -14,8 +14,8 @@ use function in_array;
 
 final class UserVoter extends AppVoter
 {
-    public const UPDATE_USER = 'UPDATE_USER';
     public const GET_USER    = 'GET_USER';
+    public const DELETE_USER = 'DELETE_USER';
 
     /**
      * @param mixed $subject
@@ -26,8 +26,8 @@ final class UserVoter extends AppVoter
             ! in_array(
                 $attribute,
                 [
-                    self::UPDATE_USER,
                     self::GET_USER,
+                    self::DELETE_USER,
                 ]
             )
         ) {
@@ -52,15 +52,23 @@ final class UserVoter extends AppVoter
         assert($subject instanceof User);
 
         switch ($attribute) {
-            case self::UPDATE_USER:
             case self::GET_USER:
-                // The administrator can update/get any user.
+                // The administrator can get any user.
                 if ($this->security->isGranted(Role::getSymfonyRole(Role::ADMINISTRATOR()))) {
                     return true;
                 }
 
-                // Other users may only update/get themselves.
+                // Other users may only get themselves.
                 return $user->getId() === $subject->getId();
+
+            case self::DELETE_USER:
+                // Only administrators may delete a user...
+                if (! $this->security->isGranted(Role::getSymfonyRole(Role::ADMINISTRATOR()))) {
+                    return false;
+                }
+
+                // ...but only if it's not a self delete!
+                return $user->getId() !== $subject->getId();
 
             default:
                 return false;

@@ -11,7 +11,7 @@ export const Images = {
     }
   },
   methods: {
-    getUserProfilePictureURL(filename) {
+    userProfilePictureURL(filename) {
       return this.$config.apiURL + 'users/profile-picture/' + filename
     },
   },

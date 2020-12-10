@@ -15,7 +15,7 @@ use TheCodingMachine\GraphQLite\Annotations\InjectUser;
 use TheCodingMachine\GraphQLite\Annotations\Logged;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
 
-final class UpdateMyProfile
+final class UpdateProfilePicture
 {
     private UserDao $userDao;
     private ProfilePictureStorage $profilePictureStorage;
@@ -36,7 +36,7 @@ final class UpdateMyProfile
      * @Logged
      * @InjectUser(for="$user")
      */
-    public function updateMyProfile(
+    public function updateProfilePicture(
         User $user,
         ?UploadedFileInterface $profilePicture = null
     ): User {

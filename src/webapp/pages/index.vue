@@ -2,14 +2,13 @@
   <div>
     <b-row>
       <h1 class="display-2">
-        Welcome!
+        {{ $t('pages.home.welcome') }}
         <small class="text-muted">Symfony Boilerplate</small>
       </h1>
     </b-row>
     <b-row class="justify-content-center">
       <p class="lead">
-        The Symfony Boilerplate provides a dummy application with core concepts
-        and functionalities to help you build a modern web application.
+        {{ $t('pages.home.message') }}
       </p>
     </b-row>
     <b-row class="justify-content-center">

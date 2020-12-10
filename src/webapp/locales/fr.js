@@ -10,8 +10,15 @@ export default {
     retry: 'Réessayer',
     create: 'Créer',
     update: 'Mettre à jour',
+    edit: 'Éditer',
     delete: 'Supprimer',
+    confirm: 'Confirmer',
+    cancel: 'Annuler',
     send_email: "Envoyer l'email",
+    browse: 'Parcourir',
+    reset: 'Réinitialiser',
+    search: 'Rechercher',
+    export: 'Exporter',
     all: 'Tous',
     multiple_files: {
       placeholder: 'Choisir des fichiers',
@@ -21,14 +28,29 @@ export default {
       placeholder: 'Choisir un fichier',
       drop_placeholder: 'Déposer le fichier',
     },
-    browse: 'Parcourir',
-    reset: 'Réinitialiser',
-    roles: {
-      select: 'Sélectionner un rôle',
-      administrator: 'Administateur',
-      user: 'Utilisateur',
-    },
     user: {
+      first_name: {
+        label: 'Prénom',
+        label_required: 'Prénom *',
+        placeholder: 'Entrer un prénom',
+      },
+      last_name: {
+        label: 'Nom',
+        label_required: 'Nom *',
+        placeholder: 'Entrer un nom',
+      },
+      locale: {
+        label: 'Langue',
+        label_required: 'Langue *',
+        select: 'Sélectionner une langue',
+      },
+      role: {
+        label: 'Rôle',
+        label_required: 'Rôle *',
+        select: 'Sélectionner un rôle',
+        administrator: 'Administateur',
+        user: 'Utilisateur',
+      },
       profile_picture: 'Photo de profil',
     },
     nav: {
@@ -39,17 +61,17 @@ export default {
       administration: 'Administration',
       users: 'Utilisateurs',
     },
+    list: {
+      actions: 'Actions',
+    },
   },
   // Translations of your components.
   components: {
-    layouts: {
-      header: {
-        dashboard: 'Tableau de bord',
-      },
-      left_menu: {
-        my_profile: 'Mon profil',
-        administration: 'Administration',
-        users: 'Utilisateurs',
+    forms: {
+      confirm_delete: {
+        enter_confirm: 'Entrer "Confirmer"',
+        danger_zone_message:
+          'Attention, cette zone permet de réaliser des actions dangeureuses et irrémédiables.',
       },
     },
   },
@@ -63,9 +85,18 @@ export default {
     },
   },
   // Translations of your mixins.
-  mixins: {},
+  mixins: {
+    generic_toast: {
+      success_message: 'Succès 🎉',
+    },
+  },
   // Translations of your pages.
   pages: {
+    home: {
+      welcome: 'Bienvenue !',
+      message:
+        'Le Symfony Boilerplate fournit une application factice avec des concepts et des fonctionnalités de base pour vous aider à créer une application web moderne.',
+    },
     login: {
       password: {
         label_required: 'Mot de passe *',

@@ -75,6 +75,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'nuxt-logrocket',
+    '@nuxtjs/toast',
   ],
   bootstrapVue: {
     icons: true,
@@ -103,6 +104,7 @@ export default {
       'IconsPlugin',
       'VBTogglePlugin',
       'SidebarPlugin',
+      'ModalPlugin',
     ],
     directivePlugins: [],
   },
@@ -157,6 +159,10 @@ export default {
   logRocket: {
     logRocketId: process.env.LOGROCKET_ID || '',
     devModeAllowed: process.env.LOGROCKET_DEV_MODE_ALLOWED || false,
+  },
+  toast: {
+    position: 'bottom-center',
+    duration: 5000,
   },
   /*
    ** Build configuration
