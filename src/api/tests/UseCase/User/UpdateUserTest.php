@@ -71,7 +71,7 @@ it(
         assertEquals($role, $user->getRole());
 
         if ($filename !== null) {
-            assertNotNull($filename);
+            assertNotNull($user->getProfilePicture());
         } else {
             assertNull($user->getProfilePicture());
         }
@@ -110,7 +110,7 @@ it(
             Role::USER()
         );
 
-        $updateUser->update(
+        $updateUser->updateUser(
             $userDao->getById('1'),
             $firstName,
             $lastName,

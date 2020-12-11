@@ -38,12 +38,9 @@ final class UpdateProfilePicture
      */
     public function updateProfilePicture(
         User $user,
-        ?UploadedFileInterface $profilePicture = null
+        UploadedFileInterface $profilePicture
     ): User {
-        $storable = null;
-        if ($profilePicture !== null) {
-            $storable = ProfilePicture::createFromUploadedFile($profilePicture);
-        }
+        $storable = ProfilePicture::createFromUploadedFile($profilePicture);
 
         return $this->update($user, $storable);
     }
@@ -54,15 +51,8 @@ final class UpdateProfilePicture
      */
     public function update(
         User $user,
-        ?ProfilePicture $profilePicture = null
+        ProfilePicture $profilePicture
     ): User {
-        if ($profilePicture === null) {
-            $user->setProfilePicture(null);
-            $this->userDao->save($user);
-
-            return $user;
-        }
-
         // We validate the new profile picture before
         // doing anything else.
         $this->profilePictureStorage->validate($profilePicture);

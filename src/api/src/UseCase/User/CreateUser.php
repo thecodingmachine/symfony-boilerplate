@@ -86,6 +86,7 @@ final class CreateUser
 
         if ($profilePicture === null) {
             $this->userDao->save($user);
+            $this->resetPassword->resetPassword($email);
 
             return $user;
         }
@@ -97,7 +98,6 @@ final class CreateUser
                 $user,
                 $profilePicture
             );
-
         $this->resetPassword->resetPassword($email);
 
         return $user;

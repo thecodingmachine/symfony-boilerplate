@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 use App\Domain\Enum\Locale;
 use App\Domain\Enum\Role;
+use App\Domain\Model\Storable\ProfilePicture;
 use App\Domain\Throwable\InvalidModel;
 use App\Tests\UseCase\DummyValues;
 use App\UseCase\User\CreateUser;
 
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertNull;
 
 it(
@@ -18,17 +20,26 @@ it(
         string $lastName,
         string $email,
         Locale $locale,
-        Role $role
+        Role $role,
+        ?string $filename
     ): void {
         $createUser = self::$container->get(CreateUser::class);
         assert($createUser instanceof CreateUser);
 
-        $user = $createUser->createUser(
+        $storable = null;
+        if ($filename !== null) {
+            $storable = ProfilePicture::createFromPath(
+                dirname(__FILE__) . '/' . $filename
+            );
+        }
+
+        $user = $createUser->create(
             $firstName,
             $lastName,
             $email,
             $locale,
-            $role
+            $role,
+            $storable
         );
 
         assertEquals($firstName, $user->getFirstName());
@@ -37,11 +48,17 @@ it(
         assertNull($user->getPassword());
         assertEquals($locale, $user->getLocale());
         assertEquals($role, $user->getRole());
+
+        if ($filename !== null) {
+            assertNotNull($user->getProfilePicture());
+        } else {
+            assertNull($user->getProfilePicture());
+        }
     }
 )
     ->with([
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::ADMINISTRATOR()],
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER()],
+        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::ADMINISTRATOR(), null],
+        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER(), 'foo.png'],
     ])
     ->group('user');
 
