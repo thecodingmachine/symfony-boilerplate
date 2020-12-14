@@ -1,5 +1,0 @@
-mutation createProduct($name: String!, $price: Float!, $companyId: String!, $pictures: [Upload!]) {
-  createProduct(name: $name, price: $price, company: {id: $companyId}, pictures: $pictures) {
-    id
-  }
-}

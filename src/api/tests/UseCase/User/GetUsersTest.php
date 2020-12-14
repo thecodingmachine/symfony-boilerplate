@@ -32,7 +32,7 @@ beforeEach(function (): void {
         'b',
         'b.b@b.b',
         Locale::EN(),
-        Role::MERCHANT()
+        Role::USER()
     );
     $userDao->save($user);
 
@@ -41,7 +41,7 @@ beforeEach(function (): void {
         'c',
         'c.c@c.c',
         Locale::EN(),
-        Role::CLIENT()
+        Role::USER()
     );
     $userDao->save($user);
 });
@@ -84,14 +84,21 @@ it(
         assert($getUsers instanceof GetUsers);
 
         $result = $getUsers->users(null, $role);
-        assertCount(1, $result);
+
+        if ($role->equals(Role::ADMINISTRATOR())) {
+            assertCount(1, $result);
+        }
+
+        if ($role->equals(Role::USER())) {
+            assertCount(2, $result);
+        }
 
         $user = $result->first();
         assert($user instanceof User);
         assertEquals($role, $user->getRole());
     }
 )
-    ->with([Role::ADMINISTRATOR(), Role::MERCHANT(), Role::CLIENT()])
+    ->with([Role::ADMINISTRATOR(), Role::USER()])
     ->group('user');
 
 it(

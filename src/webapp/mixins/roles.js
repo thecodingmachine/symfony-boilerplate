@@ -1,26 +1,45 @@
-import { ADMINISTRATOR, CLIENT, MERCHANT } from '@/enums/roles'
+import { ADMINISTRATOR, USER } from '@/enums/roles'
 
-export default {
+export const Roles = {
   data() {
     return {
+      // Enums to use in your component.
       ADMINISTRATOR,
-      MERCHANT,
-      CLIENT,
+      USER,
     }
   },
   methods: {
-    rolesAsSelectOptions(isForSearch = true) {
+    // Returns options' values for Bootstrap dropdowns.
+    rolesAsSelectOptions(isForSearch = false) {
       return [
         {
           value: null,
           text: isForSearch
-            ? this.$t('mixins.roles.all')
-            : this.$t('mixins.roles.select'),
+            ? this.$t('common.all')
+            : this.$t('common.user.role.select'),
         },
-        { value: ADMINISTRATOR, text: this.$t('mixins.roles.administrator') },
-        { value: MERCHANT, text: this.$t('mixins.roles.merchant') },
-        { value: CLIENT, text: this.$t('mixins.roles.client') },
+        {
+          value: ADMINISTRATOR,
+          text: this.$t('common.user.role.administrator'),
+        },
+        { value: USER, text: this.$t('common.user.role.user') },
       ]
+    },
+    // Returns the translation from a enum value.
+    roleTranslationFromEnum(role) {
+      return this.$t('common.user.role.' + role.toLowerCase())
+    },
+    // Returns a color variant (Bootstrap) according
+    // to a enum value.
+    roleColorVariantFromEnum(role) {
+      switch (role) {
+        case ADMINISTRATOR:
+          return 'primary'
+        case USER:
+          return 'secondary'
+        default:
+          return 'light'
+      }
     },
   },
 }

@@ -9,7 +9,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.APP_NAME,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -46,11 +46,8 @@ export default {
   ],
 
   publicRuntimeConfig: {
+    appName: process.env.APP_NAME,
     apiURL: process.env.API_URL,
-    productPictureURL:
-      process.env.PUBLIC_STORAGE_URL +
-      process.env.PUBLIC_STORAGE_PRODUCT_PICTURE +
-      '/',
   },
 
   privateRuntimeConfig: {
@@ -64,6 +61,11 @@ export default {
     // middleware: [],
   },
 
+  loading: {
+    color: '#a211fa',
+    height: '3px',
+  },
+
   /*
    ** Nuxt.js modules
    */
@@ -73,6 +75,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'nuxt-logrocket',
+    '@nuxtjs/toast',
   ],
   bootstrapVue: {
     icons: true,
@@ -98,6 +101,10 @@ export default {
       'BreadcrumbPlugin',
       'FormFilePlugin',
       'BadgePlugin',
+      'IconsPlugin',
+      'VBTogglePlugin',
+      'SidebarPlugin',
+      'ModalPlugin',
     ],
     directivePlugins: [],
   },
@@ -152,6 +159,10 @@ export default {
   logRocket: {
     logRocketId: process.env.LOGROCKET_ID || '',
     devModeAllowed: process.env.LOGROCKET_DEV_MODE_ALLOWED || false,
+  },
+  toast: {
+    position: 'bottom-center',
+    duration: 5000,
   },
   /*
    ** Build configuration

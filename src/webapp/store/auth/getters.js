@@ -1,4 +1,15 @@
-import { level } from '@/services/role-authorization-levels'
+import { ADMINISTRATOR, USER } from '@/enums/roles'
+
+function level(role) {
+  switch (role) {
+    case ADMINISTRATOR:
+      return 2
+    case USER:
+      return 1
+    default:
+      return 0
+  }
+}
 
 export default {
   isAuthenticated(state) {

@@ -39,21 +39,21 @@ services:
       # Either Vagrant or Docker requires the usage of polling, otherwise Nuxt.js does not recompile our code
       # as fast as we would like.
       CHOKIDAR_USEPOLLING: "1"
-      CHOKIDAR_INTERVAL: "1000" # Lower values might increase CPU usage.
+      CHOKIDAR_INTERVAL: "3000" # Lower values might increase CPU usage.
       # Host 0.0.0.0 is designated to tell Nuxt.js to resolve a host address, which is accessible to connections outside
       # of the host machine.
       HOST: "0.0.0.0"
       # Nuxt.js
       # ---------------------
+      APP_NAME: "$APP_NAME"
       # API.
       API_URL: "http://$API_SUBDOMAIN.$DOMAIN/"
       # GraphQL.
       GRAPHQL_URL: "http://$API_SUBDOMAIN.$DOMAIN/graphql"
       # Public storage.
       # Access to these files is done via URLs created using:
-      # "$PUBLIC_STORAGE_URL" + "$PUBLIC_STORAGE_PRODUCT_PICTURE" + "/" + filename.
+      # "$PUBLIC_STORAGE_URL" + folder + "/" + filename.
       PUBLIC_STORAGE_URL: "http://$STORAGE_SUBDOMAIN.$DOMAIN/public/"
-      PUBLIC_STORAGE_PRODUCT_PICTURE: "$PUBLIC_STORAGE_PRODUCT_PICTURE"
       # i18n.
       DEFAULT_LOCALE: "$DEFAULT_LOCALE"
       # LogRocket.
@@ -82,6 +82,7 @@ services:
       STARTUP_COMMAND_4: "php bin/console app:init-storage:s3"
       # Symfony.
       # ---------------------
+      APP_NAME: "$APP_NAME"
       APP_ENV: "dev"
       APP_DEBUG: "1"
       # Note: in your remote environments, make sure you do not change
@@ -108,14 +109,12 @@ services:
       STORAGE_PRIVATE_BUCKET: "$STORAGE_PRIVATE_BUCKET"
       STORAGE_ACCESS_KEY: "$STORAGE_ACCESS_KEY"
       STORAGE_SECRET_KEY: "$STORAGE_SECRET_KEY"
-      # Public storage folders.
-      PUBLIC_STORAGE_PRODUCT_PICTURE: "$PUBLIC_STORAGE_PRODUCT_PICTURE"
       # i18n.
       DEFAULT_LOCALE: "$DEFAULT_LOCALE"
       # Mailer.
       MAILER_DSN: "smtp://null:null@mailhog:1025"
       MAIL_FROM_ADDRESS: "no-reply@$DOMAIN"
-      MAIL_FROM_NAME: "Companies and products"
+      MAIL_FROM_NAME: "$APP_NAME"
       MAIL_WEBAPP_URL: "http://$DOMAIN/"
       MAIL_WEBAPP_UPDATE_PASSWORD_ROUTE_FORMAT: "%s/update-password/%s/%s" # {locale}/update-password/{resetPasswordTokenId}/{plainToken}
     volumes:

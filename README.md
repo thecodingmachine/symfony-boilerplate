@@ -12,11 +12,11 @@ This is a template of a *README*. Adapt it according to the comments and your ne
 
 ---
 
-# Companies and products
+# Symfony Boilerplate
 
 > Replace this title and the following description with your project name and description.
 
-This project is an example of a web application built with Nuxt.js, Symfony 5, and GraphQL.
+A web application built with Nuxt.js, Symfony 5, and GraphQL.
 
 ## Setup
 
@@ -48,12 +48,12 @@ For instance, instead of running `make up`, run `docker-compose up -d`.
 Update your `hosts` file with the following entries:
 
 ```
-127.0.0.1   traefik.companies-and-products.localhost
-127.0.0.1   companies-and-products.localhost
-127.0.0.1   api.companies-and-products.localhost
-127.0.0.1   phpmyadmin.companies-and-products.localhost
-127.0.0.1   minio.companies-and-products.localhost
-127.0.0.1   mailhog.companies-and-products.localhost
+127.0.0.1   traefik.symfony-boilerplate.localhost
+127.0.0.1   symfony-boilerplate.localhost
+127.0.0.1   api.symfony-boilerplate.localhost
+127.0.0.1   phpmyadmin.symfony-boilerplate.localhost
+127.0.0.1   minio.symfony-boilerplate.localhost
+127.0.0.1   mailhog.symfony-boilerplate.localhost
 ```
 
 > Update the domain with the one used in your project.
@@ -128,12 +128,12 @@ The containers will be ready faster next time you run this command as the first 
 
 Once everything is ready, the following endpoints should be available:
 
-* http://traefik.companies-and-products.localhost (Reverse proxy, the entry point of all the HTTP requests)
-* http://companies-and-products.localhost (Web application)
-* http://api.companies-and-products.localhost (API)
-* http://phpmyadmin.companies-and-products.localhost (phpMyAdmin, a web interface for your MySQL database)
-* http://minio.companies-and-products.localhost (S3 compatible storage)
-* http://mailhog.companies-and-products.localhost (Emails catcher)
+* http://traefik.symfony-boilerplate.localhost (Reverse proxy, the entry point of all the HTTP requests)
+* http://symfony-boilerplate.localhost (Web application)
+* http://api.symfony-boilerplate.localhost (API)
+* http://phpmyadmin.symfony-boilerplate.localhost (phpMyAdmin, a web interface for your MySQL database)
+* http://minio.symfony-boilerplate.localhost (S3 compatible storage)
+* http://mailhog.symfony-boilerplate.localhost (Emails catcher)
 
 > Update the domain with the one used in your project.
 

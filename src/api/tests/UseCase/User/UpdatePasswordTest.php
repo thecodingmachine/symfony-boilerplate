@@ -24,9 +24,9 @@ beforeEach(function (): void {
     $user = new User(
         'foo',
         'bar',
-        'merchant@foo.com',
+        'foo.bar@foo.com',
         Locale::EN(),
-        Role::MERCHANT()
+        Role::ADMINISTRATOR()
     );
     $userDao->save($user);
 

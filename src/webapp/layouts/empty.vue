@@ -1,5 +1,17 @@
 <template>
-  <div style="height: 100vh">
+  <b-overlay
+    :show="isGlobalOverlayActive"
+    spinner-variant="primary"
+    rounded="sm"
+  >
     <Nuxt />
-  </div>
+  </b-overlay>
 </template>
+
+<script>
+import { GlobalOverlay } from '@/mixins/global-overlay'
+
+export default {
+  mixins: [GlobalOverlay],
+}
+</script>

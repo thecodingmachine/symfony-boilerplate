@@ -6,40 +6,40 @@ namespace App\UseCase\User;
 
 use App\Domain\Dao\UserDao;
 use App\Domain\Model\User;
-use App\UseCase\Company\DeleteCompany;
+use App\Domain\Storage\ProfilePictureStorage;
 use TheCodingMachine\GraphQLite\Annotations\Logged;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
 use TheCodingMachine\GraphQLite\Annotations\Security;
 
 final class DeleteUser
 {
-    private DeleteCompany $deleteCompany;
     private UserDao $userDao;
+    private ProfilePictureStorage $profilePictureStorage;
 
     public function __construct(
-        DeleteCompany $deleteCompany,
-        UserDao $userDao
+        UserDao $userDao,
+        ProfilePictureStorage $profilePictureStorage
     ) {
-        $this->deleteCompany = $deleteCompany;
-        $this->userDao       = $userDao;
+        $this->userDao               = $userDao;
+        $this->profilePictureStorage = $profilePictureStorage;
     }
 
     /**
      * @Mutation
      * @Logged
-     * @Security("is_granted('ROLE_ADMINISTRATOR')")
+     * @Security("is_granted('DELETE_USER', user1)")
      */
-    public function deleteUser(User $user): bool
+    public function deleteUser(User $user1): bool
     {
-        // If the user is a merchant, we have to
-        // delete his companies.
-        foreach ($user->getCompanies() as $company) {
-            $this->deleteCompany->deleteCompany($company);
+        // Remove profile picture (if any).
+        $filename = $user1->getProfilePicture();
+        if ($filename !== null) {
+            $this->profilePictureStorage->delete($filename);
         }
 
         // Cascade = true will also delete the reset
         // password token (if any).
-        $this->userDao->delete($user, true);
+        $this->userDao->delete($user1, true);
 
         return true;
     }

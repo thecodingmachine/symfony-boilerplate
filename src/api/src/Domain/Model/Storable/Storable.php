@@ -48,7 +48,10 @@ abstract class Storable
         return $this->resource;
     }
 
-    abstract public function getExtension(): string;
+    public function getExtension(): string
+    {
+        return $this->fileInfo->getExtension();
+    }
 
     /**
      * @param UploadedFileInterface[] $uploadedFiles

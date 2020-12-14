@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
-use TheCodingMachine\TDBM\AlterableResultIterator;
 
 use function Safe\password_hash;
 use function serialize;
@@ -109,16 +108,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     public function getRole(): string
     {
         return parent::getRole();
-    }
-
-    /**
-     * @return Company[]|AlterableResultIterator
-     *
-     * @Field
-     */
-    public function getCompanies(): AlterableResultIterator
-    {
-        return parent::getCompanies();
     }
 
     /**

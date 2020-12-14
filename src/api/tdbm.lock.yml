@@ -1,46 +1,5 @@
 schema:
   tables:
-    companies:
-      comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Type"
-      columns:
-        id:
-          primary_key: true
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "@UUID\n@TheCodingMachine\\GraphQLite\\Annotations\\Field(outputType = \"ID\")"
-        user_id:
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        name:
-          type: string
-          length: 255
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        website:
-          type: string
-          length: 255
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-      indexes:
-        IDX_8244AA3AA76ED395:
-          column: user_id
-          lengths:
-            - null
-        name:
-          column: name
-          unique: true
-          lengths:
-            - null
-      foreign_keys:
-        FK_8244AA3AA76ED395:
-          column: user_id
-          references: users
-          onDelete: null
-          onUpdate: null
     doctrine_migration_versions:
       columns:
         version:
@@ -52,108 +11,6 @@ schema:
           type: datetime
           length: 0
         execution_time: integer
-    orders:
-      comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Type"
-      columns:
-        id:
-          primary_key: true
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "@UUID\n@TheCodingMachine\\GraphQLite\\Annotations\\Field(outputType = \"ID\")"
-        user_id:
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        product_id:
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        quantity:
-          type: integer
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        unit_price:
-          type: float
-          length: 0
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        invoice:
-          type: string
-          length: 255
-          not_null: true
-          default: tmp
-      indexes:
-        IDX_E52FFDEE4584665A:
-          column: product_id
-          lengths:
-            - null
-        IDX_E52FFDEEA76ED395:
-          column: user_id
-          lengths:
-            - null
-      foreign_keys:
-        FK_E52FFDEE4584665A:
-          column: product_id
-          references: products
-          onDelete: null
-          onUpdate: null
-        FK_E52FFDEEA76ED395:
-          column: user_id
-          references: users
-          onDelete: null
-          onUpdate: null
-    products:
-      comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Type"
-      columns:
-        id:
-          primary_key: true
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "@UUID\n@TheCodingMachine\\GraphQLite\\Annotations\\Field(outputType = \"ID\")"
-        company_id:
-          type: guid
-          fixed: true
-          length: 36
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        name:
-          type: string
-          length: 255
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        price:
-          type: float
-          length: 0
-          not_null: true
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-        pictures:
-          type: array
-          length: 0
-          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
-      indexes:
-        IDX_B3BA5A5A979B1AD6:
-          column: company_id
-          lengths:
-            - null
-        name:
-          column: name
-          unique: true
-          lengths:
-            - null
-      foreign_keys:
-        FK_B3BA5A5A979B1AD6:
-          column: company_id
-          references: companies
-          onDelete: null
-          onUpdate: null
     reset_password_tokens:
       comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Type"
       columns:
@@ -230,6 +87,10 @@ schema:
           type: string
           length: 2
           not_null: true
+          comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
+        profile_picture:
+          type: string
+          length: 255
           comment: "\n@TheCodingMachine\\GraphQLite\\Annotations\\Field"
         role:
           type: string

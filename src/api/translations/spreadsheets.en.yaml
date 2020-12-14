@@ -9,5 +9,4 @@ users:
   values:
     roles:
       administrator: "Administrator"
-      merchant: "Merchant"
-      client: "Client"
+      user: "User"

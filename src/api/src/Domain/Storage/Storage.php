@@ -40,7 +40,7 @@ abstract class Storage
      *
      * @throws InvalidStorable
      */
-    protected function validateAll(array $storables): void
+    public function validateAll(array $storables): void
     {
         foreach ($storables as $storable) {
             $this->validate($storable);
@@ -50,7 +50,7 @@ abstract class Storage
     /**
      * @throws InvalidStorable
      */
-    protected function validate(Storable $storable): void
+    public function validate(Storable $storable): void
     {
         $violations = $this->validator->validate($storable);
         InvalidStorable::throwExceptionWithKey($this->getDirectoryName(), $violations);

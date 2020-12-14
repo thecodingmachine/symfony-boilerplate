@@ -1,4 +1,4 @@
-import UpdateLocaleMutation from '@/services/mutations/auth/update_locale.mutation.gql'
+import { UpdateLocaleMutation } from '@/graphql/auth/update_locale.mutation'
 
 export default function ({ app, store, error }) {
   // Set the 'Accept-Language' header default value.
@@ -12,11 +12,15 @@ export default function ({ app, store, error }) {
 
       // If the user is authenticated, update his locale.
       if (store.getters['auth/isAuthenticated']) {
-        await app.$graphql.request(UpdateLocaleMutation, {
-          locale: mutation.payload.toUpperCase(),
-        })
+        try {
+          await app.$graphql.request(UpdateLocaleMutation, {
+            locale: mutation.payload.toUpperCase(),
+          })
 
-        store.commit('auth/setUserLocale', mutation.payload)
+          store.commit('auth/setUserLocale', mutation.payload)
+        } catch (e) {
+          error(e)
+        }
       }
     }
   })

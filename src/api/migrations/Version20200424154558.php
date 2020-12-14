@@ -30,6 +30,7 @@ final class Version20200424154558 extends AbstractMigration
             ->column('email')->string(255)->notNull()->unique()->graphqlField()
             ->column('password')->string(255)->null()->default(null)
             ->column('locale')->string(2)->notNull()->graphqlField()
+            ->column('profile_picture')->string(255)->null()->default(null)->graphqlField()
             ->column('role')->string(255)->notNull()->graphqlField();
 
         $db->table('reset_password_tokens')

@@ -1,7 +1,7 @@
 // Bootstrap css and overridden var.
-@import "variables";
+@import 'variables';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
-@import "common";
-@import "pages";
+@import 'overrides';
+@import 'layouts';

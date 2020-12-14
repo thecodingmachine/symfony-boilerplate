@@ -1,134 +1,125 @@
 export default {
+  // All translations that you use in different places.
   common: {
-    first_name: 'First name',
-    last_name: 'Last name',
-    email: 'Email',
-    locale: 'Locale',
-    role: 'Role',
+    email: {
+      label: 'Email',
+      label_required: 'Email *',
+      placeholder: 'Enter your email',
+    },
+    submit: 'Submit',
+    retry: 'Retry',
+    create: 'Create',
+    update: 'Update',
+    edit: 'Edit',
+    delete: 'Delete',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    send_email: 'Send email',
+    browse: 'Browse',
+    reset: 'Reset',
+    search: 'Search',
+    export: 'Export',
+    all: 'All',
     multiple_files: {
-      placeholder: 'Choose files or drop them here...',
-      drop_placeholder: 'Drop files here...',
+      placeholder: 'Choose files',
+      drop_placeholder: 'Drop files',
     },
-    browse_files_text: 'Browse',
-    reset_files_button: 'Reset files',
-    delete_button: 'Delete',
+    single_file: {
+      placeholder: 'Choose a file',
+      drop_placeholder: 'Drop file',
+    },
+    user: {
+      first_name: {
+        label: 'First name',
+        label_required: 'First name *',
+        placeholder: 'Enter a first name',
+      },
+      last_name: {
+        label: 'Last name',
+        label_required: 'Last name *',
+        placeholder: 'Enter a last name',
+      },
+      locale: {
+        label: 'Locale',
+        label_required: 'Locale *',
+        select: 'Select a locale',
+      },
+      role: {
+        label: 'Role',
+        label_required: 'Role *',
+        select: 'Select a role',
+        administrator: 'Administrator',
+        user: 'User',
+      },
+      profile_picture: 'Profile picture',
+    },
+    nav: {
+      login: 'Login',
+      logout: 'Logout',
+      my_profile: 'My profil',
+      dashboard: 'Dashboard',
+      administration: 'Administration',
+      users: 'Users',
+    },
+    list: {
+      actions: 'Actions',
+    },
   },
+  // Translations of your components.
   components: {
-    layouts: {
-      header: {
-        administration_link: 'Administration',
-        logout_link: 'Logout',
-        login_link: 'Login',
-      },
-    },
-    pages: {
-      products: {
-        product_card: {
-          from: 'From',
-        },
+    forms: {
+      confirm_delete: {
+        enter_confirm: 'Enter "Confirm"',
+        danger_zone_message:
+          'Warning, this section allows you to carry out dangerous and irremediable actions.',
       },
     },
   },
+  // Translations of your layouts.
   layouts: {
     error: {
-      generic: 'An error occurred',
-      not_found: 'Page not found',
-      access_forbidden: 'Access forbidden',
-      home_page_link: 'Home page',
+      generic_message: 'An error occurred',
+      not_found_message: 'Page not found',
+      access_forbidden_message: 'Access forbidden',
+      home_page: 'Home page',
     },
   },
+  // Translations of your mixins.
   mixins: {
-    roles: {
-      all: 'All',
-      select: 'Select a role',
-      administrator: 'Administrator',
-      merchant: 'Merchant',
-      client: 'Client',
+    generic_toast: {
+      success_message: 'Success 🎉',
     },
   },
+  // Translations of your pages.
   pages: {
-    root: {
-      search: 'Search...',
+    home: {
+      welcome: 'Welcome!',
+      message:
+        'The Symfony Boilerplate provides a dummy application with core concepts and functionalities to help you build a modern web application.',
     },
     login: {
-      form: {
-        email: {
-          label: 'Email',
-          placeholder: 'Enter your email',
-        },
-        password: {
-          label: 'Password',
-          placeholder: 'Enter your password',
-        },
-        error: 'The provided email or password is incorrect.',
-        submit: 'Login',
-        submitting: 'Login...',
-        forgot_password_link: 'I forgot my password',
+      password: {
+        label_required: 'Password *',
+        placeholder: 'Enter your password',
       },
+      error_message: 'The provided email or password is incorrect.',
+      forgot_password: 'I forgot my password',
     },
     reset_password: {
-      login_link: 'Back to login',
-      retry_link: 'Retry',
-      form: {
-        email: {
-          label: 'Email',
-          placeholder: 'Enter your email',
-        },
-        submit: 'Send email',
-        submitting: 'Sending...',
-      },
-      success:
-        'If the address {email} exists in our system, an email has been delivered with instructions to help you change your password.',
+      success_message:
+        'If the address exists in our system, an email has been delivered with instructions to help you change your password.',
     },
     update_password: {
-      form: {
-        new_password: {
-          label: 'New password',
-          placeholder: 'Enter your new password',
-        },
-        password_confirmation: {
-          label: 'Password confirmation',
-          placeholder: 'Enter again your new password',
-        },
-        submit: 'Update',
-        submitting: 'Updating...',
+      new_password: {
+        label_required: 'New password *',
+        placeholder: 'Enter your new password',
       },
-      invalid_token: 'Your token has either expired or is invalid.',
-      retry_link: 'Retry',
-      success: 'Your password has been updated.',
-      login_link: 'Login',
-    },
-    products: {
-      form: {
-        name: {
-          label: 'Name',
-          placeholder: 'Enter a name',
-        },
-        price: {
-          label: 'Price',
-          placeholder: 'Enter a price',
-        },
-        pictures: {
-          label: 'Pictures',
-        },
-        new_pictures: {
-          label: 'New pictures',
-        },
-        create_submit: 'Create product',
-        create_submitting: 'Creating...',
-        update_submit: 'Update product',
-        update_submitting: 'Updating...',
+      password_confirmation: {
+        label_required: 'Password confirmation *',
+        placeholder: 'Enter again your new password',
       },
-    },
-    admin: {
-      users: {
-        title: 'Users list',
-        form: {
-          search: 'Search...',
-          role: 'Role',
-          export: 'Export',
-        },
-      },
+      invalid_token_message: 'Your token has either expired or is invalid.',
+      success_message: 'Your password has been updated.',
     },
   },
 }
