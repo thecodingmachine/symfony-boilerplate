@@ -31,7 +31,7 @@ We separate the source code into three namespaces:
 :::note
 
 📣&nbsp;&nbsp;The boilerplate provides the [Deptrac](https://github.com/sensiolabs-de/deptrac) tool to enforce where you
-should put your classes. More on that subject in the [Static Analysis](/docs/api/static-analysis) chapter.
+should put your classes. More on that subject in the [Static Analysis](/docs/static-analysis/api) chapter.
 
 :::
 
@@ -79,7 +79,7 @@ Then you'll call your `ResetPassword` use case.
 
 :::note
 
-📣&nbsp;&nbsp;The use cases are also our GraphQL endpoints. See the [GraphQL](/docs/guides/graphql) guide.
+📣&nbsp;&nbsp;The use cases are also our GraphQL endpoints. See the [GraphQL](/docs/graphql) guide.
 
 :::
 
