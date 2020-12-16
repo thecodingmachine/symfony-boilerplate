@@ -6,6 +6,8 @@ slug: /
 The Symfony Boilerplate provides a dummy application with core concepts and functionalities to help you build 
 a modern web application.
 
+![Users page](/img/users_page.png)
+
 Many services compose this boilerplate.
 
 ## Application Layer
