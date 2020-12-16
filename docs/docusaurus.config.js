@@ -7,7 +7,6 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'thecodingmachine', // Usually your GitHub org/user name.
   projectName: 'symfony-boilerplate', // Usually your repo name.
-  plugins: ['@docusaurus/plugin-google-analytics'],
   themeConfig: {
     googleAnalytics: {
       trackingID: 'G-ZGCNWVF92C',
