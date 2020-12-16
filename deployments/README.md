@@ -1,1 +1,1 @@
-> Put here your deployments' guidelines (see [examples](examples)).
+> Put here your deployments' guidelines.

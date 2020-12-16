@@ -8,7 +8,7 @@ a modern web application.
 
 Many services compose this boilerplate.
 
-## Application layer
+## Application Layer
 
 This layer has two services:
 
@@ -16,7 +16,7 @@ This layer has two services:
 [GraphQLite](https://graphqlite.thecodingmachine.io/).
 2. The Web Application, built with [Nuxt.js](https://nuxtjs.org).
 
-## Data layer
+## Data Layer
 
 This layer has 3 services:
 
@@ -30,10 +30,16 @@ This layer has 3 services:
 
 :::
 
-## Additional services
+## Additional Services
 
 These services are mostly useful in development:
 
 1. [Traefik](https://doc.traefik.io/traefik/), a reverse proxy.
 2. [MailHog](https://github.com/mailhog/MailHog), an email trapper with a web UI.
 3. phpMyAdmin, a web UI for displaying your database's data.
+
+:::note
+
+📣&nbsp;&nbsp;In production, you may externalize them to the equivalent services from your provider.
+
+:::

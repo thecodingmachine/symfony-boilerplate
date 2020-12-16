@@ -15,11 +15,11 @@ You should update to the latest minor/majors version whenever a new version is a
 
 See [Symfony releases](https://symfony.com/releases).
 
-## Minor versions
+## Minor Versions
 
 See https://symfony.com/doc/current/setup/upgrade_minor.html.
 
-## Major versions
+## Major Versions
 
 See https://symfony.com/doc/current/setup/upgrade_major.html.
 

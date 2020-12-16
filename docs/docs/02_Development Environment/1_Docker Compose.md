@@ -72,7 +72,7 @@ in the *.env.dist* template.
 The existing services might not be enough for your use cases.
 You may therefore add new services to your *docker-compose.yml* file.
 
-### Application layer
+### Application Layer
 
 ```yaml title="docker-compose.yml"
 services:
@@ -97,7 +97,7 @@ services:
 
 :::
 
-### Data layer
+### Data Layer
 
 ```yaml title="docker-compose.yml"
 services:
@@ -115,7 +115,7 @@ volumes:
         driver: local
 ```
 
-## Extend a Docker image
+## Extend a Docker Image
 
 You might need to extend a Docker image for installing one or more packages.
 
