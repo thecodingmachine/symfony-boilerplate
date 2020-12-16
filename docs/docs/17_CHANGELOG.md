@@ -1,4 +1,0 @@
----
-title: CHANGELOG
-slug: /changelog
----
