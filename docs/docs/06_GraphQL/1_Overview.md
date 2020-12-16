@@ -10,11 +10,43 @@ slug: /graphql
 >
 > -- <cite>[graphql.org](https://graphql.org/)</cite>
 
+## API
+
 The Symfony Boilerplate uses [GraphQLite](https://graphqlite.thecodingmachine.io/) to quickly build a GraphQL API based
 on your models and use cases.
 
 As the documentation of this PHP library covers a lot of aspects, we invite you to read it to have a better understanding
 of its functionalities.
+
+## Client
+
+The Symfony Boilerplate uses [graphql-request](https://github.com/prisma-labs/graphql-request) client.
+
+It is available in a Vue component thanks to `this.$graphql`.
+
+Queries and mutations are JavaScript files. For instance:
+
+```js title="src/webapp/graphql/auth/me.query.js"
+import { gql } from 'graphql-request'
+import { MeFragment } from '@/graphql/auth/me.fragment'
+
+export const MeQuery = gql`
+  query me {
+    me {
+      ... on User {
+        ...MeFragment
+      }
+    }
+  }
+  ${MeFragment}
+`
+```
+
+:::note
+
+📣&nbsp;&nbsp;A fragment is useful is you want to fetch the same data in many queries and mutations.
+
+:::
 
 ## Tools
 
