@@ -66,7 +66,7 @@ public function getDescription() : string
 }
 ```
 
-And throw the following exception the `down` method:
+And throw the following exception in the `down` method:
 
 ```php
 public function down(Schema $schema) : void

@@ -221,7 +221,7 @@ It comes in two parts:
 
 #### GraphQL
 
-For instance, let's examine the following scenario: an administrator can delete a user, but only not if he is that user:
+For instance, let's examine the following scenario: an administrator can delete a user, but cannot delete himself:
 
 ```php title="src/api/src/UseCase/Product/UpdateProduct.php"
 use TheCodingMachine\GraphQLite\Annotations\Logged;
