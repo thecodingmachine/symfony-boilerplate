@@ -51,22 +51,31 @@ your *docker-compose.yml* file.
 
 ### Parameters
 
-If you need the value of an environment variable in your code, use the Symfony parameters.
+If you need the value of an environment variable in your code, use the Symfony parameters and dependency injection
+to inject the parameter into your service.
 
 For instance:
 
 ```yaml title="src/api/config/services.yaml"
 parameters:
-    app.foo: : '%env(FOO)%'
+    app.foo: '%env(FOO)%'
+    
+services:
+    App\UseCase\MyUseCase:
+        arguments:
+            $foo: %app.foo%
 ```
 
 ```php
-# A class.
-private string $foo;
+namespace App\UseCase;
 
-public function __construct(
-    ParameterBagInterface $parameters
-) {
-    $this->foo = $parameters->get('app.foo');
+class MyUseCase {
+    private string $foo;
+
+    public function __construct(
+        string $foo
+    ) {
+        $this->foo = $foo;
+    }
 }
 ```
