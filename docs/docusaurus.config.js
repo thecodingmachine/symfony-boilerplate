@@ -8,6 +8,11 @@ module.exports = {
   organizationName: 'thecodingmachine', // Usually your GitHub org/user name.
   projectName: 'symfony-boilerplate', // Usually your repo name.
   themeConfig: {
+    googleAnalytics: {
+      trackingID: 'G-ZGCNWVF92C',
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
@@ -49,13 +54,6 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
-        },
-        themeConfig: {
-          googleAnalytics: {
-            trackingID: 'G-ZGCNWVF92C',
-            // Optional fields.
-            anonymizeIP: true, // Should IPs be anonymized?
-          },
         },
       },
     ],
