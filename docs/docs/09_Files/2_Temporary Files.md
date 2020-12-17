@@ -16,11 +16,16 @@ use function Safe\unlink;
 
 protected function createResponseWithXLSXAttachment(string $filename, Xlsx $xlsx): Response
 {
-    $tmpFilename = Uuid::uuid4()->toString() . '.xlsx';
-    $xlsx->save($tmpFilename);
-    $fileContent = file_get_contents($tmpFilename); // Get the file content.
-    unlink($tmpFilename); // Delete the file.
-
+    try {
+        $tmpFilename = Uuid::uuid4()->toString() . '.xlsx';
+        $xlsx->save($tmpFilename);
+        $fileContent = file_get_contents($tmpFilename); // Get the file content.
+    } finally {
+        if (file_exists($tmpFilename)) {
+            unlink($tmpFilename); // Delete the file.
+        }
+    }
+    
     return $this->createResponseWithAttachment(
         $filename,
         $fileContent
