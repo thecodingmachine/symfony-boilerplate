@@ -16,7 +16,7 @@ stages:
 
 api_tests:
   stage: tests
-  image: thecodingmachine/php:7.4-v3-apache
+  image: thecodingmachine/php:7.4-v3-cli
   services:
     - name: mysql:8.0
       command: ["--default-authentication-plugin=mysql_native_password"]
