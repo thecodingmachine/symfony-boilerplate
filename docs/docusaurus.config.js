@@ -50,10 +50,12 @@ module.exports = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        googleAnalytics: {
-          trackingID: 'G-ZGCNWVF92C',
-          // Optional fields.
-          anonymizeIP: true, // Should IPs be anonymized?
+        themeConfig: {
+          googleAnalytics: {
+            trackingID: 'G-ZGCNWVF92C',
+            // Optional fields.
+            anonymizeIP: true, // Should IPs be anonymized?
+          },
         },
       },
     ],
