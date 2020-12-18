@@ -76,8 +76,8 @@ import { UpdateProfilePictureMutation } from '@/graphql/users/update_profile_pic
 
 export default {
   components: { FilesList, ErrorsList },
-  layout: 'dashboard',
   mixins: [Form, Auth, Roles, Images, GlobalOverlay],
+  layout: 'dashboard',
   middleware: ['redirect-if-not-authenticated'],
   data() {
     return {

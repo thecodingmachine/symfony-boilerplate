@@ -82,8 +82,8 @@ import { UpdatePasswordMutation } from '@/graphql/auth/update_password.mutation'
 
 export default {
   components: { ErrorsList },
-  layout: 'card',
   mixins: [Form, GlobalOverlay],
+  layout: 'card',
   middleware: ['redirect-if-authenticated'],
   async asyncData(context) {
     try {

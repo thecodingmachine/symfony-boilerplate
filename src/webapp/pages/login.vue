@@ -55,8 +55,8 @@ import { LoginMutation } from '@/graphql/auth/login.mutation'
 import { Auth } from '@/mixins/auth'
 
 export default {
-  layout: 'card',
   mixins: [Auth, Form, GlobalOverlay],
+  layout: 'card',
   middleware: ['redirect-if-authenticated'],
   data() {
     return {

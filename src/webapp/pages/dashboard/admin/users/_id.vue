@@ -162,8 +162,8 @@ import ConfirmDelete from '@/components/forms/ConfirmDelete'
 
 export default {
   components: { ConfirmDelete, FilesList, ErrorsList },
-  layout: 'dashboard',
   mixins: [Form, Roles, Locales, GlobalOverlay, Auth, Images, GenericToast],
+  layout: 'dashboard',
   async asyncData(context) {
     try {
       const result = await context.app.$graphql.request(UserQuery, {

@@ -62,9 +62,9 @@ import { Form } from '@/mixins/form'
 import { ResetPasswordMutation } from '@/graphql/auth/reset_password.mutation'
 
 export default {
-  layout: 'card',
   components: { ErrorsList },
   mixins: [Form, GlobalOverlay],
+  layout: 'card',
   middleware: ['redirect-if-authenticated'],
   data() {
     return {

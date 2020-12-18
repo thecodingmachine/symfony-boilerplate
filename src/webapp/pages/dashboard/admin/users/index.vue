@@ -111,8 +111,8 @@ import { UsersQuery } from '@/graphql/users/users.query'
 import { Images } from '@/mixins/images'
 
 export default {
-  layout: 'dashboard',
   mixins: [Form, List, Roles, Images],
+  layout: 'dashboard',
   async asyncData(context) {
     try {
       const result = await context.app.$graphql.request(UsersQuery, {

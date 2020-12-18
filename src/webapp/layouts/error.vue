@@ -52,13 +52,13 @@ import { Auth } from '@/mixins/auth'
 
 export default {
   mixins: [Auth, GlobalOverlay],
+  layout: 'empty',
   props: {
     error: {
       type: Object,
       required: true,
     },
   },
-  layout: 'empty',
   data() {
     return {
       displayErrorHTML: false,
