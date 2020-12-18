@@ -15,11 +15,11 @@ You should update to the latest minor/majors version whenever a new version is a
 
 See [Symfony releases](https://symfony.com/releases).
 
-## Minor Versions
+### Minor Versions
 
 See https://symfony.com/doc/current/setup/upgrade_minor.html.
 
-## Major Versions
+### Major Versions
 
 See https://symfony.com/doc/current/setup/upgrade_major.html.
 
@@ -28,3 +28,11 @@ See https://symfony.com/doc/current/setup/upgrade_major.html.
 📣&nbsp;&nbsp;Make sure your Symfony bundles are ready before updating.
 
 :::
+
+## Composer
+
+To show the list of direct outdated dependencies, run:
+
+```bash title="console"
+composer outdated --direct
+```
