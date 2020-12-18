@@ -5,12 +5,6 @@
     "beberlei/porpaginas": {
         "version": "v1.2"
     },
-    "brain-diminished/schema-version-control": {
-        "version": "dev-master"
-    },
-    "brick/math": {
-        "version": "0.9.1"
-    },
     "clue/graph": {
         "version": "v0.9.1"
     },
@@ -50,7 +44,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "2.0",
-            "ref": "a9f2463b9f73efe74482f831f03a204a41328555"
+            "ref": "368794356c1fb634e58b38ad2addb36933f2e73e"
         },
         "files": [
             "config/packages/doctrine.yaml",
@@ -93,14 +87,11 @@
     "doctrine/persistence": {
         "version": "1.3.7"
     },
-    "doctrine/reflection": {
-        "version": "1.2.1"
-    },
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
     "ecodev/graphql-upload": {
-        "version": "4.1.0"
+        "version": "5.0.0"
     },
     "egulias/email-validator": {
         "version": "2.1.17"
@@ -117,11 +108,11 @@
     "facade/ignition-contracts": {
         "version": "1.0.0"
     },
+    "fakerphp/faker": {
+        "version": "v1.12.1"
+    },
     "filp/whoops": {
         "version": "2.7.2"
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
     },
     "graphp/algorithms": {
         "version": "v0.8.2"
@@ -289,6 +280,9 @@
     "pestphp/pest-plugin-coverage": {
         "version": "v0.3.0"
     },
+    "pestphp/pest-plugin-expectations": {
+        "version": "v0.3.2"
+    },
     "pestphp/pest-plugin-init": {
         "version": "v0.3.0"
     },
@@ -346,7 +340,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.7",
-            "ref": "00fdb38c318774cd39f475a753028a5e8d25d47c"
+            "ref": "477e1387616f39505ba79715f43f124836020d71"
         },
         "files": [
             ".env.test",
@@ -386,9 +380,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "ramsey/collection": {
-        "version": "1.1.1"
     },
     "ramsey/uuid": {
         "version": "3.9.3"
@@ -580,17 +571,18 @@
         ]
     },
     "symfony/framework-bundle": {
-        "version": "5.1",
+        "version": "5.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.1",
-            "ref": "20148abf61a454d2c045931d20e6418c729a675a"
+            "version": "5.2",
+            "ref": "6ec87563dcc85cd0c48856dcfbfc29610506d250"
         },
         "files": [
             "config/packages/cache.yaml",
             "config/packages/framework.yaml",
             "config/packages/test/framework.yaml",
+            "config/preload.php",
             "config/routes/dev/framework.yaml",
             "config/services.yaml",
             "public/index.php",
@@ -628,7 +620,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.3",
-            "ref": "8a2675c061737658bed85102e9241c752620e575"
+            "ref": "e9a414b113ceadbf4e52abe37bf8f1b443f06ccb"
         },
         "files": [
             "config/packages/messenger.yaml"
