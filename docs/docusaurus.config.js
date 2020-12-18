@@ -9,7 +9,7 @@ module.exports = {
   projectName: 'symfony-boilerplate', // Usually your repo name.
   themeConfig: {
     googleAnalytics: {
-      trackingID: 'G-ZGCNWVF92C',
+      trackingID: 'UA-10196481-13',
       // Optional fields.
       anonymizeIP: true, // Should IPs be anonymized?
     },
