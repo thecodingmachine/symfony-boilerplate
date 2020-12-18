@@ -73,7 +73,7 @@ We initialize these values with empty strings or `null` for the profile picture.
 
 **Getters:** *src/webapp/store/auth/getters.js*
 
-* `isAuthenticated`: it returns `true` if the `user`'s `email` property from the state is empty. It might return `true`
+* `isAuthenticated`: it returns `true` if the `user`'s `email` property from the state is not empty. It might return `true`
 even if the user has no more session in the API, but we will see below how to handle such a case.
 * `isGranted`: it returns `true` if the user has the authorization level of the given role.
 

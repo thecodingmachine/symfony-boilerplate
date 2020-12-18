@@ -35,7 +35,7 @@ public function getDescription() : string
 }
 ```
 
-And throw the following exception the `down` method:
+And throw the following exception in the `down` method:
 
 ```php
 public function down(Schema $schema) : void
@@ -82,7 +82,7 @@ a new migration.
 
 :::note
 
-📣&nbsp;&nbsp;You should **only** do that if a remote environment like your production did not already apply the migration.
+📣&nbsp;&nbsp;**Do not** edit a migration if a remote environment like your production did apply the migration.
 
 :::
 
@@ -110,7 +110,7 @@ php bin/console doctrine:migrations:migrate -n
 
 :::note
 
-📣&nbsp;&nbsp;Reminder: you should **only** do that if a remote environment like your production did not already 
-apply the migration.
+📣&nbsp;&nbsp;Reminder: **Do not** edit a migration if a remote environment like your production did apply the migration. 
+
 
 :::

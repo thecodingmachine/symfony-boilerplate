@@ -152,7 +152,7 @@ Let's take a look at the `CreateXLSXExport` use case:
 public function create(string $locale, array $headerIds, array $values): Xlsx
 ```
 
-The method `create` takes, among other arguments, a locale. It will use it to translates the spreadsheet's headers
+The method `create` takes, among other arguments, a locale. It will use it to translate the spreadsheet's headers
 accordingly.
 
 For values, you should translate them directly in your use cases before calling the `create` method.
