@@ -534,6 +534,10 @@ before recreating the `webapp` service with `docker-compose up -d --force webapp
 
 Enter the `webapp` service (`make webapp`) and run `yarn lint:fix`.
 
+### Development Environment
+
+In the *Makefile*, update the value of `VAGRANT_DOCKER_COMPOSE_VERSION` from `1.27.3` to `1.27.4`.
+
 ## 0.1.1
 
 ### API
