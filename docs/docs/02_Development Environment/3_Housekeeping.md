@@ -3,12 +3,6 @@ title: Housekeeping
 slug: /development-environment/housekeeping
 ---
 
-This documentation will help you to keep everything up-to-date.
-
-Please read it carefully, as those actions will ensure your project is still relevant year after year.
-
-👉&nbsp;&nbsp;The sooner, the better!
-
 ## Docker and Docker compose
 
 Make sure you always use the latest versions of Docker and Docker Compose.
@@ -22,7 +16,7 @@ and [Docker Compose](https://docs.docker.com/compose/install/#install-compose-on
 
 ### Vagrant
 
-For Vagrant users, you should update the variable `DOCKER_COMPOSE_VERSION` from the *Makefile* and run:
+For Vagrant users, update the variable `VAGRANT_DOCKER_COMPOSE_VERSION` from the *.env* file and run:
 
 ```bash title="console"
 # If the VM is running.
@@ -40,6 +34,12 @@ docker-compose --version
 ```
 
 It will re-create the Vagrant VM with the latest versions of Docker and Docker Compose.
+
+:::note
+
+📣&nbsp;&nbsp;Don't forget to update the *.env.dist* file for your colleagues too 😉
+
+:::
 
 ### Docker Compose file
 
@@ -72,8 +72,8 @@ For VirtualBox, open the application, it should tell you to download the newer v
 
 :::note
 
-📣&nbsp;&nbsp;From time to time, you may also update the `VAGRANT_BOX` variable from the *Makefile*
+📣&nbsp;&nbsp;From time to time, you may also update the `VAGRANT_BOX` variable from the *.env* file (and from *env.dist*)
 with a newer [Ubuntu box](https://app.vagrantup.com/bento). The update process for Vagrant users is the same as updating
-the variable `DOCKER_COMPOSE_VERSION`.
+the variable `VAGRANT_DOCKER_COMPOSE_VERSION`.
 
 :::
