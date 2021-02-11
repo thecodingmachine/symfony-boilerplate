@@ -10,12 +10,12 @@ They will help you set up a complete development environment close to your targe
 
 ## Usage
 
-* 🚀&nbsp;&nbsp;`make up`: starts the Docker Compose stack.
-* 🚦&nbsp;&nbsp;`make down`: stops the Docker Compose stack.
-* 🚇&nbsp;&nbsp;`make api`: runs `bash` in the `api` service.
-* 🚇&nbsp;&nbsp;`make webapp`: runs `bash` in the `webapp` service.
-* 📚&nbsp;&nbsp;`docker-compose logs -f`: displays the logs of **all** your services.
-* 📘&nbsp;&nbsp;`docker-compose logs -f [SERVICE_NAME]` displays the logs of one service.
+* 🚀&nbsp;&nbsp;`make up` - starts the Docker Compose stack.
+* 🚦&nbsp;&nbsp;`make down` - stops the Docker Compose stack.
+* 🚇&nbsp;&nbsp;`make api` - runs `bash` in the `api` service.
+* 🚇&nbsp;&nbsp;`make webapp` - runs `bash` in the `webapp` service.
+* 📚&nbsp;&nbsp;`docker-compose logs -f` - displays the logs of **all** your services.
+* 📘&nbsp;&nbsp;`docker-compose logs -f [SERVICE_NAME]` - displays the logs of one service.
 
 ## Configuration
 

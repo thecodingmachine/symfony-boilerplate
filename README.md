@@ -103,8 +103,8 @@ Next, check there is no application running on port 80 (like Apache or another v
 If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
 From here, you'll be able to run all the next commands like Linux users!
 
-> Update the variable `VAGRANT_PROJECT_NAME` from the [Makefile](Makefile) with your project name.
-> Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
+> Update the variable `VAGRANT_PROJECT_NAME` from the [.env](.env) and [.env.dist](.env.dist) files with 
+> your project name. Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
 
 ---
 
