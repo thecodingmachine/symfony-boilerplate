@@ -4,7 +4,7 @@ version: '3.4'
 services:
 
   traefik:
-    image: traefik:2.2
+    image: traefik:2.4
     command:
       - --providers.docker
       - --providers.docker.exposedByDefault=false
@@ -21,7 +21,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   webapp:
-    image: thecodingmachine/nodejs:12
+    image: thecodingmachine/nodejs:14
     labels:
       - traefik.enable=true
       - traefik.http.routers.webapp_router.rule=Host(`$DOMAIN`)
@@ -63,7 +63,7 @@ services:
       - ./src/webapp:/usr/src/app
 
   api:
-    image: thecodingmachine/php:7.4-v3-apache
+    image: thecodingmachine/php:7.4-v4-apache
     labels:
       - traefik.enable=true
       - traefik.http.routers.api_router.rule=Host(`$API_SUBDOMAIN.$DOMAIN`)
