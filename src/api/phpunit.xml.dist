@@ -3,7 +3,6 @@
 <!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
          colors="true"
          bootstrap="tests/bootstrap.php"
 >
@@ -15,13 +14,6 @@
         <server name="KERNEL_CLASS" value="App\Kernel" />
         <server name="STORAGE_PUBLIC_SOURCE" value="public.storage.memory" force="true" />
         <server name="STORAGE_PRIVATE_SOURCE" value="private.storage.memory" force="true" />
-
-        <!-- ###+ symfony/messenger ### -->
-        <!-- Choose one of the transports below -->
-        <!-- MESSENGER_TRANSPORT_DSN=doctrine://default -->
-        <!-- MESSENGER_TRANSPORT_DSN=amqp://guest:guest@localhost:5672/%2f/messages -->
-        <!-- MESSENGER_TRANSPORT_DSN=redis://localhost:6379/messages -->
-        <!-- ###- symfony/messenger ### -->
     </php>
 
     <testsuites>
@@ -30,25 +22,24 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-            <exclude>
-                <directory>src/Kernel.php</directory>
-                <directory>src/Domain/Model/Generated</directory>
-                <directory>src/Domain/Dao/Generated</directory>
-                <directory>src/Domain/ResultIterator/Generated</directory>
-                <directory>src/Infrastructure/Command/DevFixturesCommand.php</directory>
-                <directory>src/Infrastructure/Command/InitializeMinIOStorageCommand.php</directory>
-                <directory>src/Infrastructure/EventSubscriber</directory>
-                <directory>src/Infrastructure/Fixtures</directory>
-                <directory>src/Infrastructure/S3</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-html" target="coverage"/>
-        <log type="coverage-text" target="php://stdout"/>
-    </logging>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <directory>./src/Kernel.php</directory>
+            <directory>./src/Domain/Model/Generated</directory>
+            <directory>./src/Domain/Dao/Generated</directory>
+            <directory>./src/Domain/ResultIterator/Generated</directory>
+            <directory>./src/Infrastructure/Command/DevFixturesCommand.php</directory>
+            <directory>./src/Infrastructure/Command/InitializeMinIOStorageCommand.php</directory>
+            <directory>./src/Infrastructure/EventSubscriber</directory>
+            <directory>./src/Infrastructure/Fixtures</directory>
+            <directory>./src/Infrastructure/S3</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage" />
+            <text outputFile="php://stdout" />
+        </report>
+    </coverage>
 </phpunit>

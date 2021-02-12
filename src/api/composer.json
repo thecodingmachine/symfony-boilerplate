@@ -61,7 +61,7 @@
         "ergebnis/composer-normalize": "^2.8",
         "fakerphp/faker": "^1.12",
         "pepakriz/phpstan-exception-rules": "^0.11.1",
-        "pestphp/pest": "^0.3.1",
+        "pestphp/pest": "^1.0",
         "phpstan/phpstan": "^0.12.19",
         "phpunit/phpunit": "^9.0",
         "sensiolabs-de/deptrac-shim": "^0.10.2",
@@ -109,7 +109,7 @@
         "cscheck": "phpcs",
         "csfix": "phpcbf",
         "deptrac": "deptrac",
-        "pest": "pest --coverage",
+        "pest": "XDEBUG_MODE=coverage pest --coverage",
         "phpstan": "phpstan analyse src/ -c phpstan.neon --level=max --no-progress -vvv --memory-limit=1024M",
         "yaml-lint": "yaml-lint config translations"
     }
