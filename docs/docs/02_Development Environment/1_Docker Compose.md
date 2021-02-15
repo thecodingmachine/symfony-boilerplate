@@ -122,7 +122,7 @@ You might need to extend a Docker image for installing one or more packages.
 For instance, let's say you want to install the `pdftk` package for the API:
 
 ```dockerfile title="src/api/Dockerfile"
-FROM thecodingmachine/php:7.4-v3-apache AS extended
+FROM thecodingmachine/php:7.4-v4-apache AS extended
 
 # Always use the root user for installing packages.
 USER root
@@ -141,7 +141,7 @@ FROM extended
 
 ```yaml title="docker-compose.yml"
 api:
-  #image: thecodingmachine/php:7.4-v3-apache
+  #image: thecodingmachine/php:7.4-v4-apache
   build:
     context: "./src/api"
     target: "extended"

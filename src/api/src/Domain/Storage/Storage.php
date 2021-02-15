@@ -6,8 +6,7 @@ namespace App\Domain\Storage;
 
 use App\Domain\Model\Storable\Storable;
 use App\Domain\Throwable\InvalidStorable;
-use League\Flysystem\FilesystemInterface;
-use RuntimeException;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Throwable;
@@ -16,12 +15,12 @@ abstract class Storage
 {
     protected ParameterBagInterface $parameters;
     protected ValidatorInterface $validator;
-    protected FilesystemInterface $storage;
+    protected FilesystemOperator $storage;
 
     public function __construct(
         ParameterBagInterface $parameters,
         ValidatorInterface $validator,
-        FilesystemInterface $storage
+        FilesystemOperator $storage
     ) {
         $this->parameters = $parameters;
         $this->validator  = $validator;
@@ -98,20 +97,13 @@ abstract class Storage
 
         $filename = $storable->getFilename();
         $path     = $this->getPath($filename);
-        $result   = $this->storage->putStream(
+
+        $this->storage->writeStream(
             $path,
             $storable->getResource()
         );
 
-        if ($result === true) {
-            return $filename;
-        }
-
-        throw new RuntimeException(
-            'Failed to store "' .
-            $path .
-            '"'
-        );
+        return $filename;
     }
 
     /**
@@ -126,40 +118,21 @@ abstract class Storage
 
     public function delete(string $filename): void
     {
-        $path   = $this->getPath($filename);
-        $result = $this->storage->delete($path);
-
-        if ($result !== false) {
-            return;
-        }
-
-        throw new RuntimeException(
-            'Failed to delete "' .
-            $path .
-            '"'
-        );
+        $path = $this->getPath($filename);
+        $this->storage->delete($path);
     }
 
     public function fileExists(string $filename): bool
     {
         $path = $this->getPath($filename);
 
-        return $this->storage->has($path);
+        return $this->storage->fileExists($path);
     }
 
     public function getFileContent(string $filename): string
     {
-        $path   = $this->getPath($filename);
-        $result = $this->storage->read($path);
+        $path = $this->getPath($filename);
 
-        if ($result !== false) {
-            return $result;
-        }
-
-        throw new RuntimeException(
-            'Failed to read "' .
-            $path .
-            '"'
-        );
+        return $this->storage->read($path);
     }
 }
