@@ -39,14 +39,19 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # A special kind of formatter that logs the stack traces (otherwise, Symfony logs do not contain stack traces).
+    formatterWithStackTrace:
+        class: Monolog\Formatter\LineFormatter
+        calls:
+            - [ includeStacktraces ]
+
+    # Session storage.
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'
 
-    App\Infrastructure\Command\InitializeS3StorageCommand:
-        arguments:
-            - '@s3.client'
-
+    # Event listeners/subscribers.
     App\Infrastructure\EventListener\NoBeanFoundExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
@@ -55,8 +60,7 @@ services:
         arguments:
             - '%kernel.default_locale%'
 
-    # A special kind of formatter that logs the stack traces (otherwise, Symfony logs do not contain stack traces).
-    formatterWithStackTrace:
-        class: Monolog\Formatter\LineFormatter
-        calls:
-            - [includeStacktraces]
+    # Commands.
+    App\Infrastructure\Command\InitializeS3StorageCommand:
+        arguments:
+            - '@s3.client'
