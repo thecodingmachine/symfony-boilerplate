@@ -57,7 +57,12 @@ For instance:
 
 ```yaml title="src/api/config/services.yaml"
 parameters:
-    app.foo: : '%env(FOO)%'
+    app.foo: '%env(FOO)%'
+    
+services:
+    Your\Class\Foo:
+        arguments:
+            $foo: '%app.foo%'
 ```
 
 ```php
@@ -65,8 +70,8 @@ parameters:
 private string $foo;
 
 public function __construct(
-    ParameterBagInterface $parameters
+    string $foo
 ) {
-    $this->foo = $parameters->get('app.foo');
+    $this->foo = foo;
 }
 ```

@@ -63,4 +63,23 @@ services:
     # Commands.
     App\Infrastructure\Command\InitializeS3StorageCommand:
         arguments:
-            - '@s3.client'
+            $s3Client: '@s3.client'
+            $publicBucket: '%app.storage_public_bucket%'
+            $privateBucket: '%app.storage_private_bucket%'
+            $publicSource: '%app.storage_public_source%'
+            $privateSource: '%app.storage_private_source%'
+
+    # Use cases.
+    App\UseCase\CreateEmail:
+        arguments:
+            $mailTitle: '%app.mail_title%'
+            $mailFromAddress: '%app.mail_from_address%'
+            $mailFromName: '%app.mail_from_name%'
+
+    App\UseCase\User\ResetPassword\CreateResetPasswordEmail:
+        arguments:
+            $mailTitle: '%app.mail_title%'
+            $mailFromAddress: '%app.mail_from_address%'
+            $mailFromName: '%app.mail_from_name%'
+            $mailWebappURL: '%app.mail_webapp_url%'
+            $mailWebappUpdatePasswordRouteFormat: '%app.mail_webapp_update_password_route_format%'

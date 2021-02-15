@@ -6,7 +6,6 @@ namespace App\UseCase;
 
 use App\Domain\Model\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,14 +14,20 @@ use function strval;
 abstract class CreateEmail
 {
     private TranslatorInterface $translator;
-    protected ParameterBagInterface $parameters;
+    private string $mailTitle;
+    private string $mailFromAddress;
+    private string $mailFromName;
 
     public function __construct(
         TranslatorInterface $translator,
-        ParameterBagInterface $parameters
+        string $mailTitle,
+        string $mailFromAddress,
+        string $mailFromName
     ) {
-        $this->translator = $translator;
-        $this->parameters = $parameters;
+        $this->translator      = $translator;
+        $this->mailTitle       = $mailTitle;
+        $this->mailFromAddress = $mailFromAddress;
+        $this->mailFromName    = $mailFromName;
     }
 
     /**
@@ -30,7 +35,7 @@ abstract class CreateEmail
      */
     protected function create(User $user, string $subjectId, string $template, array $context): TemplatedEmail
     {
-        $context['title']  = $this->parameters->get('app.mail_title');
+        $context['title']  = $this->mailTitle;
         $context['domain'] = 'emails';
         $context['locale'] = strval($user->getLocale());
 
@@ -44,7 +49,7 @@ abstract class CreateEmail
 
         $email = (new TemplatedEmail())
             ->to(new Address($user->getEmail(), $user->getFirstName() . ' ' . $user->getLastName()))
-            ->from(new Address($this->parameters->get('app.mail_from_address'), $this->parameters->get('app.mail_from_name')))
+            ->from(new Address($this->mailFromAddress, $this->mailFromName))
             ->subject($translatedSubject)
             ->htmlTemplate($template)
             ->context($context);
