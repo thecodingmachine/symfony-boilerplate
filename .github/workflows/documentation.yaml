@@ -2,9 +2,9 @@ name: documentation
 
 on:
   pull_request:
-    branches: [master]
+    branches: [documentation]
   push:
-    branches: [master]
+    branches: [documentation]
 
 jobs:
   checks:
@@ -17,8 +17,13 @@ jobs:
           node-version: '12.x'
       - name: Test Build
         run: |
-          cd documentation
+          if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
           npm run build
   gh-release:
     if: github.event_name != 'pull_request'
@@ -45,10 +50,14 @@ jobs:
         env:
           USE_SSH: true
           GIT_USER: git
-          DEPLOYMENT_BRANCH: gh-pages
         run: |
           git config --global user.email "actions@gihub.com"
           git config --global user.name "gh-actions"
-          cd docs
+          if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
-          yarn deploy
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npx docusaurus deploy
