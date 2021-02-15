@@ -8,11 +8,28 @@ use App\Domain\Model\ResetPasswordToken;
 use App\Domain\Model\User;
 use App\UseCase\CreateEmail;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function Safe\sprintf;
 
 final class CreateResetPasswordEmail extends CreateEmail
 {
+    private string $mailWebappURL;
+    private string $mailWebappUpdatePasswordRouteFormat;
+
+    public function __construct(
+        TranslatorInterface $translator,
+        string $mailTitle,
+        string $mailFromAddress,
+        string $mailFromName,
+        string $mailWebappURL,
+        string $mailWebappUpdatePasswordRouteFormat
+    ) {
+        parent::__construct($translator, $mailTitle, $mailFromAddress, $mailFromName);
+        $this->mailWebappURL                       = $mailWebappURL;
+        $this->mailWebappUpdatePasswordRouteFormat = $mailWebappUpdatePasswordRouteFormat;
+    }
+
     public function createEmail(
         User $user,
         ResetPasswordToken $resetPasswordToken,
@@ -26,9 +43,9 @@ final class CreateResetPasswordEmail extends CreateEmail
                 'first_name' => $user->getFirstName(),
                 'last_name' => $user->getLastName(),
                 'update_password_url' =>
-                    $this->parameters->get('app.mail_webapp_url') .
+                    $this->mailWebappURL .
                     sprintf(
-                        $this->parameters->get('app.mail_webapp_update_password_route_format'),
+                        $this->mailWebappUpdatePasswordRouteFormat,
                         $user->getLocale(),
                         $resetPasswordToken->getId(),
                         $plainToken

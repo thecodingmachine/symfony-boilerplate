@@ -10,7 +10,6 @@ use Aws\S3\S3MultiRegionClient;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 use function Safe\sprintf;
 
@@ -24,13 +23,16 @@ final class InitializeS3StorageCommand extends Command
 
     public function __construct(
         S3MultiRegionClient $s3Client,
-        ParameterBagInterface $parameters
+        string $publicBucket,
+        string $privateBucket,
+        string $publicSource,
+        string $privateSource
     ) {
         $this->client        = $s3Client;
-        $this->publicBucket  = $parameters->get('app.storage_public_bucket');
-        $this->privateBucket = $parameters->get('app.storage_private_bucket');
-        $this->publicSource  = $parameters->get('app.storage_public_source');
-        $this->privateSource = $parameters->get('app.storage_private_source');
+        $this->publicBucket  = $publicBucket;
+        $this->privateBucket = $privateBucket;
+        $this->publicSource  = $publicSource;
+        $this->privateSource = $privateSource;
 
         parent::__construct('app:init-storage:s3');
     }
