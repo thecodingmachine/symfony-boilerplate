@@ -37,9 +37,10 @@
 <script>
 import { GlobalOverlay } from '@/mixins/global-overlay'
 import LeftMenu from '@/components/layouts/LeftMenu'
+import Header from '@/components/layouts/Header'
 
 export default {
-  components: { LeftMenu },
+  components: { Header, LeftMenu },
   mixins: [GlobalOverlay],
 }
 </script>
