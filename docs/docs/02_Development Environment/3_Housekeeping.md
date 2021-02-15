@@ -3,6 +3,8 @@ title: Housekeeping
 slug: /development-environment/housekeeping
 ---
 
+👉&nbsp;&nbsp;The sooner, the better!
+
 ## Docker and Docker compose
 
 Make sure you always use the latest versions of Docker and Docker Compose.
