@@ -28,13 +28,6 @@ Most of the configuration comes from the following environment variables:
 
 * `MAILER_DSN`: Data Source Name of the emails' server (format: `protocol//user:password@hostname:port`).
 * `MESSENGER_TRANSPORT_DSN`: Data Source Name of the Redis service (format: `protocol//user:password@hostname:port/messages`)
+* `MAIL_TITLE`: the header value to use in the default email template (the application name by default).
 * `MAIL_FROM_ADDRESS`: email address of the sender (usually `no-reply@your-domain.com`).
-* `MAIL_FROM_NAME`: name of the sender (i.e., `MAIL_FROM_NAME<MAIL_FROM_ADDRESS>`).
-
-:::note
-
-📣&nbsp;&nbsp;The Symfony parameters `app.mail_from_address` and `app.mail_from_name` take their values from the last two 
-environment variables. The `CreateEmail` use case reads these parameters to fill the 
-`from` property from the email - more on that in the next chapter.
-
-:::
+* `MAIL_FROM_NAME`: name of the sender (i.e., `MAIL_FROM_NAME <MAIL_FROM_ADDRESS>`).
