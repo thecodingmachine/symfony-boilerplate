@@ -38,8 +38,8 @@
         "symfony/yaml": "*",
         "thecodingmachine/graphqlite-bundle": "^4.1@dev",
         "thecodingmachine/safe": "^1.1",
-        "thecodingmachine/tdbm-bundle": "^5.1",
-        "thecodingmachine/tdbm-graphql-bundle": "^4.0@dev",
+        "thecodingmachine/tdbm-bundle": "^5.2@dev",
+        "thecodingmachine/tdbm-graphql-bundle": "^4.1@dev",
         "twig/cssinliner-extra": "^3.0",
         "twig/extra-bundle": "^3.0",
         "twig/inky-extra": "^3.0"
