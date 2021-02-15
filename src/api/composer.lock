@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c6a44d8dd404796270bfbf71f58aa2d",
+    "content-hash": "3bae934dc61ee371c4f8bd3c4d45565c",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -12538,6 +12538,54 @@
             "time": "2021-02-02T14:45:58+00:00"
         },
         {
+            "name": "qossmic/deptrac-shim",
+            "version": "0.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qossmic/deptrac-shim.git",
+                "reference": "286d048ef23f23579d92940d069b429b134b102d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qossmic/deptrac-shim/zipball/286d048ef23f23579d92940d069b429b134b102d",
+                "reference": "286d048ef23f23579d92940d069b429b134b102d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "ext-zlib": "*",
+                "php": "^7.2 || 8.0.*"
+            },
+            "replace": {
+                "qossmic/deptrac": "self.version"
+            },
+            "suggest": {
+                "ext-dom": "For using the JUnit output formatter"
+            },
+            "bin": [
+                "deptrac"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Mönch",
+                    "email": "simon.moench@qossmic.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "deptrac phar distribution",
+            "support": {
+                "issues": "https://github.com/qossmic/deptrac-shim/issues",
+                "source": "https://github.com/qossmic/deptrac-shim/tree/0.11.1"
+            },
+            "time": "2021-02-09T07:29:49+00:00"
+        },
+        {
             "name": "sebastian/cli-parser",
             "version": "1.0.1",
             "source": {
@@ -13500,51 +13548,6 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
-        },
-        {
-            "name": "sensiolabs-de/deptrac-shim",
-            "version": "0.10.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sensiolabs-de/deptrac-shim.git",
-                "reference": "27b0fa91d3b4e56846d9df11a2c2f3fd0487241b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs-de/deptrac-shim/zipball/27b0fa91d3b4e56846d9df11a2c2f3fd0487241b",
-                "reference": "27b0fa91d3b4e56846d9df11a2c2f3fd0487241b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-tokenizer": "*",
-                "ext-zlib": "*",
-                "php": "^7.2 || 8.0.*"
-            },
-            "replace": {
-                "sensiolabs-de/astrunner": "^1.0",
-                "sensiolabs-de/deptrac": "self.version"
-            },
-            "suggest": {
-                "ext-dom": "For using the JUnit output formatter"
-            },
-            "bin": [
-                "deptrac"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Simon Mönch",
-                    "email": "simon.moench@sensiolabs.de",
-                    "role": "maintainer"
-                }
-            ],
-            "description": "deptrac phar distribution",
-            "time": "2020-12-08T17:09:50+00:00"
         },
         {
             "name": "slevomat/coding-standard",
