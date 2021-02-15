@@ -70,6 +70,12 @@ services:
             $privateSource: '%app.storage_private_source%'
 
     # Use cases.
+    App\UseCase\CreateEmail:
+        arguments:
+            $mailTitle: '%app.mail_title%'
+            $mailFromAddress: '%app.mail_from_address%'
+            $mailFromName: '%app.mail_from_name%'
+
     App\UseCase\User\ResetPassword\CreateResetPasswordEmail:
         arguments:
             $mailTitle: '%app.mail_title%'
