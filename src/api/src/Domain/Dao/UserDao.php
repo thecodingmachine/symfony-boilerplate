@@ -17,6 +17,7 @@ use App\Domain\Model\User;
 use App\Domain\Throwable\InvalidModel;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TheCodingMachine\GraphQLite\Annotations\Factory;
+use TheCodingMachine\GraphQLite\Annotations\HideParameter;
 use TheCodingMachine\TDBM\ResultIterator;
 use TheCodingMachine\TDBM\TDBMService;
 
@@ -35,6 +36,7 @@ class UserDao extends BaseUserDao
 
     /**
      * @Factory
+     * @HideParameter(for="$lazyLoading")
      */
     public function getById(string $id, bool $lazyLoading = false): User
     {
