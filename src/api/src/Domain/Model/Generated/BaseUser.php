@@ -54,7 +54,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "id" column.
      *
      * @return string
-     * @GraphqlField (outputType = "ID")
      */
     public function getId() : string
     {
@@ -75,7 +74,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "first_name" column.
      *
      * @return string
-     * @GraphqlField
      */
     public function getFirstName() : string
     {
@@ -96,7 +94,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "last_name" column.
      *
      * @return string
-     * @GraphqlField
      */
     public function getLastName() : string
     {
@@ -117,7 +114,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "email" column.
      *
      * @return string
-     * @GraphqlField
      */
     public function getEmail() : string
     {
@@ -158,7 +154,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "locale" column.
      *
      * @return string
-     * @GraphqlField
      */
     public function getLocale() : string
     {
@@ -179,7 +174,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "profile_picture" column.
      *
      * @return string|null
-     * @GraphqlField
      */
     public function getProfilePicture() : ?string
     {
@@ -200,7 +194,6 @@ abstract class BaseUser extends \TheCodingMachine\TDBM\AbstractTDBMObject implem
      * The getter for the "role" column.
      *
      * @return string
-     * @GraphqlField
      */
     public function getRole() : string
     {
