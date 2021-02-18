@@ -32,10 +32,10 @@ public function up(Schema $schema): void
     $db = new TdbmFluidSchema($schema);
     
     $db->table('users')
-        ->column('id')->guid()->primaryKey()->comment('@UUID')->graphqlField()
-        ->column('first_name')->string(255)->notNull()->graphqlField()
-        ->column('last_name')->string(255)->notNull()->graphqlField()
-        ->column('email')->string(255)->notNull()->unique()->graphqlField()
+        ->column('id')->guid()->primaryKey()->comment('@UUID')
+        ->column('first_name')->string(255)->notNull()
+        ->column('last_name')->string(255)->notNull()
+        ->column('email')->string(255)->notNull()->unique()
         ->column('password')->string(255)->null()->default(null);
 }
 ```
@@ -46,7 +46,6 @@ Here we are already defining rules:
 * Nullable or not.
 * Default values.
 * Unique values.
-* GraphQL fields (i.e., values available in the GraphQL API).
 
 ### PHP Classes
 
@@ -106,10 +105,8 @@ For instance, let's take a look at the `email` property getter:
 
 ```php title="src/api/src/Domain/Model/User.php"
 use Symfony\Component\Validator\Constraints as Assert;
-use TheCodingMachine\GraphQLite\Annotations\Field;
 
 /**
- * @Field
  * @Assert\NotBlank(message="not_blank")
  * @Assert\Length(max=255, maxMessage="max_length_255")
  * @Assert\Email(message="invalid_email")
@@ -131,13 +128,6 @@ In addition to type hint (non-nullable string), we add three rules:
 📣&nbsp;&nbsp;The message attribute contains a translation key. See the [i18n](/docs/i18n/api) chapter for more
 details.
 
-:::
-
-:::note
-
-📣&nbsp;&nbsp;Don't forget to add the `@Field` annotation if the property should be available in GraphQL. Indeed,
-when overriding a getter, [GraphQLite](https://graphqlite.thecodingmachine.io/) does not parse anymore the annotation 
-from the parent getter.
 :::
 
 You may also add a validation annotation to the class itself:
