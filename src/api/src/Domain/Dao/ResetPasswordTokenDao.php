@@ -9,10 +9,21 @@ declare(strict_types=1);
 namespace App\Domain\Dao;
 
 use App\Domain\Dao\Generated\BaseResetPasswordTokenDao;
+use App\Domain\Model\ResetPasswordToken;
+use TheCodingMachine\GraphQLite\Annotations\Factory;
+use TheCodingMachine\GraphQLite\Annotations\HideParameter;
 
 /**
  * The ResetPasswordTokenDao class will maintain the persistence of ResetPasswordToken class into the reset_password_tokens table.
  */
 class ResetPasswordTokenDao extends BaseResetPasswordTokenDao
 {
+    /**
+     * @Factory
+     * @HideParameter(for="$lazyLoading")
+     */
+    public function getById(string $id, bool $lazyLoading = false): ResetPasswordToken
+    {
+        return parent::getById($id, $lazyLoading);
+    }
 }

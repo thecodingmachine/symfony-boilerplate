@@ -26,7 +26,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Domain/{Throwable,Model}'
+            - '../src/Domain/{Throwable,Model,ResultIterator}'
             - '../src/Infrastructure/S3'
             - '../src/Kernel.php'
             - '../src/Tests/'

@@ -30,7 +30,7 @@ Here the `save` method from the DAO validates the `User` instance. No rocket sci
 
 Now let's say users have an optional profile picture.
 
-You now have to verify that:
+You have to verify that:
 
 1. The `User` instance is valid.
 2. If it exists, the storable `ProfilePicture` is valid.

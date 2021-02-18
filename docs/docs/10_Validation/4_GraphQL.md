@@ -5,7 +5,7 @@ slug: /validation/graphql
 
 Most of the time, validation for the GraphQL API does not require extra work:
 
-* [GraphQLite](https://graphqlite.thecodingmachine.io/) translates your models (with `@Type` and `@Field` annotations) 
+* [GraphQLite](https://graphqlite.thecodingmachine.io/) translates your models (with `@Type` and `@SourceField` annotations) 
 into strongly typed GraphQL types.
 * [GraphQLite](https://graphqlite.thecodingmachine.io/) translates your use cases' methods' signatures 
 (with `@Mutation` or `@Query` annotations) into strongly typed GraphQL mutations or queries.

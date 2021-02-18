@@ -16,7 +16,7 @@ use Serializable;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use TheCodingMachine\GraphQLite\Annotations\Field;
+use TheCodingMachine\GraphQLite\Annotations\SourceField;
 use TheCodingMachine\GraphQLite\Annotations\Type;
 
 use function Safe\password_hash;
@@ -30,6 +30,14 @@ use const PASSWORD_DEFAULT;
  * The User class maps the 'users' table in database.
  *
  * @Type
+ * @SourceField(name="id", outputType="ID")
+ * @SourceField(name="firstName")
+ * @SourceField(name="lastName")
+ * @SourceField(name="email")
+ * @SourceField(name="locale")
+ * @SourceField(name="profilePicture")
+ * @SourceField(name="role")
+ * @SourceField(name="activated")
  * @DomainAssert\Unicity(table="users", column="email", message="user.email_not_unique")
  */
 class User extends BaseUser implements UserInterface, Serializable, EquatableInterface
@@ -51,7 +59,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     }
 
     /**
-     * @Field
      * @Assert\NotBlank(message="not_blank")
      * @Assert\Length(max=255, maxMessage="max_length_255")
      */
@@ -61,7 +68,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     }
 
     /**
-     * @Field
      * @Assert\NotBlank(message="not_blank")
      * @Assert\Length(max=255, maxMessage="max_length_255")
      */
@@ -71,7 +77,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     }
 
     /**
-     * @Field
      * @Assert\NotBlank(message="not_blank")
      * @Assert\Length(max=255, maxMessage="max_length_255")
      * @Assert\Email(message="invalid_email")
@@ -93,7 +98,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     }
 
     /**
-     * @Field
      * @Assert\Choice(callback={"App\Domain\Enum\Locale", "valuesAsArray"}, message="user.invalid_locale")
      */
     public function getLocale(): string
@@ -102,7 +106,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
     }
 
     /**
-     * @Field
      * @Assert\Choice(callback={"App\Domain\Enum\Role", "valuesAsArray"}, message="user.invalid_role")
      */
     public function getRole(): string
@@ -110,9 +113,6 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
         return parent::getRole();
     }
 
-    /**
-     * @Field
-     */
     public function isActivated(): bool
     {
         return $this->getPassword() !== null;

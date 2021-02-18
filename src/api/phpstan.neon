@@ -8,6 +8,7 @@ parameters:
     excludes_analyse:
         - %currentWorkingDirectory%/src/Domain/Model/Generated/*.php
         - %currentWorkingDirectory%/src/Domain/Dao/Generated/*.php
+        - %currentWorkingDirectory%/src/Domain/ResultIterator/Generated/*.php
         - %currentWorkingDirectory%/src/Kernel.php
     ignoreErrors:
         -

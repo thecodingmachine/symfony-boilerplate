@@ -26,7 +26,3 @@ services:
 ```
 
 The API being stateless, you may also scale it without worries.
-
-## Web Application
-
-The Web Application being stateless, you may scale it without worries.
