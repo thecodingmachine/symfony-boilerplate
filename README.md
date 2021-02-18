@@ -34,7 +34,7 @@ Linux-like experience regarding performances.
 
 #### Windows
 
-Connsider using a Linux-like terminal to run the [Makefile](Makefile) commands. 
+Consider using a Linux-like terminal to run the [Makefile](Makefile) commands. 
 Vagrant might also be a solution regarding performances.
 
 If not possible, you may also directly run the commands specified in the [Makefile](Makefile). 
