@@ -335,3 +335,19 @@ export default {
   },
 }
 ```
+
+```php title="Use case"
+/**
+ * @throws InvalidStorable
+ *
+ * @Mutation
+ */
+public function uploadFooFile(
+    UploadedFileInterface $file
+): string {
+    $storable = FooFile::createFromUploadedFile($file);
+    $filename = $this->fooFileStorage->write($storable);
+        
+    return $filename;
+}
+```
