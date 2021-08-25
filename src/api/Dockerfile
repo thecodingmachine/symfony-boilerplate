@@ -1,4 +1,4 @@
-FROM thecodingmachine/php:7.4-v3-apache
+FROM thecodingmachine/php:7.4-v4-apache
 
 # PHP extensions.
 ENV PHP_EXTENSION_REDIS="1" \
