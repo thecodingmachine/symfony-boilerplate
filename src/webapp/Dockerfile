@@ -1,4 +1,4 @@
-FROM thecodingmachine/nodejs:12
+FROM thecodingmachine/nodejs:14
 
 # Copy files.
 # Don't forget to create a .env file with required Nuxt.js variables.
