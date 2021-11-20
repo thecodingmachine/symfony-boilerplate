@@ -1,0 +1,127 @@
+# Environment Definitions
+
+.api: &api
+  image: thecodingmachine/php:7.4-v4-cli
+  variables:
+    PHP_EXTENSIONS: gd pdo_mysql xdebug imap intl
+    PHP_INI_MEMORY_LIMIT: 1G
+    DEFAULT_LOCALE: "en"
+    MONOLOG_LOGGING_PATH: "php://stderr"
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: "foo"
+    MYSQL_USER: "foo"
+    MYSQL_PASSWORD: "foo"
+    TESTS_DATABASE_URL: "mysql://$MYSQL_USER:$MYSQL_PASSWORD@mysql:3306/$MYSQL_DATABASE?server_version=8.0"
+  before_script:
+    - cd src/api
+    - cp .env.dist .env
+    - composer install
+  cache:
+    key:
+      prefix: "api"
+      files:
+        - src/api/composer.lock
+    paths:
+      - src/api/vendor
+    policy: pull
+
+.webapp: &webapp
+  image: thecodingmachine/nodejs:14
+  before_script:
+    - cd src/webapp
+    - yarn
+  cache:
+    key:
+      prefix: "webapp"
+      files:
+        - src/webapp/composer.json
+    paths:
+      - src/webapp/node_modules
+    policy: pull
+
+# Jobs descriptions
+
+.build: &build
+  stage: build
+  script:
+    - exit 0
+  cache:
+    policy: pull-push
+
+.00_composer_static_analysis: &00_composer_static_analysis
+  stage: test
+  script:
+    - composer phpstan
+
+.01_composer_test: &01_composer_test
+  stage: test
+  script:
+    - composer pest
+  coverage: '/^.*Cov:.*?(\d+.\d+\%)/'
+
+.02_composer_codestyle: &02_composer_codestyle
+  stage: test
+  script:
+    - composer cscheck
+
+.00_yarn_static_analysis: &00_yarn_static_analysis
+  stage: test
+  script:
+    - yarn lint
+
+.01_yarn_test: &01_yarn_test
+  stage: test
+  script:
+    - yarn build
+  coverage: '/^\s*Lines:\s*\d+.\d+\%/'
+
+# Jobs in their environment
+
+api:build:
+  extends:
+    - .api
+    - .build
+
+api:00_composer_static_analysis:
+  extends:
+    - .api
+    - .00_composer_static_analysis
+  needs:
+    - api:build
+
+api:01_composer_test:
+  services:
+    - name: mysql:8.0
+      alias: mysql
+      command: ["--default-authentication-plugin=mysql_native_password"]
+  extends:
+    - .api
+    - .01_composer_test
+  needs:
+    - api:build
+
+api:02_composer_codestyle:
+  extends:
+    - .api
+    - .02_composer_codestyle
+  needs:
+    - api:build
+
+webapp:build:
+  extends:
+    - .webapp
+    - .build
+
+webapp:00_yarn_static_analysis:
+  extends:
+    - .webapp
+    - .00_yarn_static_analysis
+  needs:
+    - webapp:build
+
+webapp:01_yarn_test:
+  extends:
+    - .webapp
+    - .01_yarn_test
+  needs:
+    - webapp:build
