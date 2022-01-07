@@ -99,8 +99,8 @@ abstract class Storage
         $path     = $this->getPath($filename);
 
         $this->storage->writeStream(
-            $path,
-            $storable->getResource()
+            location: $path,
+            contents: $storable->getResource()
         );
 
         return $filename;

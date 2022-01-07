@@ -14,9 +14,9 @@ use function strtolower;
 final class CreateUsersXLSXExport extends CreateXLSXExport
 {
     /**
-     * @param User[]|ResultIterator $users
+     * @param ResultIterator<User>|User[] $users
      */
-    public function createXLSX(string $locale, $users): Xlsx
+    public function createXLSX(string $locale, array|ResultIterator $users): Xlsx
     {
         $headerIds = [
             'users.headers.id',

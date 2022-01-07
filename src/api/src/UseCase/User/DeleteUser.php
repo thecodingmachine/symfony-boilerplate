@@ -24,22 +24,20 @@ final class DeleteUser
         $this->profilePictureStorage = $profilePictureStorage;
     }
 
-    /**
-     * @Mutation
-     * @Logged
-     * @Security("is_granted('DELETE_USER', user1)")
-     */
-    public function deleteUser(User $user1): bool
+    #[Mutation]
+    #[Logged]
+    #[Security("is_granted('DELETE_USER', user)")]
+    public function deleteUser(User $user): bool
     {
         // Remove profile picture (if any).
-        $filename = $user1->getProfilePicture();
+        $filename = $user->getProfilePicture();
         if ($filename !== null) {
             $this->profilePictureStorage->delete($filename);
         }
 
         // Cascade = true will also delete the reset
         // password token (if any).
-        $this->userDao->delete($user1, true);
+        $this->userDao->delete($user, true);
 
         return true;
     }

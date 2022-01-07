@@ -6,6 +6,8 @@ namespace App\Infrastructure\S3;
 
 use Aws\S3\S3MultiRegionClient;
 
+use function is_iterable;
+
 class CreateBucket
 {
     protected S3MultiRegionClient $client;
@@ -18,10 +20,12 @@ class CreateBucket
     public function create(string $bucketName): bool
     {
         $buckets = $this->client->listBuckets();
-        foreach ($buckets['Buckets'] as $bucket) {
-            if ($bucket['Name'] === $bucketName) {
-                // Bucket exists.
-                return false;
+        if (is_iterable($buckets->get('Buckets'))) {
+            foreach ($buckets->get('Buckets') as $bucket) {
+                if ($bucket['Name'] === $bucketName) {
+                    // Bucket exists.
+                    return false;
+                }
             }
         }
 

@@ -13,7 +13,6 @@ namespace App\Domain\Dao\Generated;
  */
 class DaoFactory implements \Symfony\Contracts\Service\ServiceSubscriberInterface
 {
-
     /**
      * @var \Psr\Container\ContainerInterface
      */

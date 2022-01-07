@@ -21,7 +21,6 @@ use TheCodingMachine\TDBM\TDBMException;
  */
 abstract class BaseDoctrineMigrationVersionDao
 {
-
     /**
      * @var \TheCodingMachine\TDBM\TDBMService
      */
@@ -69,7 +68,7 @@ abstract class BaseDoctrineMigrationVersionDao
         } else {
             $orderBy = null;
         }
-        return $this->tdbmService->findObjects('doctrine_migration_versions', null, [], $orderBy, [], null, null, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
+        return $this->tdbmService->findObjects('doctrine_migration_versions', null, [], $orderBy, [], null, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -84,7 +83,7 @@ abstract class BaseDoctrineMigrationVersionDao
      */
     public function getById(string $version, bool $lazyLoading = false) : \App\Domain\Model\DoctrineMigrationVersion
     {
-        return $this->tdbmService->findObjectByPk('doctrine_migration_versions', ['version' => $version], [], $lazyLoading);
+        return $this->tdbmService->findObjectByPk('doctrine_migration_versions', ['version' => $version], [], $lazyLoading, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -116,7 +115,7 @@ abstract class BaseDoctrineMigrationVersionDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'doctrine_migration_versions.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjects('doctrine_migration_versions', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, null, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
+        return $this->tdbmService->findObjects('doctrine_migration_versions', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -140,7 +139,7 @@ abstract class BaseDoctrineMigrationVersionDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'doctrine_migration_versions.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjectsFromSql('doctrine_migration_versions', $from, $filter, $parameters, $orderBy, $mode, null, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
+        return $this->tdbmService->findObjectsFromSql('doctrine_migration_versions', $from, $filter, $parameters, $orderBy, $mode, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -159,7 +158,7 @@ abstract class BaseDoctrineMigrationVersionDao
      */
     protected function findFromRawSql(string $sql, array $parameters = [], ?string $countSql = null, ?int $mode = null) : \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator
     {
-        return $this->tdbmService->findObjectsFromRawSql('doctrine_migration_versions', $sql, $parameters, $mode, null, $countSql, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
+        return $this->tdbmService->findObjectsFromRawSql('doctrine_migration_versions', $sql, $parameters, $mode, \App\Domain\Model\DoctrineMigrationVersion::class, $countSql, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -172,7 +171,7 @@ abstract class BaseDoctrineMigrationVersionDao
      */
     protected function findOne($filter = null, array $parameters = [], array $additionalTablesFetch = []) : ?\App\Domain\Model\DoctrineMigrationVersion
     {
-        return $this->tdbmService->findObject('doctrine_migration_versions', $filter, $parameters, $additionalTablesFetch);
+        return $this->tdbmService->findObject('doctrine_migration_versions', $filter, $parameters, $additionalTablesFetch, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**
@@ -191,7 +190,7 @@ abstract class BaseDoctrineMigrationVersionDao
      */
     protected function findOneFromSql(string $from, $filter = null, array $parameters = []) : ?\App\Domain\Model\DoctrineMigrationVersion
     {
-        return $this->tdbmService->findObjectFromSql('doctrine_migration_versions', $from, $filter, $parameters);
+        return $this->tdbmService->findObjectFromSql('doctrine_migration_versions', $from, $filter, $parameters, \App\Domain\Model\DoctrineMigrationVersion::class, \App\Domain\ResultIterator\DoctrineMigrationVersionResultIterator::class);
     }
 
     /**

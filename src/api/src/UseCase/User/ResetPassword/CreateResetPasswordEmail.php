@@ -40,8 +40,8 @@ final class CreateResetPasswordEmail extends CreateEmail
             $user->isActivated() ? 'reset_password.subject' : 'welcome_new_user.subject',
             $user->isActivated() ? 'emails/reset_password.html.twig' : 'emails/welcome_new_user.html.twig',
             [
-                'first_name' => $user->getFirstName(),
-                'last_name' => $user->getLastName(),
+                'first_name'          => $user->getFirstName(),
+                'last_name'           => $user->getLastName(),
                 'update_password_url' =>
                     $this->mailWebappURL .
                     sprintf(

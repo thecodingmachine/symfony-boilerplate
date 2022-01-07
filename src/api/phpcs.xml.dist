@@ -8,6 +8,7 @@
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
     <arg name="parallel" value="16"/>
+    <config name="installed_paths" value="vendor/doctrine/coding-standard/lib,vendor/slevomat/coding-standard"/>
     <!-- Ignore warnings, show progress of the run and show sniff names -->
     <arg value="nps"/>
 
@@ -17,11 +18,6 @@
     <!-- Remove this specific rule for tests as it causes troubles with Pest -->
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure.ClosureNotStatic">
         <exclude-pattern>tests/**</exclude-pattern>
-    </rule>
-
-    <!-- Remove this specific rule for Enum as it is the expected behaviour of MyCLabs\Enum\Enum -->
-    <rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedConstant">
-        <exclude-pattern>src/Domain/Enum/**</exclude-pattern>
     </rule>
 
     <!-- Directories to be checked -->

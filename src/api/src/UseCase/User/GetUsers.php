@@ -24,12 +24,14 @@ final class GetUsers
     }
 
     /**
-     * @return User[]|ResultIterator
+     * @return ResultIterator|User[]
+     * @phpstan-return ResultIterator<User>
      *
-     * @Query
-     * @Logged
-     * @Security("is_granted('ROLE_ADMINISTRATOR')")
+     * @noinspection PhpDocSignatureInspection
      */
+    #[Query]
+    #[Logged]
+    #[Security("is_granted('ROLE_ADMINISTRATOR')")]
     public function users(
         ?string $search = null,
         ?Role $role = null,

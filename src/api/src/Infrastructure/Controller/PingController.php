@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class PingController extends AbstractController
 {
-    /**
-     * @Route("/ping", methods={"GET"})
-     */
+    #[Route(path: '/ping', methods: ['GET'])]
     public function ping(): Response
     {
         // A basic endpoint for your

@@ -9,8 +9,6 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-use function strval;
-
 abstract class CreateEmail
 {
     private TranslatorInterface $translator;
@@ -37,7 +35,7 @@ abstract class CreateEmail
     {
         $context['title']  = $this->mailTitle;
         $context['domain'] = 'emails';
-        $context['locale'] = strval($user->getLocale());
+        $context['locale'] = $user->getLocale();
 
         $translatedSubject = $this->translator
             ->trans(

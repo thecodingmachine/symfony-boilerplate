@@ -3,6 +3,14 @@ title: CHANGELOG
 slug: /changelog
 ---
 
+## 0.3.0
+
+* Upgrade Symfony from `5.2` to `5.4` (LTS version)
+* Upgrade php from `7.4` to `8.0` 
+* Upgrade GraphQLite to `v5`
+* Add some useful command in `Makefile` (test and lint)
+* Add a test case to verify validity of the graphQL schema
+
 ## 0.2.0
 
 ### API

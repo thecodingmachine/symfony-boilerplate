@@ -13,7 +13,6 @@ if (file_exists(dirname(__DIR__) . '/config/bootstrap.php')) {
     (new Dotenv())->bootEnv(dirname(__DIR__) . '/.env');
 }
 
-/** @var Process[] $processes */
 $processes = [
     // Delete the "tests" database.
     new Process(['php', 'bin/console', 'doctrine:database:drop', '-n', '--force', '--if-exists']),

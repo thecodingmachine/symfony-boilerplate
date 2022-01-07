@@ -15,6 +15,6 @@ abstract class PublicStorage extends Storage
         ValidatorInterface $validator,
         FilesystemOperator $publicStorage
     ) {
-        parent::__construct($parameters, $validator, $publicStorage);
+        parent::__construct(parameters: $parameters, validator: $validator, storage: $publicStorage);
     }
 }

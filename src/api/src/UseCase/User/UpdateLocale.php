@@ -25,13 +25,11 @@ final class UpdateLocale
 
     /**
      * @throws InvalidModel
-     *
-     * @Mutation
-     * @Logged
-     * @InjectUser(for="$user")
      */
+    #[Mutation]
+    #[Logged]
     public function updateLocale(
-        User $user,
+        #[InjectUser] User $user,
         Locale $locale
     ): User {
         $user->setLocale(strval($locale));

@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-use function get_class;
 use function is_a;
 use function Safe\sprintf;
 
@@ -40,7 +39,7 @@ final class UserProvider implements UserProviderInterface
     {
         if (! $user instanceof User) {
             throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
+                sprintf('Instances of "%s" are not supported.', $user::class)
             );
         }
 

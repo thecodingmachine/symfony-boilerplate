@@ -2,115 +2,111 @@
 
 declare(strict_types=1);
 
+namespace App\Tests\UseCase\User;
+
 use App\Domain\Dao\ResetPasswordTokenDao;
 use App\Domain\Dao\UserDao;
 use App\Domain\Enum\Locale;
 use App\Domain\Enum\Role;
 use App\Domain\Model\ResetPasswordToken;
 use App\Domain\Model\User;
+use App\Tests\UseCase\UseCaseTestCase;
 use App\UseCase\User\VerifyResetPasswordToken\InvalidResetPasswordTokenId;
 use App\UseCase\User\VerifyResetPasswordToken\ResetPasswordTokenExpired;
 use App\UseCase\User\VerifyResetPasswordToken\VerifyResetPasswordToken;
 use App\UseCase\User\VerifyResetPasswordToken\WrongResetPasswordToken;
+use DateInterval;
 use Safe\DateTimeImmutable;
 
 use function PHPUnit\Framework\assertTrue;
 
-beforeEach(function (): void {
-    $userDao = self::$container->get(UserDao::class);
-    assert($userDao instanceof UserDao);
-    $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-    assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
+class VerifyResetPasswordTokenTest extends UseCaseTestCase
+{
+    private ResetPasswordTokenDao $resetPasswordTokenDao;
+    private VerifyResetPasswordToken $verifyResetPasswordToken;
+    private const TOKEN = 'foo';
 
-    $user = new User(
-        'foo',
-        'bar',
-        'foo.bar@foo.com',
-        Locale::EN(),
-        Role::ADMINISTRATOR()
-    );
-    $userDao->save($user);
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $userDao                        = self::getFromContainer(UserDao::class);
+        $this->resetPasswordTokenDao    = self::getFromContainer(ResetPasswordTokenDao::class);
+        $this->verifyResetPasswordToken = self::getFromContainer(VerifyResetPasswordToken::class);
 
-    $validUntil = new DateTimeImmutable();
-    $validUntil = $validUntil->add(new DateInterval('P1D')); // Add one day to current date time.
+        $user = new User(
+            'foo',
+            'bar',
+            'foo.bar@foo.com',
+            Locale::EN(),
+            Role::ADMINISTRATOR()
+        );
+        $userDao->save($user);
 
-    $resetPasswordToken = new ResetPasswordToken(
-        $user,
-        'foo',
-        $validUntil
-    );
-    $resetPasswordToken->setId('1');
-    $resetPasswordTokenDao->save($resetPasswordToken);
-});
+        $validUntil = new DateTimeImmutable();
+        $validUntil = $validUntil->add(new DateInterval('P1D')); // Add one day to current date time.
 
-it(
-    'returns true if valid reset password token',
-    function (): void {
-        $verifyResetPasswordToken = self::$container->get(VerifyResetPasswordToken::class);
-        assert($verifyResetPasswordToken instanceof VerifyResetPasswordToken);
+        $resetPasswordToken = new ResetPasswordToken(
+            $user,
+            self::TOKEN,
+            $validUntil
+        );
+        $resetPasswordToken->setId('1');
+        $this->resetPasswordTokenDao->save($resetPasswordToken);
+    }
 
-        $result = $verifyResetPasswordToken->verifyResetPasswordToken(
+    /**
+     * @group        User
+     */
+    public function testReturnsTrueIfValidResetPasswordToken(): void
+    {
+        $result = $this->verifyResetPasswordToken->verifyResetPasswordToken(
             '1',
-            'foo'
+            self::TOKEN
         );
 
         assertTrue($result);
     }
-)
-    ->group('user');
 
-it(
-    'throws an exception if invalid reset password token id',
-    function (): void {
-        $verifyResetPasswordToken = self::$container->get(VerifyResetPasswordToken::class);
-        assert($verifyResetPasswordToken instanceof VerifyResetPasswordToken);
-
-        $verifyResetPasswordToken->verifyResetPasswordToken(
+    /**
+     * @group        User
+     */
+    public function testThrowsAnExceptionIfInvalidResetPasswordTokenId(): void
+    {
+        $this->expectException(InvalidResetPasswordTokenId::class);
+        $this->verifyResetPasswordToken->verifyResetPasswordToken(
             'foo',
-            'foo'
+            self::TOKEN
         );
     }
-)
-    ->throws(InvalidResetPasswordTokenId::class)
-    ->group('user');
 
-it(
-    'throws an exception if wrong token',
-    function (): void {
-        $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-        assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
-        $verifyResetPasswordToken = self::$container->get(VerifyResetPasswordToken::class);
-        assert($verifyResetPasswordToken instanceof VerifyResetPasswordToken);
-
-        $verifyResetPasswordToken->verifyResetPasswordToken(
+    /**
+     * @group        User
+     */
+    public function testThrowsAnExceptionIfWrongToken(): void
+    {
+        $this->expectException(WrongResetPasswordToken::class);
+        $this->verifyResetPasswordToken->verifyResetPasswordToken(
             '1',
-            'bar'
+            self::TOKEN . '-wrong'
         );
     }
-)
-    ->throws(WrongResetPasswordToken::class)
-    ->group('user');
 
-it(
-    'throws an exception if token expired',
-    function (): void {
-        $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-        assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
-        $verifyResetPasswordToken = self::$container->get(VerifyResetPasswordToken::class);
-        assert($verifyResetPasswordToken instanceof VerifyResetPasswordToken);
-
-        $resetPasswordToken = $resetPasswordTokenDao->getById('1');
+    /**
+     * @group        User
+     */
+    public function testThrowsAnExceptionIfTokenExpired(): void
+    {
+        $resetPasswordToken = $this->resetPasswordTokenDao->getById('1');
 
         $validUntil = new DateTimeImmutable();
         $validUntil = $validUntil->sub(new DateInterval('P1D'));
         $resetPasswordToken->setValidUntil($validUntil);
-        $resetPasswordTokenDao->save($resetPasswordToken);
+        $this->resetPasswordTokenDao->save($resetPasswordToken);
 
-        $verifyResetPasswordToken->verifyResetPasswordToken(
+        $this->expectException(ResetPasswordTokenExpired::class);
+        $this->verifyResetPasswordToken->verifyResetPasswordToken(
             '1',
-            'foo'
+            self::TOKEN
         );
     }
-)
-    ->throws(ResetPasswordTokenExpired::class)
-    ->group('user');
+}

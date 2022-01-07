@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Tests\UseCase\User;
+
 use App\Domain\Dao\UserDao;
 use App\Domain\Enum\Locale;
 use App\Domain\Enum\Role;
@@ -9,31 +11,55 @@ use App\Domain\Model\Storable\ProfilePicture;
 use App\Domain\Model\User;
 use App\Domain\Throwable\InvalidModel;
 use App\Tests\UseCase\DummyValues;
+use App\Tests\UseCase\UseCaseTestCase;
 use App\UseCase\User\CreateUser;
 use App\UseCase\User\UpdateUser;
 
+use function assert;
+use function dirname;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertNull;
 
-beforeEach(function (): void {
-    $userDao = self::$container->get(UserDao::class);
-    assert($userDao instanceof UserDao);
+class UpdateUserTest extends UseCaseTestCase
+{
+    private UserDao $userDao;
+    private UpdateUser $updateUser;
 
-    $user = new User(
-        'foo',
-        'bar',
-        'user@foo.com',
-        Locale::FR(),
-        Role::USER()
-    );
-    $user->setId('1');
-    $userDao->save($user);
-});
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->userDao    = self::getFromContainer(UserDao::class);
+        $this->updateUser = self::getFromContainer(UpdateUser::class);
 
-it(
-    'updates a user',
-    function (
+        $user = new User(
+            'foo',
+            'bar',
+            'user@foo.com',
+            Locale::FR(),
+            Role::USER()
+        );
+        $user->setId('1');
+        $this->userDao->save($user);
+    }
+
+    /**
+     * @return iterable<string, array{string, string, string, Locale, Role, ?string}>
+     */
+    public function providesUserToCreate(): iterable
+    {
+        yield 'Admin without picture' => ['bar', 'foo', 'bar.foo@baz.com', Locale::EN(), Role::ADMINISTRATOR(), null];
+
+        yield 'User without picture' => ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER(), null];
+
+        yield 'User with picture' => ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER(), 'foo.png'];
+    }
+
+    /**
+     * @dataProvider providesUserToCreate
+     * @group        User
+     */
+    public function testUpdatesAUser(
         string $firstName,
         string $lastName,
         string $email,
@@ -41,11 +67,6 @@ it(
         Role $role,
         ?string $filename
     ): void {
-        $userDao = self::$container->get(UserDao::class);
-        assert($userDao instanceof UserDao);
-        $updateUser = self::$container->get(UpdateUser::class);
-        assert($updateUser instanceof UpdateUser);
-
         $storable = null;
         if ($filename !== null) {
             $storable = ProfilePicture::createFromPath(
@@ -53,8 +74,8 @@ it(
             );
         }
 
-        $user = $updateUser->update(
-            $userDao->getById('1'),
+        $user = $this->updateUser->update(
+            $this->userDao->getById('1'),
             $firstName,
             $lastName,
             $email,
@@ -76,29 +97,35 @@ it(
             assertNull($user->getProfilePicture());
         }
     }
-)
-    ->with([
-        ['bar', 'foo', 'bar.foo@baz.com', Locale::EN(), Role::ADMINISTRATOR(), null],
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER(), null],
-        ['foo', 'bar', 'foo.bar@baz.com', Locale::EN(), Role::USER(), 'foo.png'],
-    ])
-    ->group('user');
 
-it(
-    'throws an exception if invalid user',
-    function (
+    /**
+     * @return iterable<string, array{string, string, string, Locale, Role}>
+     */
+    public function providesInvalidUsers(): iterable
+    {
+        yield 'Blank first name' => [DummyValues::BLANK, 'bar', 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()];
+        yield 'First name > 255' => [DummyValues::CHAR256, 'bar', 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()];
+        yield 'Blank last name' => ['foo', DummyValues::BLANK, 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()];
+        yield 'Last name > 255' => ['foo', DummyValues::CHAR256, 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()];
+
+        yield 'Existing e-mail' => ['foo', 'far', 'foo@bar.com', Locale::EN(), Role::ADMINISTRATOR()];
+
+        yield 'Invalid e-mail' => ['foo', 'far', 'foo', Locale::EN(), Role::ADMINISTRATOR()];
+    }
+
+    /**
+     * @dataProvider providesInvalidUsers
+     * @group        User
+     */
+    public function testThrowsAnExceptionIfInvalidUser(
         string $firstName,
         string $lastName,
         string $email,
         Locale $locale,
         Role $role
     ): void {
-        $createUser = self::$container->get(CreateUser::class);
+        $createUser = self::getFromContainer(CreateUser::class);
         assert($createUser instanceof CreateUser);
-        $userDao = self::$container->get(UserDao::class);
-        assert($userDao instanceof UserDao);
-        $updateUser = self::$container->get(UpdateUser::class);
-        assert($updateUser instanceof UpdateUser);
 
         // We create a user for checking if an
         // email is not unique.
@@ -110,8 +137,9 @@ it(
             Role::USER()
         );
 
-        $updateUser->updateUser(
-            $userDao->getById('1'),
+        $this->expectException(InvalidModel::class);
+        $this->updateUser->updateUser(
+            $this->userDao->getById('1'),
             $firstName,
             $lastName,
             $email,
@@ -119,20 +147,4 @@ it(
             $role
         );
     }
-)
-    ->with([
-        // Blank first name.
-        [DummyValues::BLANK, 'bar', 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()],
-        // First name > 255.
-        [DummyValues::CHAR256, 'bar', 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()],
-        // Blank last name.
-        ['foo', DummyValues::BLANK, 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()],
-        // Last name > 255.
-        ['foo', DummyValues::CHAR256, 'foo@foo.com', Locale::EN(), Role::ADMINISTRATOR()],
-        // Existing e-mail.
-        ['foo', 'far', 'foo@bar.com', Locale::EN(), Role::ADMINISTRATOR()],
-        // Invalid e-mail.
-        ['foo', 'far', 'foo', Locale::EN(), Role::ADMINISTRATOR()],
-    ])
-    ->throws(InvalidModel::class)
-    ->group('user');
+}

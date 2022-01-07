@@ -16,8 +16,8 @@ abstract class DownloadXLSXController extends DownloadController
 {
     protected function createResponseWithXLSXAttachment(string $filename, Xlsx $xlsx): Response
     {
+        $tmpFilename = Uuid::uuid4()->toString() . '.xlsx';
         try {
-            $tmpFilename = Uuid::uuid4()->toString() . '.xlsx';
             $xlsx->save($tmpFilename);
             $fileContent = file_get_contents($tmpFilename); // Get the file content.
         } finally {

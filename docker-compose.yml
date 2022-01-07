@@ -19,6 +19,12 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      default:
+        aliases:
+          # Required so that the web application is able to call the same endpoint
+          # from both the browser and the server.
+          - "$API_SUBDOMAIN.$DOMAIN"
 
   webapp:
     image: thecodingmachine/nodejs:14
@@ -63,7 +69,7 @@ services:
       - ./src/webapp:/usr/src/app
 
   api:
-    image: thecodingmachine/php:7.4-v4-apache
+    image: thecodingmachine/php:8.0-v4-apache
     labels:
       - traefik.enable=true
       - traefik.http.routers.api_router.rule=Host(`${API_SUBDOMAIN}.${DOMAIN}`)
@@ -76,10 +82,9 @@ services:
       PHP_EXTENSION_INTL: "1"
       PHP_EXTENSION_GD: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
-      STARTUP_COMMAND_1: "touch .env" # Create a fake .env file so that Symfony does not complain on startup.
-      STARTUP_COMMAND_2: "composer install"
-      STARTUP_COMMAND_3: "php bin/console doctrine:migrations:migrate -n --allow-no-migration" #FIXME: if no flag --allow-no-migration, the command fails. Why?
-      STARTUP_COMMAND_4: "php bin/console app:init-storage:s3"
+      STARTUP_COMMAND_1: "composer install"
+      STARTUP_COMMAND_2: "php bin/console doctrine:migrations:migrate -n --allow-no-migration" #FIXME: if no flag --allow-no-migration, the command fails. Why?
+      STARTUP_COMMAND_3: "php bin/console app:init-storage:s3"
       # Symfony.
       # ---------------------
       APP_NAME: "${APP_NAME}"
@@ -117,14 +122,12 @@ services:
       MAIL_FROM_NAME: "$APP_NAME"
       MAIL_WEBAPP_URL: "http://${DOMAIN}/"
       MAIL_WEBAPP_UPDATE_PASSWORD_ROUTE_FORMAT: "%s/update-password/%s/%s" # {locale}/update-password/{resetPasswordTokenId}/{plainToken}
+      # Debug
+      XDEBUG_MODE: ${XDEBUG_MODE:-debug}
     volumes:
       - ./src/api:/var/www/html
-    networks:
-      default:
-        aliases:
-          # Required so that the web application is able to call the same endpoint
-          # from both the browser and the server.
-          - "${API_SUBDOMAIN}.${DOMAIN}"
+    depends_on:
+      - mysql
 
   # For business data and user sessions.
   mysql:
@@ -151,7 +154,7 @@ services:
       - /var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.0
+    image: phpmyadmin/phpmyadmin:5
     labels:
       - traefik.enable=true
       - traefik.http.routers.phpmyadmin_router.rule=Host(`phpmyadmin.$DOMAIN`)

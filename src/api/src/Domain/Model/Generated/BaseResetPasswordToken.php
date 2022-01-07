@@ -25,7 +25,6 @@ use TheCodingMachine\GraphQLite\Annotations\Field as GraphqlField;
  */
 abstract class BaseResetPasswordToken extends \TheCodingMachine\TDBM\AbstractTDBMObject implements JsonSerializable
 {
-
     /**
      * @var \TheCodingMachine\TDBM\Schema\ForeignKeys
      */
@@ -72,7 +71,7 @@ abstract class BaseResetPasswordToken extends \TheCodingMachine\TDBM\AbstractTDB
      */
     public function getUser() : \App\Domain\Model\User
     {
-        return $this->getRef('from__user_id__to__table__users__columns__id', 'reset_password_tokens');
+        return $this->getRef('from__user_id__to__table__users__columns__id', 'reset_password_tokens', \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -80,7 +79,7 @@ abstract class BaseResetPasswordToken extends \TheCodingMachine\TDBM\AbstractTDB
      */
     public function setUser(\App\Domain\Model\User $object) : void
     {
-        $this->setRef('from__user_id__to__table__users__columns__id', $object, 'reset_password_tokens');
+        $this->setRef('from__user_id__to__table__users__columns__id', $object, 'reset_password_tokens', \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -185,7 +184,7 @@ abstract class BaseResetPasswordToken extends \TheCodingMachine\TDBM\AbstractTDB
     public function onDelete() : void
     {
         parent::onDelete();
-        $this->setRef('from__user_id__to__table__users__columns__id', null, 'reset_password_tokens');
+        $this->setRef('from__user_id__to__table__users__columns__id', null, 'reset_password_tokens', \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     public function __clone()
