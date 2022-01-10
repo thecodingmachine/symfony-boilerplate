@@ -12,7 +12,7 @@ final class CreatePublicBucket extends CreateBucket
     {
         $created = parent::create($bucketName);
         if ($created === false) {
-            return $created;
+            return false;
         }
 
         $policyReadOnly = '{

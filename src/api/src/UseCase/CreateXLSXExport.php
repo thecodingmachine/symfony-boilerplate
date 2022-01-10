@@ -21,8 +21,8 @@ abstract class CreateXLSXExport
     }
 
     /**
-     * @param string[]       $headerIds
-     * @param array<mixed[]> $values
+     * @param string[]                      $headerIds
+     * @param array<int, array<int, mixed>> $values
      */
     public function create(string $locale, array $headerIds, array $values): Xlsx
     {

@@ -13,7 +13,7 @@ use Safe\DateTimeImmutable;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
+use TheCodingMachine\GraphQLite\Validator\Annotations\Assertion;
 
 final class ResetPassword
 {
@@ -35,9 +35,9 @@ final class ResetPassword
     }
 
     /**
-     * @Mutation
      * @Assertion(for="email", constraint={@Assert\NotBlank(message="not_blank"), @Assert\Length(max=255, maxMessage="max_length_255"), @Assert\Email(message="invalid_email")})
      */
+    #[Mutation]
     public function resetPassword(string $email): bool
     {
         $user = $this->userDao->findOneByEmail($email);

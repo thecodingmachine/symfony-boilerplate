@@ -6,3 +6,7 @@ graphqlite:
       - App\Domain\Model\
       - App\Domain\Dao\
       - App\Domain\Enum\
+  security:
+    # https://graphqlite.thecodingmachine.io/docs/symfony-bundle-advanced
+    enable_login: auto # Default setting
+    enable_me: auto # Default setting

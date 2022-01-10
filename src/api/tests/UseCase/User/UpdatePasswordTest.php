@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Tests\UseCase\User;
+
 use App\Domain\Dao\ResetPasswordTokenDao;
 use App\Domain\Dao\UserDao;
 use App\Domain\Enum\Locale;
@@ -10,91 +12,95 @@ use App\Domain\Model\ResetPasswordToken;
 use App\Domain\Model\User;
 use App\Domain\Throwable\InvalidModel;
 use App\Tests\UseCase\DummyValues;
+use App\Tests\UseCase\UseCaseTestCase;
 use App\UseCase\User\UpdatePassword;
+use DateInterval;
+use Safe\DateTimeImmutable;
 use TheCodingMachine\TDBM\TDBMException;
 
+use function password_verify;
 use function PHPUnit\Framework\assertTrue;
 
-beforeEach(function (): void {
-    $userDao = self::$container->get(UserDao::class);
-    assert($userDao instanceof UserDao);
-    $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-    assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
+class UpdatePasswordTest extends UseCaseTestCase
+{
+    private ResetPasswordTokenDao $resetPasswordTokenDao;
+    private UpdatePassword $updatePassword;
 
-    $user = new User(
-        'foo',
-        'bar',
-        'foo.bar@foo.com',
-        Locale::EN(),
-        Role::ADMINISTRATOR()
-    );
-    $userDao->save($user);
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $userDao                     = self::getFromContainer(UserDao::class);
+        $this->resetPasswordTokenDao = self::getFromContainer(ResetPasswordTokenDao::class);
+        $this->updatePassword        = self::getFromContainer(UpdatePassword::class);
 
-    $validUntil = new DateTimeImmutable();
-    $validUntil = $validUntil->add(new DateInterval('P1D')); // Add one day to current date time.
+        $user = new User(
+            'foo',
+            'bar',
+            'foo.bar@foo.com',
+            Locale::EN(),
+            Role::ADMINISTRATOR()
+        );
+        $userDao->save($user);
 
-    $resetPasswordToken = new ResetPasswordToken(
-        $user,
-        'foo',
-        $validUntil
-    );
-    $resetPasswordToken->setId('1');
-    $resetPasswordTokenDao->save($resetPasswordToken);
-});
+        $validUntil = new DateTimeImmutable();
+        $validUntil = $validUntil->add(new DateInterval('P1D')); // Add one day to current date time.
 
-it(
-    'updates the password and deletes the token',
-    function (): void {
-        $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-        assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
-        $updatePassword = self::$container->get(UpdatePassword::class);
-        assert($updatePassword instanceof UpdatePassword);
+        $resetPasswordToken = new ResetPasswordToken(
+            $user,
+            'foo',
+            $validUntil
+        );
+        $resetPasswordToken->setId('1');
+        $this->resetPasswordTokenDao->save($resetPasswordToken);
+    }
 
-        $resetPasswordToken = $resetPasswordTokenDao->getById('1');
+    /**
+     * @group        User
+     */
+    public function testUpdatesThePasswordAndDeletesTheToken(): void
+    {
+        $resetPasswordToken = $this->resetPasswordTokenDao->getById('1');
         $user               = $resetPasswordToken->getUser();
 
-        $updatePassword->updatePassword(
+        $this->updatePassword->updatePassword(
             $resetPasswordToken,
             'foo',
             'foobarfoo',
             'foobarfoo'
         );
 
+        $this->expectException(TDBMException::class);
         assertTrue(password_verify('foobarfoo', $user->getPassword()));
-        $resetPasswordTokenDao->getById($resetPasswordToken->getId());
+        $this->resetPasswordTokenDao->getById($resetPasswordToken->getId());
     }
-)
-    ->throws(TDBMException::class)
-    ->group('user');
 
-it(
-    'throws an exception if invalid password',
-    function (string $newPassword, string $passwordConfirmation): void {
-        $resetPasswordTokenDao = self::$container->get(ResetPasswordTokenDao::class);
-        assert($resetPasswordTokenDao instanceof  ResetPasswordTokenDao);
-        $updatePassword = self::$container->get(UpdatePassword::class);
-        assert($updatePassword instanceof UpdatePassword);
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public function providesInvalidPasswords(): iterable
+    {
+        yield 'Blank password' => [DummyValues::BLANK, DummyValues::BLANK];
+        yield 'Password < 8' => ['foo', 'foo'];
+        yield 'Wrong password confirmation' => ['foobarfoo', 'barfoobar'];
 
-        $resetPasswordToken = $resetPasswordTokenDao->getById('1');
+        //        // We do not test "@Assert\NotCompromisedPassword"
+        //        // as it is disable when "APP_ENV = test".
+        //        // See config/packages/test/validator.yaml.
+    }
 
-        $updatePassword->updatePassword(
+    /**
+     * @dataProvider providesInvalidPasswords
+     * @group        User
+     */
+    public function testThrowsAnExceptionIfInvalidPassword(string $newPassword, string $passwordConfirmation): void
+    {
+        $resetPasswordToken = $this->resetPasswordTokenDao->getById('1');
+        $this->expectException(InvalidModel::class);
+        $this->updatePassword->updatePassword(
             $resetPasswordToken,
             'foo',
             $newPassword,
             $passwordConfirmation
         );
     }
-)
-    ->with([
-        // Blank password.
-        [DummyValues::BLANK, DummyValues::BLANK],
-        // Password < 8.
-        ['foo', 'foo'],
-        // Wrong password confirmation.
-        ['foobarfoo', 'barfoobar'],
-        // We do not test "@Assert\NotCompromisedPassword"
-        // as it is disable when "APP_ENV = test".
-        // See config/packages/test/validator.yaml.
-    ])
-    ->throws(InvalidModel::class)
-    ->group('user');
+}

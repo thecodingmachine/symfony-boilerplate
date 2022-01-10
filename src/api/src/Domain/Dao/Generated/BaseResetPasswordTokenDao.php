@@ -20,7 +20,6 @@ use TheCodingMachine\TDBM\TDBMException;
  */
 abstract class BaseResetPasswordTokenDao
 {
-
     /**
      * @var \TheCodingMachine\TDBM\TDBMService
      */
@@ -68,7 +67,7 @@ abstract class BaseResetPasswordTokenDao
         } else {
             $orderBy = null;
         }
-        return $this->tdbmService->findObjects('reset_password_tokens', null, [], $orderBy, [], null, null, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
+        return $this->tdbmService->findObjects('reset_password_tokens', null, [], $orderBy, [], null, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -83,7 +82,7 @@ abstract class BaseResetPasswordTokenDao
      */
     public function getById(string $id, bool $lazyLoading = false) : \App\Domain\Model\ResetPasswordToken
     {
-        return $this->tdbmService->findObjectByPk('reset_password_tokens', ['id' => $id], [], $lazyLoading);
+        return $this->tdbmService->findObjectByPk('reset_password_tokens', ['id' => $id], [], $lazyLoading, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -115,7 +114,7 @@ abstract class BaseResetPasswordTokenDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'reset_password_tokens.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjects('reset_password_tokens', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, null, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
+        return $this->tdbmService->findObjects('reset_password_tokens', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -139,7 +138,7 @@ abstract class BaseResetPasswordTokenDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'reset_password_tokens.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjectsFromSql('reset_password_tokens', $from, $filter, $parameters, $orderBy, $mode, null, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
+        return $this->tdbmService->findObjectsFromSql('reset_password_tokens', $from, $filter, $parameters, $orderBy, $mode, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -158,7 +157,7 @@ abstract class BaseResetPasswordTokenDao
      */
     protected function findFromRawSql(string $sql, array $parameters = [], ?string $countSql = null, ?int $mode = null) : \App\Domain\ResultIterator\ResetPasswordTokenResultIterator
     {
-        return $this->tdbmService->findObjectsFromRawSql('reset_password_tokens', $sql, $parameters, $mode, null, $countSql, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
+        return $this->tdbmService->findObjectsFromRawSql('reset_password_tokens', $sql, $parameters, $mode, \App\Domain\Model\ResetPasswordToken::class, $countSql, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -171,7 +170,7 @@ abstract class BaseResetPasswordTokenDao
      */
     protected function findOne($filter = null, array $parameters = [], array $additionalTablesFetch = []) : ?\App\Domain\Model\ResetPasswordToken
     {
-        return $this->tdbmService->findObject('reset_password_tokens', $filter, $parameters, $additionalTablesFetch);
+        return $this->tdbmService->findObject('reset_password_tokens', $filter, $parameters, $additionalTablesFetch, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**
@@ -190,7 +189,7 @@ abstract class BaseResetPasswordTokenDao
      */
     protected function findOneFromSql(string $from, $filter = null, array $parameters = []) : ?\App\Domain\Model\ResetPasswordToken
     {
-        return $this->tdbmService->findObjectFromSql('reset_password_tokens', $from, $filter, $parameters);
+        return $this->tdbmService->findObjectFromSql('reset_password_tokens', $from, $filter, $parameters, \App\Domain\Model\ResetPasswordToken::class, \App\Domain\ResultIterator\ResetPasswordTokenResultIterator::class);
     }
 
     /**

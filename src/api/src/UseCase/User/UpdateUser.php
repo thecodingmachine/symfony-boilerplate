@@ -34,11 +34,10 @@ final class UpdateUser
     /**
      * @throws InvalidModel
      * @throws InvalidStorable
-     *
-     * @Mutation
-     * @Logged
-     * @Security("is_granted('ROLE_ADMINISTRATOR')")
      */
+    #[Mutation]
+    #[Logged]
+    #[Security("is_granted('ROLE_ADMINISTRATOR')")]
     public function updateUser(
         User $user,
         string $firstName,

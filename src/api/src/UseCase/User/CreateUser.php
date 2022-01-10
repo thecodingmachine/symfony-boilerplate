@@ -36,11 +36,10 @@ final class CreateUser
     /**
      * @throws InvalidModel
      * @throws InvalidStorable
-     *
-     * @Mutation
-     * @Logged
-     * @Security("is_granted('ROLE_ADMINISTRATOR')")
      */
+    #[Mutation]
+    #[Logged]
+    #[Security("is_granted('ROLE_ADMINISTRATOR')")]
     public function createUser(
         string $firstName,
         string $lastName,

@@ -24,6 +24,6 @@ class ResetPasswordTokenDao extends BaseResetPasswordTokenDao
      */
     public function getById(string $id, bool $lazyLoading = false): ResetPasswordToken
     {
-        return parent::getById($id, $lazyLoading);
+        return parent::getById(id: $id, lazyLoading: $lazyLoading);
     }
 }

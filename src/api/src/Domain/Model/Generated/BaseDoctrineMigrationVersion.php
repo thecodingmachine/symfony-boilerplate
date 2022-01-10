@@ -24,7 +24,6 @@ use TheCodingMachine\GraphQLite\Annotations\Field as GraphqlField;
  */
 abstract class BaseDoctrineMigrationVersion extends \TheCodingMachine\TDBM\AbstractTDBMObject implements JsonSerializable
 {
-
     /**
      * @var \TheCodingMachine\TDBM\Schema\ForeignKeys
      */

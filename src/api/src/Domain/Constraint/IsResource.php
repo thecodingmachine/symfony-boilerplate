@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Constraint;
 
+use Doctrine\Common\Annotations\Annotation;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -11,6 +12,5 @@ use Symfony\Component\Validator\Constraint;
  */
 final class IsResource extends Constraint
 {
-    /** @var mixed $message */
-    public $message;
+    public string $message;
 }

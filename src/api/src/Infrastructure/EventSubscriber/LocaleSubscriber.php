@@ -23,7 +23,7 @@ final class LocaleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
         $locale  = $request->headers->get('Accept-Language');
-        $locale  =  $locale === null || strlen($locale) !== 2 ? $this->defaultLocale : $locale;
+        $locale  = $locale === null || strlen($locale) !== 2 ? $this->defaultLocale : $locale;
         $request->setLocale($locale);
     }
 

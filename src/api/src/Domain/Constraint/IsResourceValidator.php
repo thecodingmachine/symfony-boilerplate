@@ -12,13 +12,10 @@ use function is_resource;
 
 final class IsResourceValidator extends ConstraintValidator
 {
-    /**
-     * @param mixed $value
-     */
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (! $constraint instanceof IsResource) {
-            throw new UnexpectedTypeException($constraint, IsResource::class);
+            throw new UnexpectedTypeException(value: $constraint, expectedType: IsResource::class);
         }
 
         if (is_resource($value) !== false) {

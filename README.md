@@ -14,7 +14,7 @@ This is a template of a *README*. Adapt it according to the comments and your ne
 
 > Replace this title and the following description with your project name and description.
 
-A web application built with Nuxt.js, Symfony 5, and GraphQL.
+A web application built with Nuxt.js 2, Symfony 5.4 (LTS), and GraphQL 5.
 
 ## Setup
 

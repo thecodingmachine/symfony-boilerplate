@@ -20,7 +20,6 @@ use TheCodingMachine\TDBM\TDBMException;
  */
 abstract class BaseUserDao
 {
-
     /**
      * @var \TheCodingMachine\TDBM\TDBMService
      */
@@ -68,7 +67,7 @@ abstract class BaseUserDao
         } else {
             $orderBy = null;
         }
-        return $this->tdbmService->findObjects('users', null, [], $orderBy, [], null, null, \App\Domain\ResultIterator\UserResultIterator::class);
+        return $this->tdbmService->findObjects('users', null, [], $orderBy, [], null, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -83,7 +82,7 @@ abstract class BaseUserDao
      */
     public function getById(string $id, bool $lazyLoading = false) : \App\Domain\Model\User
     {
-        return $this->tdbmService->findObjectByPk('users', ['id' => $id], [], $lazyLoading);
+        return $this->tdbmService->findObjectByPk('users', ['id' => $id], [], $lazyLoading, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -115,7 +114,7 @@ abstract class BaseUserDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'users.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjects('users', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, null, \App\Domain\ResultIterator\UserResultIterator::class);
+        return $this->tdbmService->findObjects('users', $filter, $parameters, $orderBy, $additionalTablesFetch, $mode, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -139,7 +138,7 @@ abstract class BaseUserDao
         if ($this->defaultSort && $orderBy == null) {
             $orderBy = 'users.'.$this->defaultSort.' '.$this->defaultDirection;
         }
-        return $this->tdbmService->findObjectsFromSql('users', $from, $filter, $parameters, $orderBy, $mode, null, \App\Domain\ResultIterator\UserResultIterator::class);
+        return $this->tdbmService->findObjectsFromSql('users', $from, $filter, $parameters, $orderBy, $mode, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -158,7 +157,7 @@ abstract class BaseUserDao
      */
     protected function findFromRawSql(string $sql, array $parameters = [], ?string $countSql = null, ?int $mode = null) : \App\Domain\ResultIterator\UserResultIterator
     {
-        return $this->tdbmService->findObjectsFromRawSql('users', $sql, $parameters, $mode, null, $countSql, \App\Domain\ResultIterator\UserResultIterator::class);
+        return $this->tdbmService->findObjectsFromRawSql('users', $sql, $parameters, $mode, \App\Domain\Model\User::class, $countSql, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -171,7 +170,7 @@ abstract class BaseUserDao
      */
     protected function findOne($filter = null, array $parameters = [], array $additionalTablesFetch = []) : ?\App\Domain\Model\User
     {
-        return $this->tdbmService->findObject('users', $filter, $parameters, $additionalTablesFetch);
+        return $this->tdbmService->findObject('users', $filter, $parameters, $additionalTablesFetch, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
@@ -190,7 +189,7 @@ abstract class BaseUserDao
      */
     protected function findOneFromSql(string $from, $filter = null, array $parameters = []) : ?\App\Domain\Model\User
     {
-        return $this->tdbmService->findObjectFromSql('users', $from, $filter, $parameters);
+        return $this->tdbmService->findObjectFromSql('users', $from, $filter, $parameters, \App\Domain\Model\User::class, \App\Domain\ResultIterator\UserResultIterator::class);
     }
 
     /**
