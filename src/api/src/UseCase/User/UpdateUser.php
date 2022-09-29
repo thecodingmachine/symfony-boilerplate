@@ -20,15 +20,10 @@ use function strval;
 
 final class UpdateUser
 {
-    private UserDao $userDao;
-    private UpdateProfilePicture $updateProfilePicture;
-
     public function __construct(
-        UserDao $userDao,
-        UpdateProfilePicture $updateProfilePicture
+        private UserDao $userDao,
+        private UpdateProfilePicture $updateProfilePicture,
     ) {
-        $this->userDao              = $userDao;
-        $this->updateProfilePicture = $updateProfilePicture;
     }
 
     /**

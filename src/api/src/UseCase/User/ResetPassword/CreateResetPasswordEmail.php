@@ -14,20 +14,15 @@ use function Safe\sprintf;
 
 final class CreateResetPasswordEmail extends CreateEmail
 {
-    private string $mailWebappURL;
-    private string $mailWebappUpdatePasswordRouteFormat;
-
     public function __construct(
         TranslatorInterface $translator,
         string $mailTitle,
         string $mailFromAddress,
         string $mailFromName,
-        string $mailWebappURL,
-        string $mailWebappUpdatePasswordRouteFormat
+        private string $mailWebappURL,
+        private string $mailWebappUpdatePasswordRouteFormat
     ) {
         parent::__construct($translator, $mailTitle, $mailFromAddress, $mailFromName);
-        $this->mailWebappURL                       = $mailWebappURL;
-        $this->mailWebappUpdatePasswordRouteFormat = $mailWebappUpdatePasswordRouteFormat;
     }
 
     public function createEmail(

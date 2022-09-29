@@ -384,6 +384,9 @@
     "ramsey/uuid": {
         "version": "4.2.3"
     },
+    "rector/rector": {
+        "version": "0.14.4"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },

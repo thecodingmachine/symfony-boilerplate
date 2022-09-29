@@ -15,7 +15,16 @@ use TheCodingMachine\GraphQLite\Annotations as GraphQLite;
 #[GraphQLite\EnumType]
 final class UsersSortBy extends Enum
 {
+    /**
+     * @var string
+     */
     private const FIRST_NAME = 'first_name';
+    /**
+     * @var string
+     */
     private const LAST_NAME  = 'last_name';
+    /**
+     * @var string
+     */
     private const EMAIL      = 'email';
 }

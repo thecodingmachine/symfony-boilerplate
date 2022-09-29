@@ -10,11 +10,9 @@ use function is_iterable;
 
 class CreateBucket
 {
-    protected S3MultiRegionClient $client;
-
-    public function __construct(S3MultiRegionClient $client)
-    {
-        $this->client = $client;
+    public function __construct(
+        protected S3MultiRegionClient $client,
+    ) {
     }
 
     public function create(string $bucketName): bool

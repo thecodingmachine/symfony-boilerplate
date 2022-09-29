@@ -17,21 +17,12 @@ use TheCodingMachine\GraphQLite\Validator\Annotations\Assertion;
 
 final class ResetPassword
 {
-    private UserDao $userDao;
-    private ResetPasswordTokenDao $resetPasswordTokenDao;
-    private CreateResetPasswordEmail $createResetPasswordEmail;
-    private MailerInterface $mailer;
-
     public function __construct(
-        UserDao $userDao,
-        ResetPasswordTokenDao $resetPasswordTokenDao,
-        CreateResetPasswordEmail $createResetPasswordEmail,
-        MailerInterface $mailer
+        private UserDao $userDao,
+        private ResetPasswordTokenDao $resetPasswordTokenDao,
+        private CreateResetPasswordEmail $createResetPasswordEmail,
+        private MailerInterface $mailer,
     ) {
-        $this->userDao                  = $userDao;
-        $this->resetPasswordTokenDao    = $resetPasswordTokenDao;
-        $this->createResetPasswordEmail = $createResetPasswordEmail;
-        $this->mailer                   = $mailer;
     }
 
     /**

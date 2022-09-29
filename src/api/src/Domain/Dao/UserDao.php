@@ -27,11 +27,8 @@ use TheCodingMachine\TDBM\TDBMService;
  */
 class UserDao extends BaseUserDao
 {
-    private ValidatorInterface $validator;
-
-    public function __construct(TDBMService $tdbmService, ValidatorInterface $validator)
+    public function __construct(TDBMService $tdbmService, private ValidatorInterface $validator)
     {
-        $this->validator = $validator;
         parent::__construct(tdbmService: $tdbmService);
     }
 

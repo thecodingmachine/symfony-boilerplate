@@ -13,18 +13,11 @@ use Throwable;
 
 abstract class Storage
 {
-    protected ParameterBagInterface $parameters;
-    protected ValidatorInterface $validator;
-    protected FilesystemOperator $storage;
-
     public function __construct(
-        ParameterBagInterface $parameters,
-        ValidatorInterface $validator,
-        FilesystemOperator $storage
+        protected ParameterBagInterface $parameters,
+        protected ValidatorInterface $validator,
+        protected FilesystemOperator $storage,
     ) {
-        $this->parameters = $parameters;
-        $this->validator  = $validator;
-        $this->storage    = $storage;
     }
 
     abstract protected function getDirectoryName(): string;

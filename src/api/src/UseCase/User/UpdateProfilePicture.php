@@ -17,15 +17,10 @@ use TheCodingMachine\GraphQLite\Annotations\Mutation;
 
 final class UpdateProfilePicture
 {
-    private UserDao $userDao;
-    private ProfilePictureStorage $profilePictureStorage;
-
     public function __construct(
-        UserDao $userDao,
-        ProfilePictureStorage $profilePictureStorage
+        private UserDao $userDao,
+        private ProfilePictureStorage $profilePictureStorage,
     ) {
-        $this->userDao               = $userDao;
-        $this->profilePictureStorage = $profilePictureStorage;
     }
 
     /**

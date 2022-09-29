@@ -13,7 +13,7 @@ abstract class PublicStorage extends Storage
     public function __construct(
         ParameterBagInterface $parameters,
         ValidatorInterface $validator,
-        FilesystemOperator $publicStorage
+        FilesystemOperator $publicStorage,
     ) {
         parent::__construct(parameters: $parameters, validator: $validator, storage: $publicStorage);
     }

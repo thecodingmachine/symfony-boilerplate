@@ -13,7 +13,7 @@ abstract class PrivateStorage extends Storage
     public function __construct(
         ParameterBagInterface $parameters,
         ValidatorInterface $validator,
-        FilesystemOperator $privateStorage
+        FilesystemOperator $privateStorage,
     ) {
         parent::__construct($parameters, $validator, $privateStorage);
     }

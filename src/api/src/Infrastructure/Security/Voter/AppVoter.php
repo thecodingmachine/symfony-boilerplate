@@ -9,10 +9,8 @@ use Symfony\Component\Security\Core\Security;
 
 abstract class AppVoter extends Voter
 {
-    protected Security $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
+    public function __construct(
+        protected Security $security,
+    ) {
     }
 }

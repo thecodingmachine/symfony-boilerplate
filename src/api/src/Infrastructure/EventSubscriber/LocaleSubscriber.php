@@ -12,11 +12,9 @@ use function strlen;
 
 final class LocaleSubscriber implements EventSubscriberInterface
 {
-    private string $defaultLocale;
-
-    public function __construct(string $defaultLocale)
-    {
-        $this->defaultLocale = $defaultLocale;
+    public function __construct(
+        private string $defaultLocale,
+    ) {
     }
 
     public function onKernelRequest(RequestEvent $event): void

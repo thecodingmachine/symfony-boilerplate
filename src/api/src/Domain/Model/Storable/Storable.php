@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\Storable;
 
-use App\Domain\Constraint as DomainAssert;
 use Psr\Http\Message\UploadedFileInterface;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
@@ -16,23 +15,16 @@ abstract class Storable
 {
     protected SplFileInfo $fileInfo;
     private string $filename;
-    /**
-     * @var resource $resource
-     * @DomainAssert\IsResource
-     */
-    private $resource;
 
     /**
      * @param resource $resource
      */
-    final public function __construct(string $filename, $resource, bool $overrideFilename = true)
+    final public function __construct(string $filename, private $resource, bool $overrideFilename = true)
     {
         $this->fileInfo = new SplFileInfo($filename);
         $this->filename = $overrideFilename === true ?
             Uuid::uuid4()->toString() :
             $filename;
-
-        $this->resource = $resource;
     }
 
     public function getFilename(): string

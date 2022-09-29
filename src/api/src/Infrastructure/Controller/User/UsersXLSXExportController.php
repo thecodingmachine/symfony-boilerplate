@@ -20,13 +20,10 @@ use function is_string;
 
 final class UsersXLSXExportController extends DownloadXLSXController
 {
-    private GetUsers $getUsers;
-    private CreateUsersXLSXExport $createUsersXLSXExport;
-
-    public function __construct(GetUsers $getUsers, CreateUsersXLSXExport $createUsersXLSXExport)
-    {
-        $this->getUsers              = $getUsers;
-        $this->createUsersXLSXExport = $createUsersXLSXExport;
+    public function __construct(
+        private GetUsers $getUsers,
+        private CreateUsersXLSXExport $createUsersXLSXExport,
+    ) {
     }
 
     #[Route(path: '/users/xlsx', methods: ['GET'])]

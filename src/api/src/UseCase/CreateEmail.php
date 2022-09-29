@@ -11,21 +11,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class CreateEmail
 {
-    private TranslatorInterface $translator;
-    private string $mailTitle;
-    private string $mailFromAddress;
-    private string $mailFromName;
-
     public function __construct(
-        TranslatorInterface $translator,
-        string $mailTitle,
-        string $mailFromAddress,
-        string $mailFromName
+        private TranslatorInterface $translator,
+        private string $mailTitle,
+        private string $mailFromAddress,
+        private string $mailFromName,
     ) {
-        $this->translator      = $translator;
-        $this->mailTitle       = $mailTitle;
-        $this->mailFromAddress = $mailFromAddress;
-        $this->mailFromName    = $mailFromName;
     }
 
     /**

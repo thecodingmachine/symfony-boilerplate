@@ -16,11 +16,9 @@ use function strval;
 
 final class UpdateLocale
 {
-    private UserDao $userDao;
-
-    public function __construct(UserDao $userDao)
-    {
-        $this->userDao = $userDao;
+    public function __construct(
+        private UserDao $userDao,
+    ) {
     }
 
     /**

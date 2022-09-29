@@ -16,11 +16,9 @@ use TheCodingMachine\TDBM\ResultIterator;
 
 final class GetUsers
 {
-    private UserDao $userDao;
-
-    public function __construct(UserDao $userDao)
-    {
-        $this->userDao = $userDao;
+    public function __construct(
+        private UserDao $userDao,
+    ) {
     }
 
     /**

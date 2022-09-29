@@ -14,6 +14,12 @@ use TheCodingMachine\GraphQLite\Annotations as GraphQLite;
 #[GraphQLite\EnumType]
 final class SortOrder extends Enum
 {
+    /**
+     * @var string
+     */
     private const ASC  = 'ASC';
+    /**
+     * @var string
+     */
     private const DESC = 'DESC';
 }
