@@ -65,6 +65,7 @@ services:
       # LogRocket.
       # LOGROCKET_ID
       # LOGROCKET_DEV_MODE_ALLOWED
+      NUXT_SSR: "${NUXT_SSR:-1}"
     volumes:
       - ./src/webapp:/usr/src/app
 
