@@ -8,6 +8,14 @@ include .env
 up: .env ## Start the Docker Compose stack.
 	docker-compose up -d
 
+ps: .env ## Status of running containers
+	docker-compose ps
+
+top-lazy: .env ## Use lazy docker to show a docker compose interface
+	@if ! type lazydocker > /dev/null 2>&1; then \
+  		curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash; \
+  	fi
+	lazydocker
 
 down: ## Stop the Docker Compose stack.
 	docker-compose down
