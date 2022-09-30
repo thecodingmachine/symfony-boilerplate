@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Symfony2PluginSettings">
+    <option name="pathToTranslation" value="src/api/var/cache/dev/translations" />
+    <option name="directoryToWeb" value="src/api/public" />
+    <option name="directoryToApp" value="src/api/src" />
+    <option name="profilerCsvPath" value="" />
+  </component>
+</project>

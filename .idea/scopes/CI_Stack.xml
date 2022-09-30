@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="CI-Stack" pattern="file[Symfony Boilerplate]:.github//*||file[Symfony Boilerplate]:scripts//*||file:.gitlab-ci.yml||file:docker-compose.yml||file:Makefile||file:Vagrantfile.template||file[Symfony Boilerplate]:deployments//*||file:.env*" />
+</component>

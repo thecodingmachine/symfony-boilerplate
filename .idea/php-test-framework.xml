@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpTestFrameworkSettings">
+    <test_tools>
+      <tool tool_name="Pest">
+        <settings>
+          <configurations>
+            <configuration_by_sdk interpreter_id="c2a1a6c2-3f1b-412a-a9b3-05a711b55ae0" executable_path="pest" />
+            <local_configuration executable_path="$PROJECT_DIR$/src/api/vendor/pestphp/pest/bin/pest" />
+          </configurations>
+        </settings>
+      </tool>
+    </test_tools>
+  </component>
+</project>
