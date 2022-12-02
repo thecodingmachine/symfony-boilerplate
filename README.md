@@ -1,231 +1,145 @@
-<p align="center">
-    <img src="https://thecodingmachine.github.io/symfony-boilerplate/img/logo.svg" alt="Symfony Boilerplate" width="250" height="250" />
-</p>
-<h3 align="center">Symfony Boilerplate</h3>
-<p align="center"><a href="https://thecodingmachine.github.io/symfony-boilerplate">Documentation</a></p>
+# Boilerplate TheCodingMachine
 
----
 
-This is a template of a *README*. Adapt it according to the comments and your needs.
+# Merge request
 
----
+To check:
 
-# Symfony Boilerplate
+- if entities has changed, a new migration should be created
 
-> Replace this title and the following description with your project name and description.
+### Error
 
-A web application built with Nuxt.js 2, Symfony 5.4 (LTS), and GraphQL 5.
+@see https://datatracker.ietf.org/doc/html/rfc7807 via  symfony/serializer-pack and https://symfony.com/doc/current/controller/error_pages.html
 
-## Setup
+For loggin:  Monolog\Formatter\JsonFormatter (this is WIP)
+## Database
 
-### Prerequisites
+### Update the database
+The database access is configured directly via the environment variable "DATABASE_URL", In dev:
 
-#### Linux
+#### HOW TO
 
-Install the latest version of [Docker](https://docs.docker.com/install/) and 
-[Docker Compose](https://docs.docker.com/compose/install/).
+- In development
 
-#### macOS
-
-Consider installing [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
-
-Indeed, Docker currently has substantial performance issues on macOS, and using Vagrant allows us to have an almost 
-Linux-like experience regarding performances.
-
-#### Windows
-
-Consider using a Linux-like terminal to run the [Makefile](Makefile) commands. 
-Vagrant might also be a solution regarding performances.
-
-If not possible, you may also directly run the commands specified in the [Makefile](Makefile). 
-For instance, instead of running `make up`, run `docker-compose up -d`.
-
-### Hosts
-
-Update your `hosts` file with the following entries:
+During development it is safe to assume:
 
 ```
-127.0.0.1   traefik.symfony-boilerplate.localhost
-127.0.0.1   symfony-boilerplate.localhost
-127.0.0.1   api.symfony-boilerplate.localhost
-127.0.0.1   phpmyadmin.symfony-boilerplate.localhost
-127.0.0.1   minio.symfony-boilerplate.localhost
-127.0.0.1   mailhog.symfony-boilerplate.localhost
+composer run  console -- doctrine:schema:update  --force
 ```
 
-> Update the domain with the one used in your project.
+working
 
-On Linux and macOS, run `sudo nano /etc/hosts` to edit it.
+- In production
 
-On Windows, edit the file `C:\Windows\System32\drivers\etc\hosts` with administrative privileges.
-
-### First start
-
-Copy the file [.env.dist](.env.dist) to a file named `.env`. For instance:
+To deploy new structures in production (IE mapping update):
+1. Generate a migration
 
 ```
-cp .env.dist .env
+composer run  console  -- doctrine:migrations:diff
 ```
 
-> Edit the [.env.dist](.env.dist) by updating the default values of `DOMAIN`, `MYSQL_DATABASE` and `APP_SECRET`
-> environment variables.
-
----
-
-#### Vagrant user
-
-"Comment" the `STARTUP_COMMAND_3` and `STARTUP_COMMAND_4` environment variables from the `api` service 
-in the [docker-compose.yml](docker-compose.yml) file.
-
-Next, run:
+2. Apply the migration in production
 
 ```
-docker-compose up webapp api
+composer run  console  --  doctrine:migrations:migrate
 ```
 
-📣&nbsp;&nbsp;This command start the `webapp` and `api` service. While booting, these services install the JavaScript
-and PHP dependencies. We cannot do that directly in the Vagrant VM as `yarn` and `composer install` fail miserably the
-first time.
+### Create an entity
 
-Once the services have installed the dependencies, you may stop them with:
+- Entity
 
 ```
-CTRL+C
-docker-compose down
+declare(strict_types=1);
+
+namespace App\Modules\Dummy\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+
+#[ORM\Entity()]
+class Dummy implements JsonSerializable {
+
+    #[ORM\Id()]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\CustomIdGenerator(class: \Ramsey\Uuid\Doctrine\UuidGenerator::class)]
+    private $id;
+
+    public function jsonSerialize(): array { 
+        return [
+            "id" => $this->id
+        ];
+
+    }
+
+}
 ```
 
-Don't forget to uncomment the previous environments variables from the `api` service 
-in the [docker-compose.yml](docker-compose.yml) file.
+- Repository (here the name of the entity is event, and the domain name is event too)
 
-Next, check there is no application running on port 80 (like Apache or another virtual machine).
-
-If OK, run `make vagrant`, then `vagrant up`, and finally `vagrant ssh` to connect to the virtual machine. 
-From here, you'll be able to run all the next commands like Linux users!
-
-> Update the variable `VAGRANT_PROJECT_NAME` from the [.env](.env) and [.env.dist](.env.dist) files with 
-> your project name. Only use alphanumeric characters (no spaces, distinguish words with `_` or `-`).
-
----
-
-Next, make sure there is no application running on port 80 (Vagrant users can skip this check).
-
-Good? You may now start all the Docker containers with the following commands:
 
 ```
-make up
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Dummy\Repository;
+
+use App\Modules\Dummy\Entity\Dummy as EntityDummy;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+
+class Dummy
+{
+    private EntityManagerInterface $entityManager;
+  /**
+   * @var EntityRepository<EntityDummy>
+   */
+    private EntityRepository $repository;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->repository = $this->entityManager->getRepository(EntityDummy::class);
+    }
+
+    /**
+     * @return iterable<EntityDummy>
+     */
+    public function findAll(): iterable
+    {
+        return $this->repository->findAll();
+    }
+}
 ```
 
-It may take some time as each container will also set up itself, such as installing dependencies (PHP, JavaScript, etc.), 
-compiling sources (JavaScript), or running migrations to set up the database structure.
 
-**📣&nbsp;&nbsp;In some cases, the `api` service will try to run the migrations before the `mysql` service is ready. 
-If so, restart the `api` service with `docker-compose up -d api`.**
 
-The containers will be ready faster next time you run this command as the first run is doing most of the setup.
+# BASICS
 
-Once everything is ready, the following endpoints should be available:
-
-* http://traefik.symfony-boilerplate.localhost (Reverse proxy, the entry point of all the HTTP requests)
-* http://symfony-boilerplate.localhost (Web application)
-* http://api.symfony-boilerplate.localhost (API)
-* http://phpmyadmin.symfony-boilerplate.localhost (phpMyAdmin, a web interface for your MySQL database)
-* http://minio.symfony-boilerplate.localhost (S3 compatible storage)
-* http://mailhog.symfony-boilerplate.localhost (Emails catcher)
-
-> Update the domain with the one used in your project.
-
-You may now enter the `api` service and load the development data:
-
+## How the backend it has been created
 ```
-make api
-php bin/console app:fixtures:dev
-exit
+docker run --rm  --volume=`pwd`/app:/usr/src/app/:rw thecodingmachine/php:8.0-v4-apache -- bash -c "cd '/usr/src/app/' && composer create-project symfony/skeleton backend"
 ```
 
-**Last but not least, start the message consumer with:**
- 
+## Install composer package inside the project
 ```
-make consume
-```
-
-## What's next?
-
-### Configuring Git
-
-Git should ignore globally some folders like those generated by your IDE and Vagrant.
-
-If not already done, you should tell Git where to find your global `.gitignore` file.
-
-For instance, on Linux/macOS/Windows git bash:
-
-```
-git config --global core.excludesfile '~/.gitignore'
+docker run --rm  --volume=`pwd`/app/backend:/usr/src/app/:rw thecodingmachine/php:8.0-v4-apache -- bash -c "cd '/usr/src/app/' && composer require mypackage"
 ```
 
-Windows cmd:
-
+## Run a command
 ```
-git config --global core.excludesfile "%USERPROFILE%\.gitignore"
-```
-
-Windows PowerShell:
-
-```
-git config --global core.excludesfile "$Env:USERPROFILE\.gitignore"
+docker run --rm  --volume=`pwd`/app/backend:/usr/src/app/:rw thecodingmachine/php:8.0-v4-apache -- bash -c "cd '/usr/src/app/' && php bin/console debug:config monolog"
 ```
 
-Then create the global `.gitignore` file according to the location specified previously.
+## Must to read
 
-You may now edit it, according to your environment, with:
+https://symfony.com/doc/current/configuration.html#configuration-environments
 
-```
-# IDE
-.idea
-.vscode
-# MacOS
-.DS_Store
-# Vagrant
-.vagrant
-```
+## Update the database
 
-### Documentations
 
-Make sure you have read the following documentations:
-
-**Day-to-day guidelines**
-
-* [Web application guidelines](src/webapp/README.md)
-* [API guidelines](src/api/README.md)
-
-**In-depth explanations**
-
-* See [docs](docs) folder.
-
-### How to stop the stack?
-
-As simple as the `make up` command, run `make down` to stop the entire Docker Compose stack.
-
-If you're a Vagrant user, you may also stop the virtual machine with `vagrant halt`.
-
-If you're not going to work on the project for a while, you may also destroy 
-the virtual machine using `vagrant destroy`.
-
-### How to view the logs of the Docker containers?
-
-All aggregated logs:
+connect to the container then run
 
 ```
-docker-compose logs -f
-```
-
-Logs of one service:
-
-```
-docker-compose logs -f SERVICE_NAME
-```
-
-For instance, if you want the logs of the `api` service:
-
-```
-docker-compose logs -f api
+php bin/console doctrine:sc:update --dump-sql
 ```

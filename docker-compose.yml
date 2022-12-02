@@ -1,204 +1,45 @@
-# This Docker Compose file should only be used for your development environment!
-version: '3.4'
-
+#version: "3"
 services:
 
-  traefik:
+  back:
+    image: ${BACK_IMAGE_NAME}:${DEPLOYMENT_TAG}
+    restart:  on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.back_router.rule=${BACK_ROUTER_RULE}
+      - traefik.http.routers.back_router.service=back_service
+      - traefik.http.services.back_service.loadbalancer.server.port=80
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+
+  mysql:
+    image: 'mariadb:10.7.3'
+    restart:  on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USERNAME}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - mysql_db:/var/lib/mysql
+  proxy:
     image: traefik:2.4
+    container_name: tcm_proxy
     command:
       - --providers.docker
       - --providers.docker.exposedByDefault=false
-      - --api.dashboard=true
-      - --api.insecure=true
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik_dashboard_router.rule=Host(`traefik.${DOMAIN}`)
-      - traefik.http.routers.traefik_dashboard_router.service=traefik_dashboard_service
-      - traefik.http.services.traefik_dashboard_service.loadbalancer.server.port=8080
+      - traefik.enable=false
     ports:
       - "80:80"
+    restart:  on-failure
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      default:
-        aliases:
-          # Required so that the web application is able to call the same endpoint
-          # from both the browser and the server.
-          - "$API_SUBDOMAIN.$DOMAIN"
-
-  webapp:
-    image: thecodingmachine/nodejs:14
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.webapp_router.rule=Host(`${DOMAIN}`)
-      - traefik.http.routers.webapp_router.service=webapp_service
-      - traefik.http.services.webapp_service.loadbalancer.server.port=3000
-    expose:
-      - "3000"
-    command: yarn dev
-    environment:
-      # Docker image.
-      # ---------------------
-      STARTUP_COMMAND_1: "yarn"
-      # Nuxt.js dev.
-      # ---------------------
-      # Either Vagrant or Docker requires the usage of polling, otherwise Nuxt.js does not recompile our code
-      # as fast as we would like.
-      CHOKIDAR_USEPOLLING: "1"
-      CHOKIDAR_INTERVAL: "3000" # Lower values might increase CPU usage.
-      # Host 0.0.0.0 is designated to tell Nuxt.js to resolve a host address, which is accessible to connections outside
-      # of the host machine.
-      HOST: "0.0.0.0"
-      # Nuxt.js
-      # ---------------------
-      APP_NAME: "${APP_NAME}"
-      # API.
-      API_URL: "http://${API_SUBDOMAIN}.${DOMAIN}/"
-      # GraphQL.
-      GRAPHQL_URL: "http://${API_SUBDOMAIN}.${DOMAIN}/graphql"
-      # Public storage.
-      # Access to these files is done via URLs created using:
-      # "PUBLIC_STORAGE_URL" + folder + "/" + filename.
-      PUBLIC_STORAGE_URL: "http://${STORAGE_SUBDOMAIN}.${DOMAIN}/public/"
-      # i18n.
-      DEFAULT_LOCALE: "${DEFAULT_LOCALE}"
-      # LogRocket.
-      # LOGROCKET_ID
-      # LOGROCKET_DEV_MODE_ALLOWED
-    volumes:
-      - ./src/webapp:/usr/src/app
-
-  api:
-    image: thecodingmachine/php:8.0-v4-apache
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.api_router.rule=Host(`${API_SUBDOMAIN}.${DOMAIN}`)
-    environment:
-      # Docker image.
-      # ---------------------
-      APACHE_DOCUMENT_ROOT: "public/"
-      PHP_EXTENSION_XDEBUG: "1"
-      PHP_EXTENSION_REDIS: "1"
-      PHP_EXTENSION_INTL: "1"
-      PHP_EXTENSION_GD: "1"
-      PHP_INI_MEMORY_LIMIT: "1G"
-      STARTUP_COMMAND_1: "composer install"
-      STARTUP_COMMAND_2: "php bin/console doctrine:migrations:migrate -n --allow-no-migration" #FIXME: if no flag --allow-no-migration, the command fails. Why?
-      STARTUP_COMMAND_3: "php bin/console app:init-storage:s3"
-      # Symfony.
-      # ---------------------
-      APP_NAME: "${APP_NAME}"
-      APP_ENV: "dev"
-      APP_DEBUG: "1"
-      # Note: in your remote environments, make sure you do not change
-      # the value of APP_SECRET between deployments. Otherwise, password
-      # verification will not work anymore.
-      APP_SECRET: "${APP_SECRET}"
-      COOKIE_DOMAIN: ".${DOMAIN}" # The "." is important here; it tells that the cookie is available for $DOMAIN and its subdomains.
-      # CORS.
-      CORS_ALLOW_ORIGIN: "http://${DOMAIN}" # Never use "*": https://stackoverflow.com/questions/52060784/graphql-and-csrf-protection.
-      # Logging.
-      MONOLOG_LOGGING_PATH: "php://stderr"
-      # Database.
-      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?server_version=8.0"
-      TESTS_DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql_tests:3306/${MYSQL_DATABASE}?server_version=8.0"
-      # Messenger.
-      MESSENGER_TRANSPORT_DSN: "redis://${REDIS_PASSWORD}@redis:6379/messages"
-      # Storage.
-      # Note: in other environments, the following values/variables might differ according
-      # to your storage sources (see src/api/config/packages/flysystem.yaml).
-      STORAGE_PUBLIC_SOURCE: "public.storage.s3"
-      STORAGE_PRIVATE_SOURCE: "private.storage.s3"
-      STORAGE_ENDPOINT: "http://minio:9000"
-      STORAGE_PUBLIC_BUCKET: "${STORAGE_PUBLIC_BUCKET}"
-      STORAGE_PRIVATE_BUCKET: "${STORAGE_PRIVATE_BUCKET}"
-      STORAGE_ACCESS_KEY: "${STORAGE_ACCESS_KEY}"
-      STORAGE_SECRET_KEY: "${STORAGE_SECRET_KEY}"
-      # i18n.
-      DEFAULT_LOCALE: "${DEFAULT_LOCALE}"
-      # Mailer.
-      MAILER_DSN: "smtp://null:null@mailhog:1025"
-      MAIL_FROM_ADDRESS: "no-reply@${DOMAIN}"
-      MAIL_FROM_NAME: "$APP_NAME"
-      MAIL_WEBAPP_URL: "http://${DOMAIN}/"
-      MAIL_WEBAPP_UPDATE_PASSWORD_ROUTE_FORMAT: "%s/update-password/%s/%s" # {locale}/update-password/{resetPasswordTokenId}/{plainToken}
-      # Debug
-      XDEBUG_MODE: ${XDEBUG_MODE:-debug}
-    volumes:
-      - ./src/api:/var/www/html
-    depends_on:
-      - mysql
-
-  # For business data and user sessions.
-  mysql:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-  # For API testing.
-  mysql_tests:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    tmpfs:
-      - /var/lib/mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.phpmyadmin_router.rule=Host(`phpmyadmin.$DOMAIN`)
-    environment:
-      PMA_HOSTS: "mysql, mysql_tests"
-      PMA_USER: "${MYSQL_USER}"
-      PMA_PASSWORD: "${MYSQL_PASSWORD}"
-
-  # For asynchronous tasks and emails.
-  redis:
-    image: bitnami/redis:6.0
-    environment:
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-    tmpfs:
-      - /bitnami/redis/data
-
-  # For catching and displaying emails.
-  mailhog:
-    image: mailhog/mailhog:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.mailhog_router.rule=Host(`mailhog.${DOMAIN}`)
-      - traefik.http.routers.mailhog_router.service=mailhog_service
-      - traefik.http.services.mailhog_service.loadbalancer.server.port=8025
-
-  # For uploads.
-  minio:
-    image: minio/minio:latest
-    command: server /data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.minio_router.rule=Host(`${STORAGE_SUBDOMAIN}.${DOMAIN}`)
-      - traefik.http.routers.minio_router.service=minio_service
-      - traefik.http.services.minio_service.loadbalancer.server.port=9000
-    environment:
-      MINIO_ACCESS_KEY: "${STORAGE_ACCESS_KEY}"
-      MINIO_SECRET_KEY: "${STORAGE_SECRET_KEY}"
-    volumes:
-      - minio_data:/data
-
 volumes:
-
-  mysql_data:
-    driver: local
-
-  minio_data:
-    driver: local
+  mysql_db:
+networks:
+  # This could be very usefull to run multiple project on the same machine
+  tcm_network:
+    name: tcm_network
+  default:
+    name: tcm_network

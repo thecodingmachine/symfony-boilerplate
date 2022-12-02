@@ -1,0 +1,79 @@
+.back analyze:
+  stage: 'test'
+  image: ${IMAGE_WITH_TAG}
+  extends:
+    - .only-merge-request
+  variables:
+    DATABASE_URL: "mysql://root:root@mysql:3306/boilerplate_db?serverVersion=10.7.3-MariaDB" # this is needed only for serverVersion during static analysis, we should retrieve it from the .env
+    TERM: xterm-256color
+    GIT_STRATEGY: none
+  before_script:
+    - cd /var/www/html/
+  needs:
+    - back prepare dev
+
+# DOCKER_BUILDKIT and BUILDKIT_INLINE_CACHE are required to allow layer caching
+back prepare dev:
+  stage: 'build'
+  image: docker:20.10.21
+  variables:
+    DOCKER_BUILDKIT: 1
+  extends:
+    - .only-merge-request
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build ./apps/back --pull --cache-from $IMAGE_WITH_TAG --cache-from ${IMAGE_NAME}:latest --build-arg BUILDKIT_INLINE_CACHE=1  -t $IMAGE_WITH_TAG --build-arg APP_ENV=dev
+    - docker push $IMAGE_WITH_TAG
+  services:
+    - docker:20.10.21-dind
+  environment:
+    auto_stop_in: 2 weeks
+    name: review/$CI_COMMIT_REF_NAME
+    on_stop: back cleanup dev
+    deployment_tier: development
+  interruptible: true
+  timeout: 20m
+  allow_failure: false
+
+## Step to build the app (prepare .ini and install dependencies)
+back analyze:
+  extends:
+    - .back analyze
+  script:
+    # Run everything in the same job so it dont need to pull the image multiple times
+    - composer run phpstan -- --no-progress
+    - composer run cs-check -- -n
+    - composer run phpmd
+  interruptible: true
+  timeout: 20m
+
+.only-merge-request:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+
+back cleanup dev:
+  stage: cleanup
+  extends:
+    - .only-merge-request
+  when: manual
+  image: docker:20.10.21
+  services:
+    - docker:20.10.21-dind
+  variables:
+    IMAGE_TAG: $IMAGE_WITH_TAG
+    REG_SHA256: ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228
+    REG_VERSION: 0.16.1
+    GIT_STRATEGY: none
+  before_script:
+    - apk add --no-cache curl
+    - curl --fail --show-error --location "https://github.com/genuinetools/reg/releases/download/v$REG_VERSION/reg-linux-amd64" --output /usr/local/bin/reg
+    - echo "$REG_SHA256  /usr/local/bin/reg" | sha256sum -c -
+    - chmod a+x /usr/local/bin/reg
+  script:
+    - /usr/local/bin/reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $IMAGE_TAG
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  interruptible: false
+  allow_failure: true

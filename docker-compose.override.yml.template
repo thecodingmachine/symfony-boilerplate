@@ -1,0 +1,47 @@
+#version: "3"
+services:
+  back:
+    build:
+      context: ./apps/back/
+      args:
+        APP_ENV: dev
+    volumes:
+      - ./apps/back/app:/var/www/html/:delegated
+
+  initback:
+    extends:
+      service: back
+    restart: "no"
+    volumes:
+      - ./apps/back/app:/var/www/html/:delegated
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - -c
+      - |
+        composer install
+        composer run  console  --  doctrine:migrations:migrate -n
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8086:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.phpmyadmin_router.rule=${PHPMYADMIN_ROUTER_RULE}
+      - traefik.http.routers.phpmyadmin_router.service=phpmyadmin_service
+      - traefik.http.services.phpmyadmin_service.loadbalancer.server.port=80
+      - traefik.http.middlewares.phpmyadmin_ipwhitelist.ipwhitelist.sourcerange=172.21.0.1/8
+      - traefik.http.routers.phpmyadmin_router.middlewares=phpmyadmin_ipwhitelist@docker
+    links:
+      - "mysql:db"
+  mysql:
+    volumes:
+      - ./apps/back/dump/dump.sql:/docker-entrypoint-initdb.d/001-dump.sql
+networks:
+  # This could be very usefull to run multiple project on the same machine
+  tcm_network:
+    name: tcm_network
+  default:
+    name: tcm_network

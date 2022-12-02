@@ -1,2 +1,3 @@
-/Vagrantfile
+docker-compose.override.yml
 /.env
+.ssh/

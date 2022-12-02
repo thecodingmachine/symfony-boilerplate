@@ -1,0 +1,66 @@
+# DOCKER_BUILDKIT and BUILDKIT_INLINE_CACHE are required to allow layer caching
+back build prod:
+  stage: 'build'
+  extends:
+    - .only-prod-tags
+  image: docker:20.10.21
+  variables:
+    DOCKER_BUILDKIT: 1
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build ./apps/back --pull --cache-from $IMAGE_WITH_TAG --cache-from ${IMAGE_NAME}:latest --build-arg BUILDKIT_INLINE_CACHE=1  -t $IMAGE_WITH_TAG --build-arg APP_ENV=prod
+    - docker push $IMAGE_WITH_TAG
+  services:
+    - docker:20.10.21-dind
+  interruptible: false
+  timeout: 20m
+  allow_failure: false
+
+back deploy prod:
+  stage: 'deploy'
+  extends:
+    - .only-prod-tags
+  needs:
+    - back build prod
+  image: ubuntu
+  variables:
+    SSH_PRIVATE_KEY: $PROD_SSH_PRIVATE_KEY
+  before_script:
+    ## credit @https://docs.gitlab.com/ee/ci/ssh_keys/
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    ##
+    - command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )
+
+    ##
+    ## Run ssh-agent (inside the build environment)
+    ##
+    - eval $(ssh-agent -s)
+
+
+    ##
+    ## Create the SSH directory and give it the right permissions
+    ##
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+
+    ##
+    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    ## We're using tr to fix line endings which makes ed25519 keys work
+    ## without extra base64 encoding.
+    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    ##
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 --decode)
+  script:
+    - ssh -o "StrictHostKeyChecking no" ubuntu@135.125.11.248 " cd ${DEPLOYMENT_PATH} && git pull && docker login -u '$CI_DEPLOY_USER' -p '$CI_DEPLOY_PASSWORD' $CI_REGISTRY && DEPLOYMENT_TAG=${TAG_NAME} docker compose pull && DEPLOYMENT_TAG=${TAG_NAME} docker compose up -d --force-recreate; make migrate"
+  interruptible: false
+  timeout: 20m
+  allow_failure: false
+
+
+.only-prod-tags:
+  variables:
+    TAG_NAME: ${CI_COMMIT_TAG}
+  rules:
+    - if: "$CI_COMMIT_TAG =~ /^[0-9]+.[0-9]+.[0-9]+$/"

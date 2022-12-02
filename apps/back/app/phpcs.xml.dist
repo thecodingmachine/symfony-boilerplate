@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<ruleset>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg value="ps"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="1"/>
+    <arg name="colors"/>
+    <config name="installed_paths" value="../../doctrine/coding-standard/lib/Doctrine,../../slevomat/coding-standard"/><!-- relative path from PHPCS source location -->
+
+
+
+    <file>src</file>
+ <!--   <file>tests/units</file> -->
+    <exclude-pattern>src/Kernel.php</exclude-pattern>
+    <rule ref="PSR12">
+    </rule>
+    <rule ref="Doctrine">
+        <!-- Reactivated by BEN : Removing Space before `!` -->
+        <exclude name="Generic.Formatting.SpaceAfterNot"/>
+        <!-- Reactivated by BEN : Adding T_CASE et Adding new line before control structure -->
+        <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing"/>
+        <!-- Reactivated by BEN : Allow fully qualified for global function -->
+        <exclude name="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
+        <!-- Reactivated by BEN : Adding Generic.CodeAnalysis.EmptyStatement.DetectedCatch -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement"/>
+        <!-- Removing this rule: Align corresponding assignment statement tokens -->
+        <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+        <!-- Removing this rule: Require comments with single line written as one-liners -->
+        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
+        <!-- Removing this rule: checked with phpmd -->
+    <!-- Recheck that   <exclude name="SlevomatCodingStandard.Classes.UnusedPrivateElements"/> -->
+        <!-- TODO  Might have to change and to FORCE double quote with interpolation instead of concat -->
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+        <!-- We prefer using suffixing instead of namespacing (project mostly to be split into feature (User, Authorization...) rather than with technical directory (Exception, Trait, Interface...)) -->
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming"/>
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousTraitNaming"/>
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+    </rule>
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax">
+    </rule>
+
+    <!-- BEN STANDARD EASY VERSION -->
+    <!-- Force NO whitespace after `!` -->
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="0" />
+        </properties>
+    </rule>
+
+
+    <!-- Require consistent spacing for block structures -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing">
+        <properties>
+            <property name="tokensToCheck" type="array">
+                <element value="T_IF" />
+                <element value="T_DO" />
+                <element value="T_WHILE" />
+                <element value="T_FOR" />
+                <element value="T_FOREACH" />
+                <element value="T_SWITCH" />
+                <element value="T_CASE"/>
+                <element value="T_TRY" />
+                <element value="T_DEFAULT" />
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Forbid using absolute class name references (except global ones and colliding classes) -->
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+        <properties>
+            <property name="allowFallbackGlobalConstants" value="false"/>
+            <property name="allowFallbackGlobalFunctions" value="false"/>
+            <property name="allowFullyQualifiedGlobalClasses" value="false"/>
+            <property name="allowFullyQualifiedGlobalConstants" value="false"/>
+            <property name="allowFullyQualifiedGlobalFunctions" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingConstants" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingFunctions" value="true"/>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid empty statements -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+    </rule>
+
+    <!-- Forbid Usage of reference (should use a return statement) -->
+    <rule ref="SlevomatCodingStandard.PHP.DisallowReference"/>
+
+    <!-- Ensure only one namespace per file -->
+    <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+
+    <!-- Disallows usage of array type hint syntax (eg. int[], bool[][]) in phpDocs in favour of generic type hint syntax (eg. array<int>, array<array<bool>>). -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
+
+    <!-- Disallows usage of "mixed" type hint in phpDocs. => This make complicated serializable return, Mixed shall be allowed for private function
+    <rule ref="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint"/>
+    -->
+
+    <!-- Force `\` on system function, used in combination with SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFallbackGlobalName -->
+    <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions">
+        <properties>
+            <property name="includeSpecialFunctions" value="true">
+            </property>
+        </properties>
+        
+    </rule> 
+
+    <!-- Disallows multi property definition.  -->
+    <rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition"/>
+
+
+    <!-- DO NOT use @  -->
+    <rule ref="Generic.PHP.NoSilencedErrors">
+        <properties>
+            <property name="error" value="true" />
+        </properties>
+    </rule>
+
+    <!-- WARN FIXME -->
+    <rule ref="Generic.Commenting.Fixme">
+    </rule>
+
+    <!-- WARN TODO -->
+    <rule ref="Generic.Commenting.Todo">
+    </rule>
+
+    <!-- Forbid commented code -->
+    <rule ref="Squiz.PHP.CommentedOutCode">
+        <properties>
+            <property name="maxPercentage" value="35" />
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.PHP.NonExecutableCode.Unreachable"/>
+
+
+    <!-- TCM : All PHP files MUST use the Unix LF (linefeed) line ending. -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+
+</ruleset>

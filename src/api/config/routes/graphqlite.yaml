@@ -1,2 +1,0 @@
-graphqlite_bundle:
-  resource: '@GraphQLiteBundle/Resources/config/routes.xml'
