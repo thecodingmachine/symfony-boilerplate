@@ -1,0 +1,9 @@
+sensio_framework_extra:
+    router:
+        annotations: false
+
+        # @see https://stackoverflow.com/questions/69809320/symfony-currentuser-attribute-returns-null?noredirect=1#comment123402628_69809320
+        # and https://symfony.com/doc/5.4/controller/argument_value_resolver.html#adding-a-custom-value-resolver
+    request:
+        converters: true
+        auto_convert: false

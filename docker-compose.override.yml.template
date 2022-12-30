@@ -6,14 +6,32 @@ services:
       args:
         APP_ENV: dev
     volumes:
-      - ./apps/back/app:/var/www/html/:delegated
+      - ./apps/back:/var/www/html/:delegated
+
+
+  front:
+    build:
+      context: ./apps/front/
+      args:
+        NODE_ENV: development
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "24678:24678"
+    volumes:
+     - ./apps/front/:/home/node/app
+    command:
+     - /bin/sh
+     - -c
+     - |
+       yarn install && yarn dev -- -o
 
   initback:
     extends:
       service: back
     restart: "no"
     volumes:
-      - ./apps/back/app:/var/www/html/:delegated
+      - ./apps/back:/var/www/html/:delegated
     env_file:
       - .env
     command:
@@ -32,8 +50,6 @@ services:
       - traefik.http.routers.phpmyadmin_router.rule=${PHPMYADMIN_ROUTER_RULE}
       - traefik.http.routers.phpmyadmin_router.service=phpmyadmin_service
       - traefik.http.services.phpmyadmin_service.loadbalancer.server.port=80
-      - traefik.http.middlewares.phpmyadmin_ipwhitelist.ipwhitelist.sourcerange=172.21.0.1/8
-      - traefik.http.routers.phpmyadmin_router.middlewares=phpmyadmin_ipwhitelist@docker
     links:
       - "mysql:db"
   mysql:

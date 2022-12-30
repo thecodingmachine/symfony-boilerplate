@@ -1,8 +1,10 @@
 # syntax=docker.io/docker/dockerfile:1.4
 ARG IMAGE_VERSION=php:8.1-v4
 ARG APP_ENV=prod
-ARG APP_SOURCE_FILE='./app'
+ARG APP_SOURCE_FILE='./'
 ARG PHP_EXTENSIONS="apcu mysqli pdo_mysql intl gd xdebug"
+
+# This is stage copy buildings file
 FROM thecodingmachine/${IMAGE_VERSION}-slim-apache as prepare-common-file
 
 ARG APP_SOURCE_FILE

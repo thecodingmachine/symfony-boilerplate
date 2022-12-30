@@ -17,6 +17,24 @@ back build staging:
   timeout: 20m
   allow_failure: false
 
+front build staging:
+  stage: 'build'
+  extends:
+    - .only-main-branch
+  image: docker:20.10.21
+  variables:
+    DOCKER_BUILDKIT: 1
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build ./apps/front --pull --cache-from $FRONT_IMAGE_WITH_TAG --cache-from ${FRONT_IMAGE_NAME}:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t $FRONT_IMAGE_WITH_TAG -t ${FRONT_IMAGE_NAME}:latest --build-arg NODE_ENV=development
+    - docker push $IMAGE_WITH_TAG
+    - docker push ${IMAGE_NAME}:latest
+  services:
+    - docker:20.10.21-dind
+  interruptible: false
+  timeout: 20m
+  allow_failure: false
+
 
 .only-main-branch:
   variables:
