@@ -1,5 +1,10 @@
 # Boilerplate TheCodingMachine
 
+# Setup the project
+
+```
+make init-dev
+```
 
 # Merge request
 

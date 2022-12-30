@@ -12,6 +12,23 @@
   needs:
     - back prepare dev
 
+front analyze dev:
+  stage: 'build'
+  image: docker:20.10.21
+  variables:
+    DOCKER_BUILDKIT: 1
+  extends:
+    - .only-merge-request
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build ./apps/front --pull --cache-from $FRONT_IMAGE_WITH_TAG --cache-from ${FRONT_IMAGE_NAME}:latest --build-arg BUILDKIT_INLINE_CACHE=1  -t $FRONT_IMAGE_WITH_TAG --build-arg NODE_ENV=development
+    - docker run $FRONT_IMAGE_WITH_TAG bash -c "cd /home/node/app/ && yarn lint --max-warnings 0"
+  services:
+    - docker:20.10.21-dind
+  interruptible: true
+  timeout: 20m
+  allow_failure: false
+
 # DOCKER_BUILDKIT and BUILDKIT_INLINE_CACHE are required to allow layer caching
 back prepare dev:
   stage: 'build'

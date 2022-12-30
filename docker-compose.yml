@@ -11,6 +11,14 @@ services:
       - traefik.http.services.back_service.loadbalancer.server.port=80
     environment:
       DATABASE_URL: ${DATABASE_URL}
+      APP_SSO_SERVICEPROVIDER_X509CERT: ${APP_SSO_SERVICEPROVIDER_X509CERT}
+      APP_SSO_SERVICEPROVIDER_PRIVATEKEY: ${APP_SSO_SERVICEPROVIDER_PRIVATEKEY}
+      APP_SSO_IDENTITYPROVIDER_X509CERT: ${APP_SSO_IDENTITYPROVIDER_X509CERT}
+      APP_SSO_IDENTITYPROVIDER_ENTITYID: ${APP_SSO_IDENTITYPROVIDER_ENTITYID}
+      APP_SSO_IDENTITYPROVIDER_LOGINURL: ${APP_SSO_IDENTITYPROVIDER_LOGINURL}
+      APP_SSO_IDENTITYPROVIDER_LOGOUTURL: ${APP_SSO_IDENTITYPROVIDER_LOGOUTURL}
+      APP_URL: ${PROTOCOL}://${BASE_DOMAIN}
+   #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
     image: 'mariadb:10.7.3'
@@ -22,8 +30,22 @@ services:
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     volumes:
       - mysql_db:/var/lib/mysql
+
+  front:
+    image: ${FRONT_IMAGE_NAME}:${DEPLOYMENT_TAG}
+    user: "node"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.front_router.rule=${FRONT_ROUTER_RULE}
+      - traefik.http.routers.front_router.service=front_service
+      - traefik.http.services.front_service.loadbalancer.server.port=3000
+    working_dir: /home/node/app
+    environment:
+      # This is used only per the proxy
+      - NUXT_API_URL=http://${API_DOMAIN}/
+      #- NUXT_PUBLIC_DISABLE_AUTHENTICATION=true
   proxy:
-    image: traefik:2.4
+    image: traefik:3.0
     container_name: tcm_proxy
     command:
       - --providers.docker
@@ -35,6 +57,12 @@ services:
     restart:  on-failure
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      tcm_network:
+        aliases:
+          - "${API_DOMAIN}"
+          - "${BASE_DOMAIN}"
+
 volumes:
   mysql_db:
 networks:
