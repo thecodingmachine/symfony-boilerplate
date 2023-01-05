@@ -21,7 +21,7 @@
     "graphql-tag": "^2.12.6",
     "nuxt": "^2.14.12",
     "nuxt-graphql-request": "^3.2.1",
-    "nuxt-i18n": "^6.15.1",
+    "nuxt-i18n": "^6.28.1",
     "nuxt-logrocket": "^1.2.10"
   },
   "devDependencies": {
