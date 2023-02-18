@@ -2,12 +2,16 @@
 # Change tabs to space in makefile
 
 # Load .env variable (the prod is added also if there is any)
+ifneq (,$(wildcard ./.env.dist))
+    include .env.dist
+    export
+endif
 ifneq (,$(wildcard ./.env))
     include .env
     export
 endif
 ifneq (,$(wildcard ./.env.prod))
-    include .env
+    include .env.prod
     export
 endif
 
@@ -44,9 +48,13 @@ db-migrate-diff: ;\
     docker compose exec back composer -- run  console  doctrine:migrations:diff -n
 
 # See logs of back
-.PHONY: backlogs
-backlogs: ;\
+.PHONY: blogs
+blogs: ;\
     docker-compose logs back -f
+
+.PHONY: flogs
+flogs: ;\
+    docker-compose logs front -f
 # Init dev env
 init-dev: ;\
     cp -n docker-compose.override.yml.template docker-compose.override.yml; \
@@ -63,7 +71,7 @@ down: ;\
     docker compose down
 # up docker compose
 up: ;\
-    DOCKER_BUILDKIT=1 docker compose up -d
+    DOCKER_BUILDKIT=1 docker compose up -d ; docker compose logs initback back front -f
 
 # stronger down (remove volume / image / orphans)
 .PHONY: fdown

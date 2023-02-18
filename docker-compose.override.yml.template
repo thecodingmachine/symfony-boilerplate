@@ -55,6 +55,21 @@ services:
   mysql:
     volumes:
       - ./apps/back/dump/dump.sql:/docker-entrypoint-initdb.d/001-dump.sql
+
+  samltest:
+    image: kristophjunge/test-saml-idp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.samltest.rule=Host(`samltest.$BASE_DOMAIN`)
+      - traefik.http.routers.samltest.service=samltest
+      - traefik.http.services.samltest.loadbalancer.server.port=8080
+    environment:
+      - SIMPLESAMLPHP_SP_ENTITY_ID=http://$BASE_DOMAIN
+      - SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE=http://$BASE_DOMAIN/api/1.0/auth/sso/saml2/login
+      - SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE=http://$API_DOMAIN/api/1.0/auth/sso/saml2/logout
+    volumes:
+      - ./apps/ssoidp/idpUser.php:/var/www/simplesamlphp/config/authsources.php
+
 networks:
   # This could be very usefull to run multiple project on the same machine
   tcm_network:

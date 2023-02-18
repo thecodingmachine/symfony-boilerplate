@@ -43,7 +43,6 @@ services:
     environment:
       # This is used only per the proxy
       - NUXT_API_URL=http://${API_DOMAIN}/
-      #- NUXT_PUBLIC_DISABLE_AUTHENTICATION=true
   proxy:
     image: traefik:3.0
     container_name: tcm_proxy
