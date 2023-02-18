@@ -9,12 +9,12 @@ FROM thecodingmachine/${IMAGE_VERSION}-slim-apache as prepare-common-file
 
 ARG APP_SOURCE_FILE
 
-COPY --link --chown=docker:docker ./001-symf.conf /etc/apache2/sites-enabled/001-symf.conf
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/bin/ /var/www/html/bin/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/.env /var/www/html/.env
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/composer.json /var/www/html/composer.json
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/composer.lock /var/www/html/composer.lock
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/symfony.lock /var/www/html/symfony.lock
+COPY --link --chown=1000:1000 ./001-symf.conf /etc/apache2/sites-enabled/001-symf.conf
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/bin/ /var/www/html/bin/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/.env /var/www/html/.env
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/composer.json /var/www/html/composer.json
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/composer.lock /var/www/html/composer.lock
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/symfony.lock /var/www/html/symfony.lock
 ARG APP_ENV
 ENV APP_ENV=${APP_ENV}
 RUN if [ "$APP_ENV" != "dev" ] && [ "$APP_ENV" != "prod" ]; then exit 1 ; fi
@@ -66,12 +66,12 @@ ENV PHP_EXTENSION_XDEBUG=1 \
 FROM configure-dev as composer-install-dev
 ARG APP_SOURCE_FILE
 
-# COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/tests/ /var/www/html/tests/ TODO ONCE WE HAVE TESTING
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/phpcs.xml.dist /var/www/html/phpcs.xml.dist
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/phpmd.xml /var/www/html/phpmd.xml
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/phpstan.neon /var/www/html/phpstan.neon
-# COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/phpunit.xml.dist /var/www/html/phpunit.xml.dist TODO ONCE WE HAVE TESTING
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/.env.test /var/www/html/.env.test
+# COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/tests/ /var/www/html/tests/ TODO ONCE WE HAVE TESTING
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/phpcs.xml.dist /var/www/html/phpcs.xml.dist
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/phpmd.xml /var/www/html/phpmd.xml
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/phpstan.neon /var/www/html/phpstan.neon
+# COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/phpunit.xml.dist /var/www/html/phpunit.xml.dist TODO ONCE WE HAVE TESTING
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/.env.test /var/www/html/.env.test
 
 RUN composer install --no-scripts --no-interaction
 
@@ -79,14 +79,14 @@ FROM composer-install-${APP_ENV} as composer-install-final
 
 FROM configure-${APP_ENV} as full-files
 ARG APP_SOURCE_FILE
-COPY --chown=docker:docker --from=composer-install-final  /var/www/html /var/www/html
+COPY --chown=1000:1000 --from=composer-install-final  /var/www/html /var/www/html
 # This need to be here to prevent docker  to recompile composer layers at each build
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/config/ /var/www/html/config/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/migrations/ /var/www/html/migrations/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/phpstan/ /var/www/html/phpstan/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/public/ /var/www/html/public/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/src/ /var/www/html/src/
-COPY --link --chown=docker:docker  ${APP_SOURCE_FILE}/migrations/ /var/www/html/migrations/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/config/ /var/www/html/config/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/migrations/ /var/www/html/migrations/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/phpstan/ /var/www/html/phpstan/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/public/ /var/www/html/public/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/src/ /var/www/html/src/
+COPY --link --chown=1000:1000  ${APP_SOURCE_FILE}/migrations/ /var/www/html/migrations/
 RUN composer run auto-scripts
 #RUN composer run console -- cache:clear --no-interaction
 
