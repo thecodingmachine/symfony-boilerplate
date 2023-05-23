@@ -148,6 +148,18 @@ exit
 make consume
 ```
 
+## Cypress
+
+We have added cypress for front-end testing, for now it is in webapp directory.
+It is recommended to remove it went deploy in production for security reasons:
+
+### Open cypress for testing
+In the main directory
+```
+cd src/webapp
+./node_modules/.bin/cypress open
+```
+
 ## What's next?
 
 ### Configuring Git
