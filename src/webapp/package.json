@@ -11,7 +11,13 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --ignore-path .gitignore",
     "lint:fix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "lint": "yarn lint:js && yarn lint:style"
+    "lint": "yarn lint:js && yarn lint:style",
+    "test": "jest",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "e2e": "start-server-and-test dev http://localhost:3000 cypress:open",
+    "pree2e:slient": "npm run build",
+    "e2e:silent": "start-server-and-test start http://localhost:3000 cypress:run"
   },
   "dependencies": {
     "@nuxtjs/toast": "^3.3.1",
@@ -31,6 +37,7 @@
     "@nuxtjs/stylelint-module": "^4.0.0",
     "babel-eslint": "^10.1.0",
     "core-js": "3",
+    "cypress": "^12.12.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-nuxt": "^2.0.0",
@@ -38,6 +45,7 @@
     "node-sass": "^5.0.0",
     "prettier": "^2.0.5",
     "sass-loader": "^10.1.1",
+    "start-server-and-test": "^2.0.0",
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-standard": "^20.0.0"
