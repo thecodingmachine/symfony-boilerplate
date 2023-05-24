@@ -20,7 +20,7 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticators:
-                - 'App\Authenticator\Saml2Authenticator'
+               - 'App\Authenticator\Saml2Authenticator'
 
             # activate differents ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
