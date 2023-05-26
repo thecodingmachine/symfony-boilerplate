@@ -1,7 +1,10 @@
 <template>
   <div>
     Page 1
-    <img src="~/assets/images/panda.webp" alt="Discover Pandas" />
+    <img
+      src="~/assets/images/panda.webp"
+      alt="Discover Pandas"
+    >
     <div class="panda-background">
       This is to discover background scss
     </div>

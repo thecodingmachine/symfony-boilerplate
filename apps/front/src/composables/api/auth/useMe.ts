@@ -2,7 +2,7 @@ export interface Me {
   username: string;
 }
 
-export default function useMe(): () => Promise<Me> {
+export default function useMe (): () => Promise<Me> {
   const { $appFetch } = useNuxtApp();
   return async () => {
     const res = await $appFetch<Me>('/api/1.0/auth/me');

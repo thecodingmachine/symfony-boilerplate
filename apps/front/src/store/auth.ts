@@ -16,7 +16,7 @@ export const useAuthUser = defineStore({
   state: (): AuthState => ({
     authUser: null,
     isPending: false,
-    authUrl: '',
+    authUrl: ''
   }),
   actions: {
     async authenticateUser(username: string, password: string) {
@@ -32,22 +32,22 @@ export const useAuthUser = defineStore({
         throw e;
       }
     },
-    removeAuthUser() {
+    removeAuthUser () {
       this.authUser = null;
     },
-    resetAuth() {
+    resetAuth () {
       this.removeAuthUser();
     },
-    setAuthUser(authUser: User) {
+    setAuthUser (authUser: User) {
       this.authUser = authUser;
     },
-    startPending() {
+    startPending () {
       this.isPending = true;
     },
-    endPending() {
+    endPending () {
       this.isPending = false;
     },
-    async syncMe() {
+    async syncMe () {
       if (this.isPending) {
         return { data: null, error: null, isPending: this.isPending };
       }
@@ -66,20 +66,20 @@ export const useAuthUser = defineStore({
           // TODO error store in appFetch
           throw exception;
         }
-        // eslint-disable-next-line no-underscore-dangle
+
         const ret = await exception.response._data;
         this.authUrl = ret?.url || '';
         return {
           data: null,
           error: ret,
-          isPending: this.isPending,
+          isPending: this.isPending
         };
       }
-    },
+    }
   },
   getters: {
-    isAuthenticated: (state) => !!state.authUser,
-  },
+    isAuthenticated: state => !!state.authUser
+  }
 });
 
 export default useAuthUser;

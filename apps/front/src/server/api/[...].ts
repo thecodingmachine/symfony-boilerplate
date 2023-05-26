@@ -1,7 +1,7 @@
 import {
   defineEventHandler,
   H3Event,
-  proxyRequest,
+  proxyRequest
 } from 'h3';
 
 /**
@@ -35,8 +35,8 @@ export default defineEventHandler(async (event: H3Event) => {
   logger.info('----API Proxy');
   const ret = await proxyRequest(event, target.toString(), {
     headers: {
-      host: target.host,
-    },
+      host: target.host
+    }
 
   });
   return ret;

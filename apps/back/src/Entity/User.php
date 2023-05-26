@@ -100,6 +100,7 @@ class User implements UserInterface, \JsonSerializable
     {
         return [
             'email' => $this->getEmail(),
+            'username' => $this->getUsername(),
         ];
     }
 }
