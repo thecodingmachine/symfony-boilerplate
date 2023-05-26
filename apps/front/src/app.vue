@@ -15,7 +15,7 @@ const authStore = useAuthUser();
 
 const route = useRoute();
 
-const mHandleError = (e) => {
+const mHandleError = (e: unknown) => {
   logger.error('Primary error boundary', e);
 };
 const isPendingValue = computed(() => authStore.isPending);
