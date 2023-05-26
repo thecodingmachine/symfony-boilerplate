@@ -90,6 +90,20 @@ restart: down up
 .PHONY: frestart
 frestart: fdown fup
 
+.PHONY: stop-front
+stop-front: ;\
+    DOCKER_BUILDKIT=1 docker compose stop front
+
+.PHONY: rm-front
+rm-front: ;\
+    DOCKER_BUILDKIT=1 docker compose rm front -f
+
+.PHONY: start-front
+start-front: ;\
+    DOCKER_BUILDKIT=1 docker compose up  front -d
+
+.PHONY: reset-front
+reset-front: stop-front rm-front start-front
 
 .PHONY: dumpautoload
 dumpautoload: ;\
@@ -126,7 +140,19 @@ frontcheck: ;\
 
 # Run all CI tools
 .PHONY: ci
-ci: cs-fix phpstan phpmd frontlint
+ci: cs-fix phpstan phpmd cs-check frontlint
+
+
+.PHONY: drop-db-dev
+drop-db-dev: ;\
+	docker compose exec back bin/console doctrine:schema:drop --full-database --force
+
+.PHONY: fixtures-dev
+fixtures-dev: ;\
+	docker compose exec back bin/console doctrine:fixtures:load -n
+
+.PHONY: reset-db
+reset-db: drop-db-dev migrate fixtures-dev
 
 .PHONY: dump
 dump: ;\
