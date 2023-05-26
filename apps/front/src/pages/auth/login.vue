@@ -5,8 +5,15 @@
       <label for="email">
         email
       </label>
-      <input v-model="email" name="email" type="text">
-      <button type="submit" @click="submitAuthenticateUser">
+      <input
+        v-model="email"
+        name="email"
+        type="text"
+      >
+      <button
+        type="submit"
+        @click="submitAuthenticateUser"
+      >
         Log-in
       </button>
     </div>
@@ -17,7 +24,7 @@ import { ref } from 'vue';
 import { useAuthUser } from '~/store/auth';
 
 definePageMeta({
-  layout: 'anonymous',
+  layout: 'anonymous'
 });
 
 const authStore = useAuthUser();

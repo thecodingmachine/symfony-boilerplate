@@ -13,13 +13,13 @@ class HealthCheckController
     #[Route('/healthcheck', name: 'app_health_check')]
     public function index(): JsonResponse
     {
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse(['success' => 'ok']);
     }
 
     #[Route('/healthcheck/logged', name: 'app_health_check_logged')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function logged(): JsonResponse
     {
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse(['success' => 'ok']);
     }
 }

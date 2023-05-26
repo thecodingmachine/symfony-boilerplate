@@ -2,10 +2,10 @@
 export default defineNuxtConfig({
   srcDir: 'src/',
   modules: [
-    '@pinia/nuxt',
+    '@pinia/nuxt'
   ],
   runtimeConfig: {
-    API_URL: process.env.API_URL || '',
+    API_URL: process.env.API_URL || ''
   },
   app: {
 
@@ -17,21 +17,21 @@ export default defineNuxtConfig({
       meta: [
         // <meta name="description" content="My amazing site">
         //  { name: 'description', content: 'My amazing site.' }
-      ],
-    },
+      ]
+    }
   },
   css: [
-    '@/assets/styles/main.scss',
+    '@/assets/styles/main.scss'
   ],
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/assets/styles/_functions.scss";@import "@/assets/styles/_variables.scss";@import "@/assets/styles/_mixins.scss";',
-        },
-      },
-    },
-  },
+          additionalData: '@import "@/assets/styles/_functions.scss";@import "@/assets/styles/_variables.scss";@import "@/assets/styles/_mixins.scss";'
+        }
+      }
+    }
+  }
   // ssr: false
 
 });
