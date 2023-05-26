@@ -1,8 +1,8 @@
 <template>
   <div class="row justify-content-end py-2 mb-2">
     <div class="col-2">
-      <p v-if="email">
-        Welcome {{ email }}
+      <p v-if="username">
+        Welcome {{ username }}
       </p>
     </div>
   </div>
@@ -13,5 +13,5 @@ import { useAuthUser } from '~/store/auth';
 
 const authStore = useAuthUser();
 
-const email = authStore.authUser?.email || '';
+const username = authStore.authUser?.username || '';
 </script>
