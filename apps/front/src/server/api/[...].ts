@@ -1,8 +1,4 @@
-import {
-  defineEventHandler,
-  H3Event,
-  proxyRequest
-} from 'h3';
+import { defineEventHandler, H3Event, proxyRequest } from "h3";
 
 /**
  * Beware
@@ -27,17 +23,16 @@ import {
  * then use this retrived cookie in the proxy
  */
 
-import logger from '~/utils/logger';
+import logger from "~/utils/logger";
 
 export default defineEventHandler(async (event: H3Event) => {
   const { API_URL } = useRuntimeConfig();
   const target = new URL(event.req.url as string, API_URL);
-  logger.info('----API Proxy');
+  logger.info("----API Proxy");
   const ret = await proxyRequest(event, target.toString(), {
     headers: {
-      host: target.host
-    }
-
+      host: target.host,
+    },
   });
   return ret;
 });

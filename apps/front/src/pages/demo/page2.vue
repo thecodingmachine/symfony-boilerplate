@@ -7,9 +7,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useHealthCheckFetch } from '~/composables/api/healthCheck/useHealthCheckFetch';
+import { useHealthCheckFetch } from "~/composables/api/healthCheck/useHealthCheckFetch";
 
-const {
-  data
-} = await useHealthCheckFetch();
+const { data } = await useHealthCheckFetch();
 </script>

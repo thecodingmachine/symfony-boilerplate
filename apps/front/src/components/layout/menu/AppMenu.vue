@@ -2,10 +2,7 @@
   <div
     class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top"
   >
-    <NuxtLink
-      to="/"
-      class="d-block p-3 link-dark text-decoration-none"
-    >
+    <NuxtLink to="/" class="d-block p-3 link-dark text-decoration-none">
       <icons1-square-fill />
     </NuxtLink>
     <ul
@@ -37,5 +34,5 @@
 <script setup lang="ts">
 // Credit to https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
 // Another interesting ressource https://www.codeply.com/p/yE87h7irNi/icons-text
-import MenuItem from './MenuItem.vue';
+import MenuItem from "./MenuItem.vue";
 </script>

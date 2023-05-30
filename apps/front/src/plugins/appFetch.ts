@@ -1,69 +1,76 @@
 // TODO : remove that
 
-import { NitroFetchOptions, NitroFetchRequest } from 'nitropack';
-import { useAuthUser } from '~/store/auth';
+import { NitroFetchOptions, NitroFetchRequest } from "nitropack";
+import { useAuthUser } from "~/store/auth";
 
 export default defineNuxtPlugin(() => {
   const store = useAuthUser();
   const event = useRequestEvent();
   const headers: {
     [key: string]: string;
-  } = useRequestHeaders(['cookie']) as {
+  } = useRequestHeaders(["cookie"]) as {
     [key: string]: string;
   };
 
   const handleException = (e: any) => {
     // Check if 401 so remove auth info
-    if (
-      e &&
-      e.response &&
-      e.response.status === 401 &&
-      store.isAuthenticated
-    ) {
-      logger.error('401 error, removing authentication informations');
+    if (e && e.response && e.response.status === 401 && store.isAuthenticated) {
+      logger.error("401 error, removing authentication informations");
       store.resetAuth();
     }
 
-    const cookies = (e.response.headers.get('set-cookie') || '').split(',');
+    const cookies = (e.response.headers.get("set-cookie") || "").split(",");
     if (process.server && cookies) {
-      event.res.setHeader('set-cookie', cookies);
+      event.res.setHeader("set-cookie", cookies);
     }
     throw e;
   };
-  const fetchRaw = async <T>(request: NitroFetchRequest, opts?: NitroFetchOptions<'json'>) => {
+  const fetchRaw = async <T>(
+    request: NitroFetchRequest,
+    opts?: NitroFetchOptions<"json">
+  ) => {
     const res = await $fetch.raw<T>(request, {
       headers,
-      ...opts
+      ...opts,
     });
 
-    const cookies = (res.headers.get('set-cookie') || '').split(',');
+    const cookies = (res.headers.get("set-cookie") || "").split(",");
     if (process.server && cookies) {
-      event.res.setHeader('set-cookie', cookies);
+      event.res.setHeader("set-cookie", cookies);
     }
     return res;
   };
 
-  const fetchNative = async <T>(request: NitroFetchRequest, opts?: NitroFetchOptions<'json'>) => {
+  const fetchNative = async <T>(
+    request: NitroFetchRequest,
+    opts?: NitroFetchOptions<"json">
+  ) => {
     const res = await $fetch.raw<T>(request, {
       headers,
-      ...opts
+      ...opts,
     });
 
-    const cookies = (res.headers.get('set-cookie') || '').split(',');
+    const cookies = (res.headers.get("set-cookie") || "").split(",");
     if (process.server && cookies) {
-      event.res.setHeader('set-cookie', cookies);
+      event.res.setHeader("set-cookie", cookies);
     }
     return res._data;
   };
 
-  const _appFetchRaw = async <T>(request: NitroFetchRequest, opts?: NitroFetchOptions<'json'>) => {
+  const _appFetchRaw = async <T>(
+    request: NitroFetchRequest,
+    opts?: NitroFetchOptions<"json">
+  ) => {
     try {
       return await fetchRaw<T>(request, opts);
     } catch (e: any) {
       handleException(e);
     }
   };
-  const appFetch = async <T>(request: NitroFetchRequest, opts?: NitroFetchOptions<'json'>) => {
+  const appFetch = async <T>(
+    request: NitroFetchRequest,
+    opts?: NitroFetchOptions<"json">
+  ) => {
     try {
       return await fetchNative<T>(request, opts);
     } catch (e: any) {
@@ -77,7 +84,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       // // https://nuxt.com/docs/getting-started/data-fetching#example-pass-client-headers-to-the-api
-      appFetch
-    }
+      appFetch,
+    },
   };
 });

@@ -6,5 +6,5 @@
   </div>
 </template>
 <script setup lang="ts">
-logger.info('index.vue');
+logger.info("index.vue");
 </script>
