@@ -2,29 +2,18 @@
   <div>
     <div v-if="!authStore.isAuthenticated">
       <h1>Welcome to the login page</h1>
-      <label for="email">
-        email
-      </label>
-      <input
-        v-model="email"
-        name="email"
-        type="text"
-      >
-      <button
-        type="submit"
-        @click="submitAuthenticateUser"
-      >
-        Log-in
-      </button>
+      <label for="email"> email </label>
+      <input v-model="email" name="email" type="text" />
+      <button type="submit" @click="submitAuthenticateUser">Log-in</button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useAuthUser } from '~/store/auth';
+import { ref } from "vue";
+import { useAuthUser } from "~/store/auth";
 
 definePageMeta({
-  layout: 'anonymous'
+  layout: "anonymous",
 });
 
 const authStore = useAuthUser();
@@ -38,8 +27,8 @@ const authStore = useAuthUser();
  * It only becomes an issue when your ref relies on state from the server,
  * such as a header from the request, or data fetched during the server-rendering process.
  * * */
-const email = ref('user@kb.com');
+const email = ref("user@kb.com");
 const submitAuthenticateUser = async () => {
-  await authStore.authenticateUser(email.value, '');
+  await authStore.authenticateUser(email.value, "");
 };
 </script>

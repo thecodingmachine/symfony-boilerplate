@@ -1,8 +1,8 @@
 export default defineNuxtPlugin((nuxtApp) => {
   // Here you can handle your errors globally
 
-  nuxtApp.hook('vue:error', (..._args) => {
-    logger.error('vue:error', _args);
+  nuxtApp.hook("vue:error", (..._args) => {
+    logger.error("vue:error", _args);
     // if (process.client) {
     //   console.log(..._args)
     // }

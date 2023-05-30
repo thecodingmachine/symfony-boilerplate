@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import useMe, { Me } from '~/composables/api/auth/useMe';
-import useLogin from '~/composables/api/auth/useLogin';
-import { HTTP_UNAUTHORIZED } from '~/constants/httpCode';
+import { defineStore } from "pinia";
+import useMe, { Me } from "~/composables/api/auth/useMe";
+import useLogin from "~/composables/api/auth/useLogin";
+import { HTTP_UNAUTHORIZED } from "~/constants/httpCode";
 
 type User = Me;
 
@@ -12,11 +12,11 @@ type AuthState = {
 };
 
 export const useAuthUser = defineStore({
-  id: 'auth-store',
+  id: "auth-store",
   state: (): AuthState => ({
     authUser: null,
     isPending: false,
-    authUrl: ''
+    authUrl: "",
   }),
   actions: {
     async authenticateUser(username: string, password: string) {
@@ -32,22 +32,22 @@ export const useAuthUser = defineStore({
         throw e;
       }
     },
-    removeAuthUser () {
+    removeAuthUser() {
       this.authUser = null;
     },
-    resetAuth () {
+    resetAuth() {
       this.removeAuthUser();
     },
-    setAuthUser (authUser: User) {
+    setAuthUser(authUser: User) {
       this.authUser = authUser;
     },
-    startPending () {
+    startPending() {
       this.isPending = true;
     },
-    endPending () {
+    endPending() {
       this.isPending = false;
     },
-    async syncMe () {
+    async syncMe() {
       if (this.isPending) {
         return { data: null, error: null, isPending: this.isPending };
       }
@@ -68,18 +68,18 @@ export const useAuthUser = defineStore({
         }
 
         const ret = await exception.response._data;
-        this.authUrl = ret?.url || '';
+        this.authUrl = ret?.url || "";
         return {
           data: null,
           error: ret,
-          isPending: this.isPending
+          isPending: this.isPending,
         };
       }
-    }
+    },
   },
   getters: {
-    isAuthenticated: state => !!state.authUser
-  }
+    isAuthenticated: (state) => !!state.authUser,
+  },
 });
 
 export default useAuthUser;
