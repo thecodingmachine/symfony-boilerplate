@@ -21,6 +21,9 @@ export default defineNuxtConfig({
   },
   css: ["@/assets/styles/main.scss"],
   vite: {
+    plugins: [
+      svgLoader(),
+    ],
     css: {
       preprocessorOptions: {
         scss: {

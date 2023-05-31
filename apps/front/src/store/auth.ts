@@ -1,14 +1,13 @@
-import { defineStore } from "pinia";
-import useMe, { Me } from "~/composables/api/auth/useMe";
-import useLogin from "~/composables/api/auth/useLogin";
-import { HTTP_UNAUTHORIZED } from "~/constants/httpCode";
 
-type User = Me;
+import { defineStore } from 'pinia';
+import useMe, { Me } from '~/composables/api/auth/useMe';
+import {useLogin} from '~/composables/api/auth/useLogin';
+import { HTTP_UNAUTHORIZED } from '~/constants/http';
+import {User} from "~/types/user";
 
 type AuthState = {
-  authUser: User | null;
+  authUser: Me | null;
   isPending: boolean;
-  authUrl: string;
 };
 
 export const useAuthUser = defineStore({
@@ -16,14 +15,13 @@ export const useAuthUser = defineStore({
   state: (): AuthState => ({
     authUser: null,
     isPending: false,
-    authUrl: "",
+    //authUrl: ""
   }),
   actions: {
     async authenticateUser(username: string, password: string) {
-      const authenticate = useLogin();
       try {
         this.startPending();
-        const me = await authenticate(username, password);
+        const { data: me } = await useLogin(username, password);
         this.setAuthUser(me);
         this.endPending();
         return me;
@@ -32,13 +30,13 @@ export const useAuthUser = defineStore({
         throw e;
       }
     },
-    removeAuthUser() {
-      this.authUser = null;
+    async registerUser(email: string, password: string) {
+      await useRegister(email, password);
     },
     resetAuth() {
-      this.removeAuthUser();
+      this.authUser = null;
     },
-    setAuthUser(authUser: User) {
+    setAuthUser(authUser: Me) {
       this.authUser = authUser;
     },
     startPending() {
@@ -68,7 +66,7 @@ export const useAuthUser = defineStore({
         }
 
         const ret = await exception.response._data;
-        this.authUrl = ret?.url || "";
+       // this.authUrl = ret?.url || "";
         return {
           data: null,
           error: ret,
@@ -79,6 +77,7 @@ export const useAuthUser = defineStore({
   },
   getters: {
     isAuthenticated: (state) => !!state.authUser,
+    isAuthUser: (state) => (user: User) => state.authUser?.id === user.id,
   },
 });
 
