@@ -19,6 +19,9 @@ services:
       APP_SSO_IDENTITYPROVIDER_LOGINURL: ${APP_SSO_IDENTITYPROVIDER_LOGINURL}
       APP_SSO_IDENTITYPROVIDER_LOGOUTURL: ${APP_SSO_IDENTITYPROVIDER_LOGOUTURL}
       APP_URL: ${PROTOCOL}://${BASE_DOMAIN}
+      APP_PREFIX: ${APP_PREFIX}
+      MAILER_DSN: ${MAILER_DSN}
+      MAIL_HOST: ${MAIL_HOST}
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
@@ -58,7 +61,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      tcm_network:
+      default:
         aliases:
           - "${API_DOMAIN}"
           - "${BASE_DOMAIN}"

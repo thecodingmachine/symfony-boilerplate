@@ -23,7 +23,7 @@ includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-doctrine/rules.neon
 #    - vendor/symplify/phpstan-rules/packages/symfony/config/services.neon
-    
+
 services:
 # Must check https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md
    # Method that return a boolean must start with is**
@@ -40,8 +40,8 @@ services:
 
 
 
-    # Prevent else / elseif 
-    - 
+    # Prevent else / elseif
+    -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
         tags: [phpstan.rules.rule]
     # Maximum complexity of a function
@@ -53,14 +53,14 @@ services:
 
  # TODO @BEN retest that
     # Prevent Setter Method (promote behavior name)
- #   - 
+ #   -
  #       class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
  #       tags: [phpstan.rules.rule]
 
 
  # TODO @BEN retest that
     # Forbid assignement in IF
- #   - 
+ #   -
  #       class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
  #       tags: [phpstan.rules.rule]
     # Forbid short name like $i

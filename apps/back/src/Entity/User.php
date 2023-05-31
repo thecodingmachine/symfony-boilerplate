@@ -6,22 +6,26 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, \JsonSerializable
+class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int|null $id = null;
 
+    #[ORM\Column(length: 180)]
+    private string $password;
+
     /** @param array<string> $roles */
     public function __construct(
         #[ORM\Column(length: 180, unique: true)]
-        private readonly string $email,
+        private string $email,
         #[ORM\Column]
-        private array $roles,
+        private array $roles = ['ROLE_USER'],
     ) {
     }
 
@@ -33,6 +37,11 @@ class User implements UserInterface, \JsonSerializable
     public function getEmail(): string|null
     {
         return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
     /**
@@ -63,15 +72,26 @@ class User implements UserInterface, \JsonSerializable
         return $this->roles;
     }
 
+    /** @param array<string> $roles */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
     /**
      * DO NOT USE this method, it is required for the interface UserInterface
      * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
      *
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string|null
+    public function getPassword(): string
     {
-        return null;
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     /**
@@ -99,6 +119,7 @@ class User implements UserInterface, \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
+            'id' => $this->getId(),
             'email' => $this->getEmail(),
             'username' => $this->getUsername(),
         ];

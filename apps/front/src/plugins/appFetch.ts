@@ -2,6 +2,7 @@
 
 import { NitroFetchOptions, NitroFetchRequest } from "nitropack";
 import { useAuthUser } from "~/store/auth";
+import {API_URL} from "~/constants/http";
 
 export default defineNuxtPlugin(() => {
   const store = useAuthUser();
@@ -31,6 +32,7 @@ export default defineNuxtPlugin(() => {
   ) => {
     const res = await $fetch.raw<T>(request, {
       headers,
+      baseURL: API_URL,
       ...opts,
     });
 
@@ -47,6 +49,7 @@ export default defineNuxtPlugin(() => {
   ) => {
     const res = await $fetch.raw<T>(request, {
       headers,
+      baseURL: API_URL,
       ...opts,
     });
 

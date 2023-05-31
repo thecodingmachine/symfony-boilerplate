@@ -1,13 +1,15 @@
 import { Me } from "./useMe";
+import { POST } from "~/constants/http";
+import useAppFetch from "~/composables/useAppFetch";
 
-export default function useLogin(): (
+export function useSamlLogin(): (
   email: string,
   password: string | undefined
 ) => Promise<Me> {
   const { $appFetch } = useNuxtApp();
   return async (email: string, password: string | undefined) => {
-    const response = await $appFetch<Me>("/api/1.0/auth/sso/saml2/login", {
-      method: "post",
+    const response = await $appFetch<Me>("/auth/sso/saml2/login", {
+      method: POST,
       body: {
         username: email,
         password,
@@ -20,4 +22,15 @@ export default function useLogin(): (
     }
     return response;
   };
+}
+
+export async function useLogin(username: string, password: string | undefined) {
+  return useAppFetch(() => "/login", {
+    key: "login",
+    method: POST,
+    body: {
+      username,
+      password,
+    },
+  });
 }

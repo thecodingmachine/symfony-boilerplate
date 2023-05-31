@@ -79,6 +79,7 @@ fdown: sync-env ## stronger down (remove volume / image / orphans)
 fup: sync-env ## stronger up (recreate all container and rebuild the image)
 	DOCKER_BUILDKIT=1 docker compose up -d --force-recreate --build
 
+
 .PHONY: restart
 restart: down up ## Soft Restart
 
@@ -154,3 +155,14 @@ dump: ## dump database in apps/back/dump/dump.sql (use git lfs)
 .PHONY: help
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
+.PHONY: network-prune
+network-prune: ;\
+    docker network prune
+.PHONY: image-prune
+image-prune: ;\
+    docker image prune -a
+.PHONY: system-prune
+system-prune: ;\
+    docker system prune
+prune: system-prune image-prune network-prune
