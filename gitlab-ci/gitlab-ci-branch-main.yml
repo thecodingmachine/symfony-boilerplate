@@ -27,8 +27,8 @@ front build staging:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build ./apps/front --pull --cache-from $FRONT_IMAGE_WITH_TAG --cache-from ${FRONT_IMAGE_NAME}:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t $FRONT_IMAGE_WITH_TAG -t ${FRONT_IMAGE_NAME}:latest --build-arg NODE_ENV=development
-    - docker push $IMAGE_WITH_TAG
-    - docker push ${IMAGE_NAME}:latest
+    - docker push $FRONT_IMAGE_WITH_TAG
+    - docker push ${FRONT_IMAGE_NAME}:latest
   services:
     - docker:20.10.21-dind
   interruptible: false
