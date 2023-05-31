@@ -1,6 +1,5 @@
 security:
     enable_authenticator_manager: true
-    # This shall be removed for kb
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -40,6 +39,7 @@ security:
         ROLE_ADMIN:
             - ROLE_RIGHT_ACCESS
             - ROLE_RIGHT_USER_CREATE
+            - ROLE_RIGHT_DELETE_USER
         ROLE_USER:
             - ROLE_RIGHT_ACCESS
 

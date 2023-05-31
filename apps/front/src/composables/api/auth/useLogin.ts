@@ -1,10 +1,11 @@
 import { Me } from './useMe';
+import {API_URL, POST} from "~/constants/http";
 
 export default function useLogin(): (email: string, password: string | undefined) => Promise<Me> {
   const { $appFetch } = useNuxtApp();
   return async (email: string, password: string | undefined) => {
-    const response = await $appFetch<Me>('/api/1.0/auth/sso/saml2/login', {
-      method: 'post',
+    const response = await $appFetch<Me>(API_URL + '/auth/sso/saml2/login', {
+      method: POST,
       body: {
         username: email,
         password,

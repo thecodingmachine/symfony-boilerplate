@@ -8,13 +8,12 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-class UserController
+final class UserController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -22,34 +21,35 @@ class UserController
     ) {
     }
 
-    /**  This route demonstrate the usage of role_right */
-    #[Route('/user', name: 'user_put', methods: ['PUT'])]
-    #[IsGranted('ROLE_RIGHT_USER_CREATE')]
-    public function login(Request $request): JsonResponse
+    #[Route('/user', name: 'create_user', methods: ['POST'])]
+    public function createUser(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
-        $data = \json_decode((string) $request->getContent(), true, 512);
-        if (!$data) {
-            throw new BadRequestException('data is not valid');
-        }
-
-        if (!\is_string($data['username'])) {
-            throw new BadRequestException('username must be a string');
-        }
-        $username = $data['username'];
-
-        $user = $this->userRepository->createUser($username);
-
+        $data = json_decode($request->getContent(), true);
+        $user = new User(
+            $data['email'],
+        );
+        $user->setPassword($passwordHasher->hashPassword($user, (string) $data['password']));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         return new JsonResponse($user);
     }
 
-    /** This route demonstrate the usage of role_right */
-    #[Route('/profile', name: 'profile_get', methods: ['GET'])]
-    #[IsGranted('ROLE_RIGHT_ACCESS')]
-    public function profile(#[CurrentUser] User $user): JsonResponse
+    #[Route('/user', name: 'list_users', methods: ['GET'])]
+    public function listUsers(): JsonResponse
     {
-        return new JsonResponse($user);
+        $users = $this->userRepository->findAll();
+
+        return new JsonResponse($users);
+    }
+
+    #[Route('/user/{id}', name: 'delete_user', methods: ['DELETE'])]
+    #[IsGranted('ROLE_RIGHT_DELETE_USER')]
+    public function deleteUser(User $user): JsonResponse
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse(true);
     }
 }

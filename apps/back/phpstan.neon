@@ -1,73 +1,9 @@
 parameters:
-    level: 8
-#    autoload_files:
-#        - application/bootstrap_phpstan.php
-    treatPhpDocTypesAsCertain: false
-    parallel:
-        processTimeout: 360.0
-    # Check with PHPCS
-    checkMissingIterableValueType: false
     paths:
         - src
-    doctrine:
-        objectManagerLoader: phpstan/entity-manager.php
-
+    level: 8
+    ignoreErrors:
     excludePaths:
         - src/Kernel.php
-includes:
-    - vendor/symplify/astral/config/services.neon
-    - vendor/symplify/phpstan-extensions/config/config.neon
-    # for cognitive rules
-    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
-    - vendor/symplify/phpstan-rules/config/services/services.neon
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-doctrine/rules.neon
-#    - vendor/symplify/phpstan-rules/packages/symfony/config/services.neon
-    
-services:
-# Must check https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md
-   # Method that return a boolean must start with is**
-    -
-        class: Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
-        tags: [phpstan.rules.rule]
+    checkGenericClassInNonGenericObjectType: false
 
-
- # TODO @BEN retest that
-    # Method parameters must be compatible with its parent
- #   -
- #       class: Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule
- #       tags: [phpstan.rules.rule]
-
-
-
-    # Prevent else / elseif 
-    - 
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
-        tags: [phpstan.rules.rule]
-    # Maximum complexity of a function
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCognitiveComplexity: 16
-
- # TODO @BEN retest that
-    # Prevent Setter Method (promote behavior name)
- #   - 
- #       class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
- #       tags: [phpstan.rules.rule]
-
-
- # TODO @BEN retest that
-    # Forbid assignement in IF
- #   - 
- #       class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
- #       tags: [phpstan.rules.rule]
-    # Forbid short name like $i
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minNameLength: 3
-            allowedShortNames: ['id']
-## May have to add static forbidden

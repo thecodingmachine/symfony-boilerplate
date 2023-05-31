@@ -16,20 +16,20 @@
         "phpstan/phpdoc-parser": "^1.13",
         "ramsey/uuid": "^4.5",
         "sensio/framework-extra-bundle": "^6.2",
-        "symfony/console": "5.4.*",
-        "symfony/dotenv": "5.4.*",
+        "symfony/console": "6.3.*",
+        "symfony/dotenv": "6.3.*",
         "symfony/flex": "^1.17|^2",
-        "symfony/framework-bundle": "5.4.*",
+        "symfony/framework-bundle": "6.3.*",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/property-access": "5.4.*",
-        "symfony/property-info": "5.4.*",
-        "symfony/proxy-manager-bridge": "5.4.*",
-        "symfony/runtime": "5.4.*",
-        "symfony/security-bundle": "5.4.*",
-        "symfony/serializer": "5.4.*",
-        "symfony/string": "5.4.*",
-        "symfony/translation": "5.4.*",
-        "symfony/yaml": "5.4.*"
+        "symfony/property-access": "6.3.*",
+        "symfony/property-info": "6.3.*",
+        "symfony/proxy-manager-bridge": "6.3.*",
+        "symfony/runtime": "6.3.*",
+        "symfony/security-bundle": "6.3.*",
+        "symfony/serializer": "6.3.*",
+        "symfony/string": "6.3.*",
+        "symfony/translation": "6.3.*",
+        "symfony/yaml": "6.3.*"
     },
     "config": {
         "allow-plugins": {
@@ -89,7 +89,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "6.3.*"
         }
     },
     "require-dev": {

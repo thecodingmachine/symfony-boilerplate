@@ -36,7 +36,7 @@ export default defineNuxtPlugin(() => {
             && store.isAuthenticated
           ) {
             logger.error('401 error, removing authentication informations');
-            store.resetAuth();
+            store.removeAuthUser();
           }
 
           const cookies = (e.response.headers.get('set-cookie') || '').split(',');

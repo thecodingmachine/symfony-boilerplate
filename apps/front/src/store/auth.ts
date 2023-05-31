@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import useMe, { Me } from '~/composables/api/auth/useMe';
 import useLogin from '~/composables/api/auth/useLogin';
-import { HTTP_UNAUTHORIZED } from '~/constants/httpCode';
+import { HTTP_UNAUTHORIZED } from '~/constants/http';
+import useRegister from "~/composables/api/auth/useRegister";
 
 type User = Me;
 
@@ -32,11 +33,11 @@ export const useAuthUser = defineStore({
         throw e;
       }
     },
+    async registerUser(email: string, password: string) {
+      await useRegister(email, password);
+    },
     removeAuthUser() {
       this.authUser = null;
-    },
-    resetAuth() {
-      this.removeAuthUser();
     },
     setAuthUser(authUser: User) {
       this.authUser = authUser;

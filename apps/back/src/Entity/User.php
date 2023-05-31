@@ -6,22 +6,26 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, \JsonSerializable
+class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int|null $id = null;
 
+    #[ORM\Column(length: 180)]
+    private string $password;
+
     /** @param array<string> $roles */
     public function __construct(
         #[ORM\Column(length: 180, unique: true)]
         private readonly string $email,
         #[ORM\Column]
-        private array $roles,
+        private readonly array $roles = ['ROLE_USER'],
     ) {
     }
 
@@ -69,9 +73,16 @@ class User implements UserInterface, \JsonSerializable
      *
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string|null
+    public function getPassword(): string
     {
-        return null;
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -99,6 +110,7 @@ class User implements UserInterface, \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
+            'id' => $this->getId(),
             'email' => $this->getEmail(),
         ];
     }
