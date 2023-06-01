@@ -58,9 +58,9 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     /**
      * This is "primary" role
      *
-     * @see UserInterface
-     *
      * @return array<string>
+     *
+     * @see UserInterface
      */
     public function getRoles(): array
     {

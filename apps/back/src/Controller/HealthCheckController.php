@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HealthCheckController
+final class HealthCheckController
 {
     #[Route('/healthcheck', name: 'app_health_check')]
     public function index(): JsonResponse

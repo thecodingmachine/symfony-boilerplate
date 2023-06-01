@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-class AuthController
+final class AuthController
 {
     public function __construct(
         private readonly Auth $auth,
@@ -22,7 +22,7 @@ class AuthController
     }
 
     #[Route('/auth/sso/saml2/login', name: 'api_login_saml2', methods: ['POST'])]
-    public function login(#[CurrentUser] User $user): Response
+    public function login(): Response
     {
         // Redirect to the frontend
         return new RedirectResponse($this->appUrl);
@@ -38,7 +38,7 @@ class AuthController
     /** @Route("/auth/sso/saml2/metadata", name="getSsoMetadata", methods={"GET"}) */
     public function getMetadata(): Response
     {
-        $auth     = $this->auth;
+        $auth = $this->auth;
         $settings = $auth->getSettings();
         $metadata = $settings->getSPMetadata(true);
 

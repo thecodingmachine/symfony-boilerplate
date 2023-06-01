@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class SsoConsumerAuthNException extends \Exception
+final class SsoConsumerAuthNException extends \Exception
 {
 }
