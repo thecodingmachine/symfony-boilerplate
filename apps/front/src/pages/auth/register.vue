@@ -6,7 +6,10 @@
   <label for="password">Password</label>
   <input v-model="password" name="password" type="password">
 
-  <button type="submit" @click="registerUser">
+  <button
+    :disabled="!email"
+    @click="registerUser"
+  >
     Register
   </button>
 </template>

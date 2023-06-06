@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,6 +20,7 @@ final class UserController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
+        private readonly MailerInterface $mailer,
     ) {
     }
 
@@ -25,12 +28,21 @@ final class UserController
     public function createUser(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
         $user = new User(
             $data['email'],
         );
         $user->setPassword($passwordHasher->hashPassword($user, (string) $data['password']));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        $email = (new Email())
+            ->from(getenv('MAIL_HOST'))
+            ->to($data['email'])
+            ->subject('Registration')
+            ->text('Hello');
+
+        $this->mailer->send($email);
 
         return new JsonResponse($user);
     }

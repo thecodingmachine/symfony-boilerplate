@@ -18,6 +18,8 @@ services:
       APP_SSO_IDENTITYPROVIDER_LOGINURL: ${APP_SSO_IDENTITYPROVIDER_LOGINURL}
       APP_SSO_IDENTITYPROVIDER_LOGOUTURL: ${APP_SSO_IDENTITYPROVIDER_LOGOUTURL}
       APP_URL: ${PROTOCOL}://${BASE_DOMAIN}
+      MAILER_DSN: ${MAILER_DSN}
+      MAIL_HOST: ${MAIL_HOST}
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
@@ -61,6 +63,14 @@ services:
         aliases:
           - "${API_DOMAIN}"
           - "${BASE_DOMAIN}"
+
+  mailhog:
+    image: mailhog/mailhog
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mailhog_router.rule=${MAILHOG_ROUTER_RULE}
+      - traefik.http.routers.mailhog_router.service=mailhog_service
+      - traefik.http.services.mailhog_service.loadbalancer.server.port=8025
 
 volumes:
   mysql_db:
