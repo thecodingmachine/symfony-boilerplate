@@ -7,7 +7,7 @@
   <input v-model="password" name="password" type="password">
 
   <button
-    :disabled="!email"
+    :disabled="!email || !password"
     @click="registerUser"
   >
     Register
@@ -23,8 +23,12 @@ const email = ref();
 const password = ref();
 
 const registerUser = async () => {
-  await authStore.registerUser(email.value, password.value);
-  navigateTo('/users');
+  try {
+    await authStore.registerUser(email.value, password.value);
+    navigateTo('/users');
+  } catch (e: any) {
+    window.alert(e.data);
+  }
 };
 </script>
 

@@ -38,8 +38,10 @@ security:
     role_hierarchy:
         ROLE_ADMIN:
             - ROLE_RIGHT_ACCESS
+            - ROLE_RIGHT_USER_READ
             - ROLE_RIGHT_USER_CREATE
-            - ROLE_RIGHT_DELETE_USER
+            - ROLE_RIGHT_USER_DELETE
+            - ROLE_RIGHT_USER_UPDATE
         ROLE_USER:
             - ROLE_RIGHT_ACCESS
 

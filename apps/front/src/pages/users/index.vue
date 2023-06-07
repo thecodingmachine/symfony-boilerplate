@@ -10,9 +10,16 @@
       <tr v-for="user in userStore.users">
         <td>{{ user.email }}</td>
         <td>
+          <NuxtLink
+            v-if="user.id !== authStore.authUser.id"
+            :to="`/users/${user.id}`"
+          >
+            <button>Update</button>
+          </NuxtLink>
+        </td>
+        <td>
           <button
             v-if="user.id !== authStore.authUser.id"
-            type="submit"
             @click="deleteUser(user)"
           >
             Delete

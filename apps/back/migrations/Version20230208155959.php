@@ -19,7 +19,8 @@ final class Version20230208155959 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql("INSERT INTO `user` (`id`, `email`, `roles`) VALUES (NULL, 'admin@tcm.com', '[]')");
+        $this->addSql("INSERT INTO `user` (`id`, `email`, `roles`, `password`) VALUES 
+            (NULL, 'admin@tcm.com', '[\"ROLE_ADMIN\"]', 'admin')");
         // this up() migration is auto-generated, please modify it to your needs
     }
 

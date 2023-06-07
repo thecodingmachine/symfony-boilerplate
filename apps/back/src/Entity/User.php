@@ -23,7 +23,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     /** @param array<string> $roles */
     public function __construct(
         #[ORM\Column(length: 180, unique: true)]
-        private readonly string $email,
+        private string $email,
         #[ORM\Column]
         private readonly array $roles = ['ROLE_USER'],
     ) {
@@ -37,6 +37,13 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     public function getEmail(): string|null
     {
         return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
