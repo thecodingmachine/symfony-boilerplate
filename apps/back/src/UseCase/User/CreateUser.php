@@ -20,7 +20,8 @@ class CreateUser
         private readonly UserRepository $userRepository,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly MailerInterface $mailer,
-    ) {}
+    ) {
+    }
 
     public function createUser(UserDto $userDto): User
     {

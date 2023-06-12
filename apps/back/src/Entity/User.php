@@ -63,18 +63,16 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     /**
      * This is "primary" role
      *
-     * @return array<string>
-     *
      * @see UserInterface
+     *
+     * @return array<string>
      */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * @param string[] $roles
-     */
+    /** @param array<string> $roles */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;

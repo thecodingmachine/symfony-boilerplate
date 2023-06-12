@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class UserController
+class UserController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
         private readonly CreateUser $createUser,
-        private readonly UpdateUser $updateUser
+        private readonly UpdateUser $updateUser,
     ) {
     }
 
