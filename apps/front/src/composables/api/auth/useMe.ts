@@ -1,6 +1,7 @@
 import {API_URL} from "~/constants/http";
 
 export interface Me {
+  id: Number,
   username: string;
   email: string;
 }

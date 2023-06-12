@@ -15,16 +15,14 @@
 </template>
 <script setup lang="ts">
 import {ref} from "vue";
-import useAuthUser from "~/store/auth";
+import useCreateUser from "~/composables/api/user/useCreateUser";
 
-const authStore = useAuthUser();
-
-const email = ref();
-const password = ref();
+const email = ref('');
+const password = ref('');
 
 const registerUser = async () => {
   try {
-    await authStore.registerUser(email.value, password.value);
+    await useCreateUser(email.value, password.value);
     navigateTo('/users');
   } catch (e: any) {
     window.alert(e.data);

@@ -1,9 +1,9 @@
-import { Me } from './useMe';
+import { Me } from '../auth/useMe';
 import {API_URL, POST} from "~/constants/http";
 
-export default async function useRegister(email: string, password: string): Promise<Me> {
+export default async function useCreateUser(email: string, password: string): Promise<Me> {
   const { $appFetch } = useNuxtApp();
-  const response = await $appFetch<Me>(API_URL + '/user', {
+  const response = await $appFetch<Me>(API_URL + '/users', {
     method: POST,
     body: {
       email,

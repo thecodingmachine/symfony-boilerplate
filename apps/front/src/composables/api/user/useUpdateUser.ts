@@ -1,11 +1,12 @@
 import {API_URL, PUT} from "~/constants/http";
+import {User} from "~/utils/types";
 
 
-export default async function useUpdateUser(userId: string, params: {}) {
+export default async function useUpdateUser(userId: string, user: User): Promise<User> {
   const { $appFetch } = useNuxtApp();
-  const response = await $appFetch(API_URL + '/user/' + userId, {
+  const response = await $appFetch<User>(API_URL + '/users/' + userId, {
     method: PUT,
-    body: params
+    body: user,
   });
   if (!response) {
     throw createError('Error while updating user');

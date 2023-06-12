@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia';
+import { User } from "~/utils/types";
 import useMe, { Me } from '~/composables/api/auth/useMe';
 import useLogin from '~/composables/api/auth/useLogin';
 import { HTTP_UNAUTHORIZED } from '~/constants/http';
-import useRegister from "~/composables/api/auth/useRegister";
-
-type User = Me;
 
 type AuthState = {
-  authUser: User | null;
+  authUser: Me | null;
   isPending: boolean;
   authUrl: string;
 };
@@ -33,13 +31,10 @@ export const useAuthUser = defineStore({
         throw e;
       }
     },
-    async registerUser(email: string, password: string) {
-      await useRegister(email, password);
-    },
     removeAuthUser() {
       this.authUser = null;
     },
-    setAuthUser(authUser: User) {
+    setAuthUser(authUser: Me) {
       this.authUser = authUser;
     },
     startPending() {
@@ -80,6 +75,7 @@ export const useAuthUser = defineStore({
   },
   getters: {
     isAuthenticated: (state) => !!state.authUser,
+    isAuthUser: (state) => (user: User) => state.authUser?.id === user.id,
   },
 });
 

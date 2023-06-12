@@ -25,7 +25,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         #[ORM\Column(length: 180, unique: true)]
         private string $email,
         #[ORM\Column]
-        private readonly array $roles = ['ROLE_USER'],
+        private array $roles = ['ROLE_USER'],
     ) {
     }
 
@@ -39,11 +39,9 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -72,6 +70,14 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    /**
+     * @param string[] $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
     }
 
     /**
