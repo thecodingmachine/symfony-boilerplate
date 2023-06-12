@@ -1,0 +1,44 @@
+.deploy k8s start:
+  image: thecodingmachine/k8s_gitlabci:latest
+  variables:
+    AUTOCONNECT: 1
+    KUBECONFIG: "/root/.kube/config"
+  before_script:
+    - mkdir -p ~/.kube
+    - echo "$KUBE_CONFIG" > ~/.kube/config
+    - 'kubectl create namespace ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} || true'
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete all --all
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete secret tcmregistry || true
+    - cd deployments/kubernetes
+  script:
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} create secret docker-registry tcmregistry --docker-username=$CI_ACCOUNT --docker-password=$CI_PASSWD --docker-server=git.thecodingmachine.com:444 --docker-email=ci.gitlab@thecodingmachine.com
+    - sed -i "s!#ENVIRONMENT#!${CI_COMMIT_REF_SLUG}!g" deployment.yaml
+    - sed -i "s!#URL_SUFFIX#!${KUBERNETES_URL_SUFFIX}!g" deployment.yaml
+    - sed -i "s!#PASSWORD_SECRET#!${KUBERNETES_PASSWORD_SECRET}!g" deployment.yaml
+    - sed -i "s!#CI_REGISTRY_IMAGE#!${CI_REGISTRY_IMAGE}!g" deployment.yaml
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} apply -f deployment.yaml
+    - echo "deployed to http://${CI_COMMIT_REF_SLUG}.${KUBERNETES_URL_SUFFIX}/"
+  environment:
+    action: start
+    name: "review/${CI_COMMIT_REF_NAME}"
+    url: "http://${CI_COMMIT_REF_SLUG}.${KUBERNETES_URL_SUFFIX}/"
+
+.deploy k8s stop:
+  image: thecodingmachine/gitlab-registry-cleaner:latest
+  variables:
+    KUBECONFIG: "/root/.kube/config"
+    GIT_STRATEGY: "none"
+  before_script:
+    - apk update && apk add curl
+    - mkdir ~/.kube || true
+    - echo "$KUBE_CONFIG" > ~/.kube/config
+  script:
+    - exit 0
+  after_script:
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete all --all
+    - kubectl -n ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} delete secret tcmregistry || true
+    - kubectl delete namespace ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}
+  when: manual
+  environment:
+    name: "review/${CI_COMMIT_REF_NAME}"
+    action: stop

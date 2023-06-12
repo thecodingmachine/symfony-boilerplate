@@ -3,8 +3,7 @@ services:
   back:
     build:
       context: ./apps/back/
-      args:
-        APP_ENV: dev
+      target: dev
     volumes:
       - ./apps/back:/var/www/html/:delegated
 
@@ -12,10 +11,9 @@ services:
   front:
     build:
       context: ./apps/front/
-      args:
-        NODE_ENV: development
+      target: dev
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
     ports:
       - "24678:24678"
     volumes:
@@ -29,11 +27,10 @@ services:
   initback:
     extends:
       service: back
+      file: docker-compose.yml
     restart: "no"
     volumes:
       - ./apps/back:/var/www/html/:delegated
-    env_file:
-      - .env
     command:
       - /bin/sh
       - -c
@@ -50,11 +47,22 @@ services:
       - traefik.http.routers.phpmyadmin_router.rule=${PHPMYADMIN_ROUTER_RULE}
       - traefik.http.routers.phpmyadmin_router.service=phpmyadmin_service
       - traefik.http.services.phpmyadmin_service.loadbalancer.server.port=80
-    links:
-      - "mysql:db"
+    environment:
+      PMA_HOSTS: "mysql, mysql_tests"
+      PMA_USER: "$DATABASE_USERNAME"
+      PMA_PASSWORD: "$DATABASE_PASSWORD"
+      UPLOAD_LIMIT: "100M"
+
   mysql:
     volumes:
       - ./apps/back/dump/dump.sql:/docker-entrypoint-initdb.d/001-dump.sql
+
+  mysql_tests:
+    extends:
+      service: mysql
+      file: docker-compose.yml
+    tmpfs:
+      - /var/lib/mysql
 
   samltest:
     image: kristophjunge/test-saml-idp

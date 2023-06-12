@@ -1,0 +1,22 @@
+.MR rules:
+  rules:
+    - # Target only merge request
+      if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+.rc rules:
+  rules:
+    - # Target only tags "a.b.c-rcX" and develop branch
+      if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-rc\.\d+$/ || $CI_COMMIT_REF_NAME =~ /^develop$/'
+.stable rules:
+  rules:
+    - # Target only tags "a.b.c" and main branch
+      if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/ || $CI_COMMIT_REF_NAME =~ /^main$/'
+
+
+workflow:
+  rules:
+    - # avoid duplicates pipeline
+      if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
+      when: never
+    - !reference [.MR rules, rules]
+    - !reference [.rc rules, rules]
+    - !reference [.stable rules, rules]

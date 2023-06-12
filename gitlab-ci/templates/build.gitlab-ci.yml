@@ -1,0 +1,59 @@
+# DOCKER_BUILDKIT and BUILDKIT_INLINE_CACHE are required to allow layer caching
+.build image kaniko:
+  variables:
+    TARGET: "" # required
+    CONTEXT_PATH: "" # required
+    IMAGE_DESTINATION: "" # required
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - if [[ -z $TARGET ]]; then echo "TARGET is required"; exit 1; fi
+    - if [[ -z $CONTEXT_PATH ]]; then echo "CONTEXT_PATH is required"; exit 1; fi
+    - if [[ -z $IMAGE_DESTINATION ]]; then echo "IMAGE_DESTINATION is required"; exit 1; fi
+    - mkdir -p $HOME/.docker
+    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+  script:
+    - '/kaniko/executor
+        --reproducible
+        --skip-unused-stages
+        --snapshot-mode=redo
+        --cache=true
+        --target="${TARGET}"
+        --context="${CONTEXT_PATH}"
+        --destination="${IMAGE_DESTINATION}"
+       '
+
+# DOCKER_BUILDKIT and BUILDKIT_INLINE_CACHE are required to allow layer caching
+.build image buildx:
+  variables:
+    TARGET: "" # required
+    CONTEXT_PATH: "" # required
+    IMAGE_DESTINATION: "" # required
+    DOCKER_BUILDKIT: 1
+  image: docker
+  services:
+    - name: docker:dind
+  before_script:
+    - if [[ -z $TARGET ]]; then echo "TARGET is required"; exit 1; fi
+    - if [[ -z $CONTEXT_PATH ]]; then echo "CONTEXT_PATH is required"; exit 1; fi
+    - if [[ -z $IMAGE_DESTINATION ]]; then echo "IMAGE_DESTINATION is required"; exit 1; fi
+    - mkdir -p $HOME/.docker
+    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+  script:
+    - 'docker build
+         "${CONTEXT_PATH}"
+         --pull
+         --cache-from ${IMAGE_DESTINATION}
+         --cache-from ${IMAGE_DESTINATION}:latest
+         --build-arg BUILDKIT_INLINE_CACHE=1
+         -t $IMAGE_DESTINATION
+         -t ${IMAGE_DESTINATION}:latest
+         --target=${TARGET}
+      '
+    - docker push ${IMAGE_DESTINATION}
+    - docker push ${IMAGE_DESTINATION}:latest
+
+.build image:
+  extends:
+    - '.build image kaniko'

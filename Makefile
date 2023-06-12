@@ -1,111 +1,107 @@
-# .RECIPEPREFIX = "    "
-# Change tabs to space in makefile
+.DEFAULT_GOAL := help
+SHELL := $(shell which bash)
 
-# Load .env variable (the prod is added also if there is any)
-ifneq (,$(wildcard ./.env.dist))
-    include .env.dist
-    export
-endif
-ifneq (,$(wildcard ./.env))
-    include .env
-    export
-endif
-ifneq (,$(wildcard ./.env.prod))
-    include .env.prod
-    export
-endif
+# Load .env variable
+-include .env.dist
+-include .env
 
-# connect to the back container
+.env: ## Create .env file if it's does not exist
+	cp .env.dist .env
+
+.PHONY: sync-env
+sync-env: .env ## Add variables who did not exist in .env (from .env.dist)
+	@while IFS='=' read -r k v; do \
+	  if [[ ! -z "$$k" && ! -z "$$v" && $${k:0:1} != '#' ]]; then \
+	    grep -q "^$$k=" .env; \
+	    if [[ $$? -ne 0 ]]; then \
+	      echo "Warning : $$k is declared in .env.dist but was not in .env (auto fixed)" >&2; \
+	      echo "# Added by autofix :" >> .env; echo "$$k=$$v" >> .env; \
+	    fi; \
+	  fi; \
+	done < .env.dist
+
 .PHONY: bbash
-bbash: ;\
-    docker compose exec back bash;
+bbash: sync-env ## connect to the back container
+	docker compose exec back bash;
 
-# connect to the front container
 .PHONY: fbash
-fbash: ;\
-    docker compose exec front bash;
+fbash: sync-env ## connect to the front container
+	docker compose exec front bash;
 
-# Launch migration
 .PHONY: migrate
-migrate: ;\
-    docker compose exec back composer -- run  console  doctrine:migrations:migrate -n
+migrate: sync-env ## Launch migration
+	docker compose exec back composer -- run  console  doctrine:migrations:migrate -n
 
-# Force doctrine update from entities
 .PHONY: db-dev-mig
-db-dev-mig: ;\
-    docker compose exec back composer -- run console doctrine\:schema\:update -f
+db-dev-mig: sync-env ## Force doctrine update from entities
+	docker compose exec back composer -- run console doctrine\:schema\:update -f
 
-# Launch generate migration (recommended) from database diff
-# doctrine:schema:validate --skip-sync  is used to check the database mapping before generating the migration,
-# skip-sync is used to skip database and mapping sync validation
-db-mig-diff: ;\
-    docker compose exec back composer -- run console  doctrine:schema:validate --skip-sync && \
-    docker compose exec back composer -- run console make:migration
+db-mig-diff: sync-env ## Launch generate migration (recommended) from database diff
+	# doctrine:schema:validate --skip-sync  is used to check the database mapping before generating the migration,
+	# skip-sync is used to skip database and mapping sync validation
+	docker compose exec back composer -- run console  doctrine:schema:validate --skip-sync
+	docker compose exec back composer -- run console make:migration
 
-# Launch generate migration (not recommended)
 .PHONY: migrate-diff
-db-migrate-diff: ;\
-    docker compose exec back composer -- run  console  doctrine:migrations:diff -n
+db-migrate-diff: sync-env ## Launch generate migration (not recommended)
+	docker compose exec back composer -- run  console  doctrine:migrations:diff -n
 
-# See logs of back
 .PHONY: blogs
-blogs: ;\
-    docker-compose logs back -f
+blogs: ## Display logs of back
+	docker compose logs back -f
 
 .PHONY: flogs
-flogs: ;\
-    docker-compose logs front -f
-# Init dev env
-init-dev: ;\
-    cp -n docker-compose.override.yml.template docker-compose.override.yml; \
-    cp -n .env.dist .env; \
-    echo "Add ${BASE_DOMAIN} and ${API_DOMAIN}  and samltest.${BASE_DOMAIN} to your /etc/hosts"; \
-    if  grep -q ${BASE_DOMAIN} /etc/hosts ; then echo "not adding to /etc/hosts" ; else echo "\n127.0.0.1 ${BASE_DOMAIN} ${API_DOMAIN} samltest.${BASE_DOMAIN}" | sudo tee -a /etc/hosts ; fi
+flogs: sync-env ## Display logs of front
+	docker compose logs front -f
+.PHONY: init-dev
+init-dev: sync-env ## Init dev env
+	cp -n docker-compose.override.yml.template docker-compose.override.yml
+	if uname | grep -ivq "linux"; then \
+		echo "Add $(BASE_DOMAIN) and $(API_DOMAIN)  and samltest.$(BASE_DOMAIN) to your /etc/hosts"; \
+		if  grep -q $(BASE_DOMAIN) /etc/hosts ; then echo "not adding to /etc/hosts" ; else echo "\n127.0.0.1 $(BASE_DOMAIN) $(API_DOMAIN) samltest.$(BASE_DOMAIN)" | sudo tee -a /etc/hosts ; fi \
+    fi
 #
 # Theses are usefull when you use docker
 #
+.PHONY: down
+down: sync-env ## down docker compose
+	docker compose down
 
-# down docker compose
-down: ;\
-    docker compose down
-# up docker compose
-up: ;\
-    DOCKER_BUILDKIT=1 docker compose up -d ; docker compose logs initback back front -f
+.PHONY: up
+up: sync-env ## up docker compose
+	DOCKER_BUILDKIT=1 docker compose up -d
+	docker compose logs initback back front -f
 
-# stronger down (remove volume / image / orphans)
 .PHONY: fdown
-fdown: ;\
-   docker compose down -v --remove-orphans
+fdown: sync-env ## stronger down (remove volume / image / orphans)
+	docker compose down -v --remove-orphans
 
-# stronger up (recreate all container and rebuild the image)
-fup: ;\
-    DOCKER_BUILDKIT=1 docker compose up -d --force-recreate --build
+fup: sync-env ## stronger up (recreate all container and rebuild the image)
+	DOCKER_BUILDKIT=1 docker compose up -d --force-recreate --build
 
-# Soft Restart
 .PHONY: restart
-restart: down up
+restart: down up ## Soft Restart
 
-# Hard restart
 .PHONY: frestart
-frestart: fdown fup
+frestart: fdown fup ## Hard restart
 
 .PHONY: stop-front
-stop-front: ;\
-    DOCKER_BUILDKIT=1 docker compose stop front
+stop-front: sync-env ## stop front container
+	DOCKER_BUILDKIT=1 docker compose stop front
 
 .PHONY: rm-front
-rm-front: ;\
-    DOCKER_BUILDKIT=1 docker compose rm front -f
+rm-front: sync-env ## remove front container
+	DOCKER_BUILDKIT=1 docker compose rm front -f
 
 .PHONY: start-front
-start-front: ;\
-    DOCKER_BUILDKIT=1 docker compose up  front -d
+start-front: sync-env ## start front container
+	DOCKER_BUILDKIT=1 docker compose up  front -d
 
 .PHONY: reset-front
-reset-front: stop-front rm-front start-front
+reset-front: stop-front rm-front start-front ## reset front container
 
 .PHONY: dumpautoload
-dumpautoload: ;\
+dumpautoload: sync-env ## dump the composer autoloader
 	docker compose exec back composer -- dumpautoload
 
 #
@@ -113,46 +109,48 @@ dumpautoload: ;\
 #
 
 .PHONY: phpmd
-phpmd: ;\
+phpmd: sync-env ## phpMD
 	docker compose exec back composer -- run phpmd
 
 .PHONY: cs-fix
-cs-fix: ;\
+cs-fix: sync-env ## cs-fix
 	docker compose exec back composer -- run cs-fix
 
 
 .PHONY: cs-check
-cs-check: ;\
+cs-check: sync-env ## cs-check
 	docker compose exec back composer -- run cs-check
 
 .PHONY: phpstan
-phpstan: ;\
+phpstan: sync-env ## phpstan
 	docker compose exec back composer -- run phpstan
 
 .PHONY: frontlint
-frontlint: ;\
+frontlint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix
 
 .PHONY: frontcheck
-frontcheck: ;\
-	docker compose exec front yarn lint
+frontcheck: ## lint front (check)
+	docker sync-env compose exec front yarn lint
 
-# Run all CI tools
 .PHONY: ci
-ci: cs-fix phpstan phpmd cs-check frontlint
+ci: cs-fix phpstan phpmd cs-check frontlint ## Run all CI tools
 
 
 .PHONY: drop-db-dev
-drop-db-dev: ;\
+drop-db-dev: ## Drop database
 	docker compose exec back bin/console doctrine:schema:drop --full-database --force
 
-.PHONY: fixtures-dev
-fixtures-dev: ;\
-	docker compose exec back bin/console doctrine:fixtures:load -n
-
 .PHONY: reset-db
-reset-db: drop-db-dev migrate fixtures-dev
+reset-db: drop-db-dev migrate ## reset database and load fixtures
+	docker compose exec back bin/console doctrine:fixtures:load -n --append
 
 .PHONY: dump
-dump: ;\
-    docker compose exec mysql mysqldump -u ${DATABASE_USERNAME} -p${DATABASE_PASSWORD} ${DATABASE_NAME} > apps/back/dump/dump.sql
+dump: ## dump database in apps/back/dump/dump.sql (use git lfs)
+	docker compose exec mysql mysqldump -u $(DATABASE_USERNAME) -p$(DATABASE_PASSWORD) $(DATABASE_NAME) > apps/back/dump/dump.sql
+	gzip -f apps/back/dump/dump.sql
+	git lfs track ./apps/back/dump/dump.sql.gz
+
+.PHONY: help
+help: ## This help.
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
