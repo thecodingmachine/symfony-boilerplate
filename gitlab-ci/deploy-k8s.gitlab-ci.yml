@@ -1,0 +1,29 @@
+include:
+  - local: 'gitlab-ci/templates/k8s.gitlab-ci.yml'
+
+variables:
+  KUBERNETES_URL_SUFFIX: "boilerplate.test.thecodingmachine.com"
+
+deploy k8s start:
+  stage: 'deploy'
+  extends:
+    - '.deploy k8s start'
+  environment:
+    on_stop: deploy k8s stop
+    auto_stop_in: 6 week
+  needs:
+    - 'build back stable'
+    - 'build front stable'
+  rules:
+    - !reference [.MR rules, rules]
+  when: manual
+
+deploy k8s stop:
+  stage: 'deploy'
+  extends:
+    - '.deploy k8s stop'
+  needs:
+    - 'deploy k8s start'
+  rules:
+    - !reference [.MR rules, rules]
+  when: manual

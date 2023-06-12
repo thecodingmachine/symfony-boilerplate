@@ -10,7 +10,8 @@ services:
       - traefik.http.routers.back_router.service=back_service
       - traefik.http.services.back_service.loadbalancer.server.port=80
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=mariadb-10.11.3"
+      TESTS_DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql_tests:3306/${DATABASE_NAME}?serverVersion=mariadb-10.11.3"
       APP_SSO_SERVICEPROVIDER_X509CERT: ${APP_SSO_SERVICEPROVIDER_X509CERT}
       APP_SSO_SERVICEPROVIDER_PRIVATEKEY: ${APP_SSO_SERVICEPROVIDER_PRIVATEKEY}
       APP_SSO_IDENTITYPROVIDER_X509CERT: ${APP_SSO_IDENTITYPROVIDER_X509CERT}
@@ -21,13 +22,13 @@ services:
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
-    image: 'mariadb:10.7.3'
+    image: 'mariadb:10.11'
     restart:  on-failure
     environment:
-      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
-      - MYSQL_DATABASE=${DATABASE_NAME}
-      - MYSQL_USER=${DATABASE_USERNAME}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - mysql_db:/var/lib/mysql
 
@@ -42,7 +43,7 @@ services:
     working_dir: /home/node/app
     environment:
       # This is used only per the proxy
-      - NUXT_API_URL=http://${API_DOMAIN}/
+      NUXT_API_URL: http://${API_DOMAIN}/
   proxy:
     image: traefik:3.0
     container_name: tcm_proxy

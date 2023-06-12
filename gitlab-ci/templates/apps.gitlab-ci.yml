@@ -1,0 +1,57 @@
+############################
+##  BACK
+############################
+
+.app back cache: &app_back_cache
+  key:
+    prefix: "back"
+    files:
+      - apps/back/composer.lock
+  paths:
+    - apps/back/vendor
+  policy: pull
+
+.app back:
+  image: ${BACK_IMAGE_DEV}
+  variables:
+    # base service.
+    DATABASE_URL: "mysql://user:secret@mysql_tests:3306/api?serverVersion=mariadb-10.11.3"
+    TESTS_DATABASE_URL: "mysql://user:secret@mysql_tests:3306/api?serverVersion=mariadb-10.11.3"
+  before_script:
+    - cd ./apps/back
+    - composer install --no-scripts
+  cache: [*app_back_cache]
+
+.app back cache-rw:
+  extends:
+    - '.app back'
+  cache:
+    - <<: *app_back_cache
+      policy: pull-push
+
+############################
+##  FRONT
+############################
+
+.app front cache: &app_front_cache
+  key:
+    prefix: "front"
+    files:
+      - apps/front/yarn.lock
+  paths:
+    - apps/front/node_modules
+  policy: pull
+
+.app front:
+  image: ${FRONT_IMAGE_DEV}
+  before_script:
+    - cd ./apps/front
+    - yarn install
+  cache: [*app_front_cache]
+
+.app front cache-rw:
+  extends:
+    - '.app front'
+  cache:
+    - <<: *app_front_cache
+      policy: pull-push

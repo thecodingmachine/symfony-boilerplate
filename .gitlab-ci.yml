@@ -1,9 +1,9 @@
-# It is shared between includes anyway
 stages:
   - build
   - test
   - deploy
-  - cleanup
+
+# It is shared between includes anyway
 default:
   retry:
     max: 2
@@ -18,18 +18,24 @@ default:
       - unmet_prerequisites
       - scheduler_failure
       - data_integrity_failure
+
 variables:
+  GIT_STRATEGY: fetch
+  GIT_DEPTH: 1
+  CURRENT_WORKFLOW: "undefined"
   TAG_NAME: ${CI_COMMIT_REF_SLUG}
-  IMAGE_NAME: ${CI_REGISTRY_IMAGE}/back
-  IMAGE_WITH_TAG: ${IMAGE_NAME}:${TAG_NAME}
-  FRONT_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/front
-  FRONT_IMAGE_WITH_TAG: ${FRONT_IMAGE_NAME}:${TAG_NAME}
-  DEPLOYMENT_PATH: /tcm_deployment/${CI_PROJECT_NAME}
-  DEPLOYMENT_IP: PUT_YOUR_DEPLOYMENT_IP_HERE
+  BACK_IMAGE: ${CI_REGISTRY_IMAGE}/back
+  BACK_IMAGE_DEV: ${BACK_IMAGE}:${TAG_NAME}-dev
+  BACK_IMAGE_STABLE: ${BACK_IMAGE}:${TAG_NAME}
+  FRONT_IMAGE: ${CI_REGISTRY_IMAGE}/front
+  FRONT_IMAGE_DEV: ${FRONT_IMAGE}:${TAG_NAME}-dev
+  FRONT_IMAGE_STABLE: ${FRONT_IMAGE}:${TAG_NAME}
+#  DEPLOYMENT_PATH: /tcm_deployment/${CI_PROJECT_NAME}
+#  DEPLOYMENT_IP: PUT_YOUR_DEPLOYMENT_IP_HERE
 
 include:
-  - local: gitlab-ci/gitlab-ci-merge-request.yml
-  - local: gitlab-ci/gitlab-ci-tags-prod.yml
-  - local: gitlab-ci/gitlab-ci-branch-main.yml
-  #    rules:
-  #    - if: $CI_COMMIT_TAG =~ /^[0-9]+.[0-9]+.[0-9]+$/
+  - local: 'gitlab-ci/rules.gitlab-ci.yml'
+  - local: 'gitlab-ci/build.gitlab-ci.yml'
+  - local: 'gitlab-ci/test-back.gitlab-ci.yml'
+  - local: 'gitlab-ci/test-front.gitlab-ci.yml'
+  - local: 'gitlab-ci/deploy-k8s.gitlab-ci.yml'

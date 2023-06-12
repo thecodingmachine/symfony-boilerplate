@@ -1,0 +1,240 @@
+---
+apiVersion: "networking.k8s.io/v1"
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.global-static-ip-name: web-static-ip
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  tls:
+    - hosts:
+        - #ENVIRONMENT#.#URL_SUFFIX#
+        - api.#ENVIRONMENT#.#URL_SUFFIX#
+        - phpmyadmin.#ENVIRONMENT#.#URL_SUFFIX#
+      secretName: tls-certificate
+  rules:
+    - host: #ENVIRONMENT#.#URL_SUFFIX#
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: front
+                port:
+                  number: 3000
+    - host: api.#ENVIRONMENT#.#URL_SUFFIX#
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: back
+                port:
+                  number: 80
+    - host: phpmyadmin.#ENVIRONMENT#.#URL_SUFFIX#
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: phpmyadmin
+                port:
+                  number: 80
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "mariadb"
+  labels:
+    app: "mariadb"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "mariadb"
+  template:
+    metadata:
+      labels:
+        app: "mariadb"
+    spec:
+      containers:
+        - name: "mariadb"
+          image: "mariadb:10.11"
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: mariadb-secrets
+                optional: false
+          args:
+            - --ignore-db-dir=lost+found
+            - --max_allowed_packet=1024M
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "mariadb"
+spec:
+  selector:
+    app: "mariadb"
+  ports:
+    - name: mariadb
+      port: 3306
+      targetPort: 3306
+---
+apiVersion: v1
+stringData:
+  MYSQL_ROOT_PASSWORD: "#PASSWORD_SECRET#"
+  MYSQL_DATABASE: "api"
+  MYSQL_USER: "user"
+  MYSQL_PASSWORD: "#PASSWORD_SECRET#"
+kind: Secret
+metadata:
+  name: mariadb-secrets
+type: Opaque
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "phpmyadmin"
+  labels:
+    app: "phpmyadmin"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "phpmyadmin"
+  template:
+    metadata:
+      labels:
+        app: "phpmyadmin"
+    spec:
+      containers:
+        - name: "phpmyadmin"
+          image: "phpmyadmin/phpmyadmin:4.8"
+          env:
+            - name: PMA_HOST
+              value: mariadb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "phpmyadmin"
+spec:
+  selector:
+    app: "phpmyadmin"
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "back"
+  labels:
+    app: "back"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "back"
+  template:
+    metadata:
+      labels:
+        app: "back"
+    spec:
+      initContainers:
+        - name: "fixture"
+          image: "#CI_REGISTRY_IMAGE#/back:#ENVIRONMENT#"
+          imagePullPolicy: Always
+          command: ["/bin/bash", "-c", "composer install && bin/console d:s:u --force -n && bin/console d:f:l -n"]
+          envFrom:
+            - secretRef:
+                name: back-secrets
+                optional: false
+          env:
+            - name: APP_ENV
+              value: "dev"
+      containers:
+        - name: "back"
+          image: "#CI_REGISTRY_IMAGE#/back:#ENVIRONMENT#"
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: back-secrets
+                optional: false
+          env:
+            - name: APP_ENV
+              value: "prod"
+            - name: APP_URL
+              value: "https://#ENVIRONMENT#.#URL_SUFFIX#"
+      imagePullSecrets:
+        - name: "tcmregistry"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "back"
+spec:
+  selector:
+    app: "back"
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+stringData:
+  DATABASE_URL: "mysql://user:#PASSWORD_SECRET#@mariadb:3306/api?serverVersion=mariadb-10.11.3"
+kind: Secret
+metadata:
+  name: back-secrets
+type: Opaque
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "front"
+  labels:
+    app: "front"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "front"
+  template:
+    metadata:
+      labels:
+        app: "front"
+    spec:
+      containers:
+        - name: "front"
+          image: "#CI_REGISTRY_IMAGE#/front:#ENVIRONMENT#"
+          imagePullPolicy: Always
+          env:
+            - name: NUXT_API_URL
+              value: "https://api.#ENVIRONMENT#.#URL_SUFFIX#"
+      imagePullSecrets:
+        - name: "tcmregistry"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "front"
+spec:
+  selector:
+    app: "front"
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

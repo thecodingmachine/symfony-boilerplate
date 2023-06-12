@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import svgLoader from "vite-svg-loader";
+
 export default defineNuxtConfig({
   srcDir: "src/",
   modules: ["@pinia/nuxt"],
@@ -10,7 +12,7 @@ export default defineNuxtConfig({
       // @see https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      title: "KB Backbone",
+      title: "Boilerplate TCM v2",
       meta: [
         // <meta name="description" content="My amazing site">
         //  { name: 'description', content: 'My amazing site.' }

@@ -1,0 +1,48 @@
+include:
+  - local: 'gitlab-ci/templates/build.gitlab-ci.yml'
+
+build back dev:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: dev
+    CONTEXT_PATH: ./apps/back
+    IMAGE_DESTINATION: $BACK_IMAGE_DEV
+
+build back stable:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: stable
+    CONTEXT_PATH: ./apps/back
+    IMAGE_DESTINATION: $BACK_IMAGE_STABLE
+  rules:
+    - !reference [.MR rules, rules]
+    - !reference [.rc rules, rules]
+    - !reference [.stable rules, rules]
+
+build front dev:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: dev
+    CONTEXT_PATH: ./apps/front
+    IMAGE_DESTINATION: $FRONT_IMAGE_DEV
+
+build front stable:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: stable
+    CONTEXT_PATH: ./apps/front
+    IMAGE_DESTINATION: $FRONT_IMAGE_STABLE
+  rules:
+    - !reference [.MR rules, rules]
+    - !reference [.rc rules, rules]
+    - !reference [.stable rules, rules]
+
+
