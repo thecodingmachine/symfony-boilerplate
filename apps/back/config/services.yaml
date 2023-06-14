@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.url.base: "%env(APP_URL)%"
+    app.url.prefix: "%env(APP_PREFIX)%"
    # app.url.webapp: "%env(APP_URL_WEBAPP)%"
     # OUR APP
     app.sso.serviceprovider.x509cert: "%env(APP_SSO_SERVICEPROVIDER_X509CERT)%"
@@ -19,8 +20,8 @@ parameters:
         debug: true
         sp:
             entityId: '%app.url.base%'
-            assertionConsumerService: { url: '%app.url.base%/api/1.0/auth/sso/saml2/login' }
-            singleLogoutService: { url: "%app.url.base%/api/1.0/auth/sso/saml2/logout" }
+            assertionConsumerService: { url: '%app.url.base%/%app.url.prefix%/auth/sso/saml2/login' }
+            singleLogoutService: { url: "%app.url.base%/%app.url.prefix%/auth/sso/saml2/logout" }
             NameIDFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
             x509cert: "%app.sso.serviceprovider.x509cert%"
             privateKey: "%app.sso.serviceprovider.privateKey%"

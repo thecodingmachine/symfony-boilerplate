@@ -30,10 +30,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/1.0/auth/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/1.0/auth/sso/, roles: PUBLIC_ACCESS }
-        - { path: ^/api/1.0/healthcheck, roles: PUBLIC_ACCESS }
-        - { path: ^/api/1.0/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: '^/%app.url.prefix%/auth/login', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.prefix%/auth/sso/', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.prefix%/healthcheck', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.prefix%/', roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_ADMIN:
