@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Authenticator;
 
-use App\Exception\SsoConsumerAuthNException;
 use App\Exception\SsoConsumerException;
 use OneLogin\Saml2\Auth;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +26,8 @@ class Saml2Authenticator extends AbstractAuthenticator implements Authentication
         private readonly HttpUtils $httpUtils,
         private readonly string $checkPath,
         private readonly Auth $auth,
+        private readonly string $returnTo,
+        private readonly \Psr\Log\LoggerInterface $logger,
     ) {
     }
 
@@ -43,12 +44,8 @@ class Saml2Authenticator extends AbstractAuthenticator implements Authentication
     public function authenticate(Request $request): Passport
     {
         $session = $request->getSession();
-        $authNRequestId = $session->get('AuthNRequestID');
-        if (! \is_string($authNRequestId)) {
-            throw new SsoConsumerAuthNException();
-        }
-
-        $auth = $this->auth;
+        $authNRequestId = $session->get('AuthNRequestID', null);
+        $auth   = $this->auth;
         $auth->setStrict(false);
         $auth->processResponse($authNRequestId);
         $errors = $auth->getErrors();
@@ -97,11 +94,13 @@ class Saml2Authenticator extends AbstractAuthenticator implements Authentication
     /** @inheritDoc */
     public function start(Request $request, AuthenticationException|null $authException = null)
     {
-        $session = $request->getSession();
-        $auth = $this->auth;
-        $url = $auth->login(null, [], false, false, true);
+        $session        = $request->getSession();
+        $this->logger->debug('Starting auth');
+        $auth           = $this->auth;
+        $url            = $auth->login($this->returnTo, [], false, false, true);
         $authNRequestId = $auth->getLastRequestID();
         $session->set('AuthNRequestID', $authNRequestId);
+        $this->logger->debug("Need redirect to $url");
 
         return new JsonResponse(['url' => $url], Response::HTTP_UNAUTHORIZED);
     }

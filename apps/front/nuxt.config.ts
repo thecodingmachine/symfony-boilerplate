@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       // @see https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      title: "Boilerplate TCM v2",
+      title: "Boilerplate SF - Nuxt",
       meta: [
         // <meta name="description" content="My amazing site">
         //  { name: 'description', content: 'My amazing site.' }

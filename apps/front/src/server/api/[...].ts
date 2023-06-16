@@ -33,8 +33,8 @@ export default defineEventHandler(async (event: H3Event) => {
     headers: {
       host: target.host,
     },
-    cookiePathRewrite: {
-      "/*": "/",
+    fetchOptions: {
+      redirect: "manual",
     },
   });
   return ret;
