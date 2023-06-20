@@ -30,6 +30,8 @@ class UserController
     {
         $user = $this->createUser->createUser($userDto);
 
+        $this->entityManager->flush();
+
         return new JsonResponse($user);
     }
 
@@ -56,6 +58,8 @@ class UserController
     public function updateUser(User $user, #[MapRequestPayload] UserDto $userDto): JsonResponse
     {
         $user = $this->updateUser->updateUser($user, $userDto);
+
+        $this->entityManager->flush();
 
         return new JsonResponse([
             'id' => $user->getId(),

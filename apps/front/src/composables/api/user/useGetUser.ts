@@ -1,14 +1,11 @@
 import {API_URL, GET} from "~/constants/http";
-import {User} from "~/utils/types";
+import {User} from "~/types/user";
+import useAppFetch from "~/composables/useAppFetch";
 
 
-export default async function useGetUser(userId: string): Promise<User> {
-  const { $appFetch } = useNuxtApp();
-  const response = await $appFetch<User>(API_URL + '/users/' + userId, {
+export default async function useGetUser(userId: string) {
+  return await useAppFetch<User>(() => '/users/' + userId, {
+    key: 'getUser',
     method: GET,
   });
-  if (!response) {
-    throw createError('Error while retrieving user');
-  }
-  return response;
 }

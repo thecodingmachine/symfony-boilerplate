@@ -3,6 +3,7 @@
 import { NitroFetchRequest } from 'nitropack';
 import { FetchOptions } from 'ofetch';
 import { useAuthUser } from '~/store/auth';
+import {API_URL} from "~/constants/http";
 
 export default defineNuxtPlugin(() => {
   const store = useAuthUser();
@@ -17,7 +18,7 @@ export default defineNuxtPlugin(() => {
       // // https://nuxt.com/docs/getting-started/data-fetching#example-pass-client-headers-to-the-api
       appFetch: async <T>(request: NitroFetchRequest, opts?: FetchOptions) => {
         try {
-          const res = await $fetch.raw<T>(request, {
+          const res = await $fetch.raw<T>(API_URL + request, {
             headers,
             ...opts,
           });

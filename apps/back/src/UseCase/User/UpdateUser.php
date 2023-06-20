@@ -17,16 +17,13 @@ class UpdateUser
 
     public function updateUser(User $user, UserDto $userDto): User
     {
-        if ($userDto->getEmail()) {
-            $user->setEmail($userDto->getEmail());
-        }
+        $user->setEmail($userDto->getEmail());
 
         if ($userDto->getPassword()) {
             $user->setPassword($userDto->getPassword());
         }
 
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
 
         return $user;
     }

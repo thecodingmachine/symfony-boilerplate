@@ -31,22 +31,18 @@
 </template>
 
 <script setup lang="ts">
-import {User} from "~/utils/types";
+import {User} from "~/types/user";
 import useAuthUser from "~/store/auth";
 import useListUsers from "~/composables/api/user/useListUsers";
-import {Ref} from "vue";
 import useDeleteUser from "~/composables/api/user/useDeleteUser";
 
 const authStore = useAuthUser();
-let users: Ref<User[]> = ref([]);
 
-onMounted(async () => {
-  users.value = await useListUsers();
-});
+const { data: users, pending: usersPending, refresh: usersRefresh } = await useListUsers();
 
 const deleteUser = async (user: User) => {
   await useDeleteUser(user);
-  users.value = users.value.filter(userItem => userItem.id !== user.id);
+  usersRefresh();
 };
 </script>
 

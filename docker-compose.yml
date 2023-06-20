@@ -35,17 +35,6 @@ services:
     volumes:
       - mysql_db:/var/lib/mysql
 
-  mysql_test:
-    image: 'mariadb:10.7.3'
-    restart:  on-failure
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
-      - MYSQL_DATABASE=${DATABASE_TEST_NAME}
-      - MYSQL_USER=${DATABASE_USERNAME}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-    volumes:
-      - mysql_test_db:/var/lib/mysql
-
   front:
     image: ${FRONT_IMAGE_NAME}:${DEPLOYMENT_TAG}
     user: "node"
@@ -77,17 +66,8 @@ services:
           - "${API_DOMAIN}"
           - "${BASE_DOMAIN}"
 
-  mailhog:
-    image: mailhog/mailhog
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.mailhog_router.rule=${MAILHOG_ROUTER_RULE}
-      - traefik.http.routers.mailhog_router.service=mailhog_service
-      - traefik.http.services.mailhog_service.loadbalancer.server.port=8025
-
 volumes:
   mysql_db:
-  mysql_test_db:
 networks:
   # This could be very usefull to run multiple project on the same machine
   tcm_network:

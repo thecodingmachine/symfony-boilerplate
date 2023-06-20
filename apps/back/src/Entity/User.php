@@ -89,11 +89,9 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**

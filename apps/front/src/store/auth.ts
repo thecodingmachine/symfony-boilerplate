@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import { User } from "~/utils/types";
 import useMe, { Me } from '~/composables/api/auth/useMe';
 import useLogin from '~/composables/api/auth/useLogin';
 import { HTTP_UNAUTHORIZED } from '~/constants/http';
+import {User} from "~/types/user";
 
 type AuthState = {
   authUser: Me | null;

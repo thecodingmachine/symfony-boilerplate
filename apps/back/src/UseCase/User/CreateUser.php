@@ -6,11 +6,10 @@ namespace App\UseCase\User;
 
 use App\Dto\UserDto;
 use App\Entity\User;
+use App\Mailer\UserMailer;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateUser
@@ -19,7 +18,7 @@ class CreateUser
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly MailerInterface $mailer,
+        private readonly UserMailer $userMailer,
     ) {
     }
 
@@ -32,15 +31,8 @@ class CreateUser
         $user = new User($userDto->getEmail());
         $user->setPassword($this->passwordHasher->hashPassword($user, $userDto->getPassword()));
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
 
-        $email = (new TemplatedEmail())
-            ->from(getenv('MAIL_HOST'))
-            ->to($userDto->getEmail())
-            ->subject('Registration')
-            ->htmlTemplate('emails/register.html.twig');
-
-        $this->mailer->send($email);
+        $this->userMailer->sendRegistrationMail($user);
 
         return $user;
     }
