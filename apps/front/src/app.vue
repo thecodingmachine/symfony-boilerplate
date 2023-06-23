@@ -24,9 +24,9 @@ watchEffect(async () => {
   if (isPendingValue.value) {
     return;
   }
-  const shouldRedirectToLogin = !authStore.isAuthenticated && authStore.authUrl && route.name !== 'auth-login';
+  const shouldRedirectToLogin = !authStore.isAuthenticated && route.name !== 'auth-login';
   if (shouldRedirectToLogin) {
-    await navigateTo(authStore.authUrl, { external: true });
+    await navigateTo('/auth/login', { external: true });
   }
   const shouldRedirectToHomepage = authStore.isAuthenticated && route.name === 'auth-login';
   if (shouldRedirectToHomepage) {

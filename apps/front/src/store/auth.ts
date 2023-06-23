@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 import useMe, { Me } from '~/composables/api/auth/useMe';
-import useLogin from '~/composables/api/auth/useLogin';
+import {useLogin} from '~/composables/api/auth/useLogin';
 import { HTTP_UNAUTHORIZED } from '~/constants/http';
 import {User} from "~/types/user";
 
 type AuthState = {
   authUser: Me | null;
   isPending: boolean;
-  authUrl: string;
 };
 
 export const useAuthUser = defineStore({
@@ -15,14 +14,12 @@ export const useAuthUser = defineStore({
   state: (): AuthState => ({
     authUser: null,
     isPending: false,
-    authUrl: '',
   }),
   actions: {
     async authenticateUser(username: string, password: string) {
-      const authenticate = useLogin();
       try {
         this.startPending();
-        const me = await authenticate(username, password);
+        const { data: me } = await useLogin(username, password);
         this.setAuthUser(me);
         this.endPending();
         return me;
@@ -64,7 +61,6 @@ export const useAuthUser = defineStore({
         }
         // eslint-disable-next-line no-underscore-dangle
         const ret = await exception.response._data;
-        this.authUrl = ret?.url || '';
         return {
           data: null,
           error: ret,

@@ -1,11 +1,17 @@
 <template>
   <div>
-    <div v-if="!authStore.isAuthenticated">
+    <div >
       <h1>Welcome to the login page</h1>
-      <label for="email">
-        email
-      </label>
-      <input v-model="email" name="email" type="text">
+      <div>
+        <label for="email">Email</label>
+        <input v-model="username" name="email" type="text">
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input v-model="password" name="password" type="password">
+      </div>
+
       <button type="submit" @click="submitAuthenticateUser">
         Log-in
       </button>
@@ -31,8 +37,13 @@ const authStore = useAuthUser();
  * It only becomes an issue when your ref relies on state from the server,
  * such as a header from the request, or data fetched during the server-rendering process.
  * * */
-const email = ref('user@kb.com');
+const username = ref('');
+const password = ref('');
 const submitAuthenticateUser = async () => {
-  await authStore.authenticateUser(email.value, '');
+  try {
+    await authStore.authenticateUser(username.value, password.value);
+  } catch (e: any) {
+    window.alert('Bad credentials');
+  }
 };
 </script>
