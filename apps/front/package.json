@@ -1,16 +1,18 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "rm -rf /tmp/nitro/worker-* && nuxt dev | pino-pretty -c",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint nuxt.config.ts --fix ; eslint ./src/"
+    "lint": "eslint nuxt.config.ts --fix ; eslint ./"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxtjs/i18n": "^8.0.0-beta.12",
     "@pinia/nuxt": "^0.4.6",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/http-proxy": "^1.17.9",

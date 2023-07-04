@@ -1,5 +1,5 @@
 <template>
-  <h1>Users</h1>
+  <h1>{{ $t('users.users') }}</h1>
   <table>
     <thead>
       <tr>
@@ -14,7 +14,7 @@
             v-if="!authStore.isAuthUser(user)"
             :to="`/users/${user.id}`"
           >
-            <button>Update</button>
+            <button>{{ $t('global.update')}}</button>
           </NuxtLink>
         </td>
         <td>
@@ -22,7 +22,7 @@
             v-if="!authStore.isAuthUser(user)"
             @click="deleteUser(user)"
           >
-            Delete
+            {{ $t('global.delete') }}
           </button>
         </td>
       </tr>
