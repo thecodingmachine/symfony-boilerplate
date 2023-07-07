@@ -14,16 +14,16 @@
             v-if="!authStore.isAuthUser(user)"
             :to="`/users/${user.id}`"
           >
-            <button>{{ $t('global.update')}}</button>
+            <Button :label="$t('global.update')" class="mr-2" />
           </NuxtLink>
         </td>
         <td>
-          <button
+          <Button
             v-if="!authStore.isAuthUser(user)"
+            :label="$t('global.delete')"
+            severity="danger"
             @click="deleteUser(user)"
-          >
-            {{ $t('global.delete') }}
-          </button>
+          />
         </td>
       </tr>
     </tbody>

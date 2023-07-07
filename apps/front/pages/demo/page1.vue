@@ -12,7 +12,6 @@ logger.info('page 1');
 </script>
 <style lang="scss" scoped>
 .panda-background {
-  color: $white;
   width: 200px;
   height: 200px;
   background-image: url('~/assets/images/true-panda.jpeg');

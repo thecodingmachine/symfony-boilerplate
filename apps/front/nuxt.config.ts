@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     API_URL: process.env.API_URL || '',
   },
   app: {
-
     head: {
       // @see https://getbootstrap.com/docs/5.0/getting-started/introduction/#starter-template
       charset: 'utf-8',
@@ -23,8 +22,14 @@ export default defineNuxtConfig({
     },
   },
   css: [
+    'primevue/resources/themes/bootstrap4-light-blue/theme.css',
+    'primevue/resources/primevue.css',
+    'primeflex/primeflex.scss',
     '@/assets/styles/main.scss',
   ],
+  build: {
+    transpile: ['primevue'],
+  },
   vite: {
     plugins: [
       svgLoader(),
@@ -32,7 +37,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/assets/styles/_functions.scss";@import "@/assets/styles/_variables.scss";@import "@/assets/styles/_mixins.scss";',
+          additionalData: '@import "@/assets/styles/tools/_colors.scss";@import "@/assets/styles/tools/_mixins.scss";',
         },
       },
     },
