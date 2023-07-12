@@ -57,3 +57,19 @@
 .build image:
   extends:
     - '.build image kaniko'
+
+# IMAGE_TAG is required except if script part is overwrited (to allow multiple remove in one task).
+.delete image:
+  image: curlimages/curl:7.86.0
+  variables:
+    IMAGE_TAG: "" # Required
+    REG_SHA256: ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228
+    REG_VERSION: 0.16.1
+    GIT_STRATEGY: none
+  before_script:
+    - curl --fail --show-error --location "https://github.com/genuinetools/reg/releases/download/v$REG_VERSION/reg-linux-amd64" --output ./reg
+    - echo "$REG_SHA256  ./reg" | sha256sum -c -
+    - chmod a+x ./reg
+  script:
+    - if [[ -z $IMAGE_TAG ]]; then echo "IMAGE_TAG is required"; exit 1; fi
+    - ./reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $IMAGE_TAG

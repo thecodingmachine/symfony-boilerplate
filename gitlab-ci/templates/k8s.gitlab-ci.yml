@@ -1,9 +1,13 @@
 .deploy k8s start:
   image: thecodingmachine/k8s_gitlabci:latest
   variables:
+    #KUBERNETES_URL_SUFFIX: "" # Required
+    #KUBERNETES_PASSWORD_SECRET: "" # Required
     AUTOCONNECT: 1
     KUBECONFIG: "/root/.kube/config"
   before_script:
+    - if [[ -z $KUBERNETES_URL_SUFFIX ]]; then echo "KUBERNETES_URL_SUFFIX is required"; exit 1; fi
+    - if [[ -z $KUBERNETES_PASSWORD_SECRET ]]; then echo "KUBERNETES_PASSWORD_SECRET is required"; exit 1; fi
     - mkdir -p ~/.kube
     - echo "$KUBE_CONFIG" > ~/.kube/config
     - 'kubectl create namespace ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG} || true'
@@ -42,3 +46,4 @@
   environment:
     name: "review/${CI_COMMIT_REF_NAME}"
     action: stop
+

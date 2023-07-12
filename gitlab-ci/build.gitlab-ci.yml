@@ -9,6 +9,9 @@ build back dev:
     TARGET: dev
     CONTEXT_PATH: ./apps/back
     IMAGE_DESTINATION: $BACK_IMAGE_DEV
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
 
 build back stable:
   stage: 'build'
@@ -31,6 +34,9 @@ build front dev:
     TARGET: dev
     CONTEXT_PATH: ./apps/front
     IMAGE_DESTINATION: $FRONT_IMAGE_DEV
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
 
 build front stable:
   stage: 'build'

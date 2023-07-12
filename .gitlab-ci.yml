@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - deploy
+  - cleanup
 
 # It is shared between includes anyway
 default:
@@ -22,7 +23,6 @@ default:
 variables:
   GIT_STRATEGY: fetch
   GIT_DEPTH: 1
-  CURRENT_WORKFLOW: "undefined"
   TAG_NAME: ${CI_COMMIT_REF_SLUG}
   BACK_IMAGE: ${CI_REGISTRY_IMAGE}/back
   BACK_IMAGE_DEV: ${BACK_IMAGE}:${TAG_NAME}-dev
@@ -30,6 +30,9 @@ variables:
   FRONT_IMAGE: ${CI_REGISTRY_IMAGE}/front
   FRONT_IMAGE_DEV: ${FRONT_IMAGE}:${TAG_NAME}-dev
   FRONT_IMAGE_STABLE: ${FRONT_IMAGE}:${TAG_NAME}
+  FEATURE_DEPLOY_MR_ON_K8S: 1
+  KUBERNETES_URL_SUFFIX: "boilerplate.test.thecodingmachine.com"
+  #KUBERNETES_PASSWORD_SECRET: "CHANGE-THIS-SECRET" # Define it in gitlab CI/CD variables
 #  DEPLOYMENT_PATH: /tcm_deployment/${CI_PROJECT_NAME}
 #  DEPLOYMENT_IP: PUT_YOUR_DEPLOYMENT_IP_HERE
 

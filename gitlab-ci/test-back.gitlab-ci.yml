@@ -11,6 +11,9 @@ test back build:
     - exit 0
   needs:
     - 'build back dev'
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
 
 test back analyze:
   stage: 'test'
@@ -22,17 +25,9 @@ test back analyze:
     - composer run phpmd
   needs:
     - 'test back build'
-
-test back analyze:
-  stage: 'test'
-  extends:
-    - '.app back'
-  script:
-    - composer run phpstan -- --no-progress
-    - composer run cs-check -- -n
-    - composer run phpmd
-  needs:
-    - 'test back build'
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
 
 # TODO : have to be implemented
 #back unit test:
@@ -52,3 +47,6 @@ test back analyze:
 #    - composer run test
 #  needs:
 #    - 'test back build'
+#  rules:
+#    - !reference [.except hotfix rules, rules]
+#    - when: always

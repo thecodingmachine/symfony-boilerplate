@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.global-static-ip-name: web-static-ip
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
