@@ -1,24 +1,26 @@
 include:
   - local: 'gitlab-ci/templates/apps.gitlab-ci.yml'
 
-# required only if there is multiple tests for front part
-#test front build:
-#  stage: "test"
-#  needs:
-#    - 'build front dev'
-#  extends:
-#    - '.app front'
-#  script:
-#    - exit 0
-#  cache:
-#    - <<: *app_front_cache
-#      policy: pull-push
-
-front linter:
-  stage: 'test'
+test front build:
+  stage: "test"
   needs:
     - 'build front dev'
   extends:
     - '.app front cache-rw'
   script:
+    - exit 0
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
+
+front linter:
+  stage: 'test'
+  needs:
+    - 'test front build'
+  extends:
+    - '.app front'
+  script:
     - yarn lint
+  rules:
+    - !reference [.except hotfix rules, rules]
+    - when: always
