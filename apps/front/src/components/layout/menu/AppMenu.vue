@@ -28,8 +28,8 @@
 // Credit to https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb
 // Another interesting ressource https://www.codeply.com/p/yE87h7irNi/icons-text
 
-import MenuItem from './MenuItem.vue';
-import Icon1Square from '~/assets/images/icon-1-square.svg?component';
-import Icon2Square from '~/assets/images/icon-2-square.svg?component';
-import Icon3Square from '~/assets/images/icon-3-square.svg?component';
+import MenuItem from "./MenuItem.vue";
+import Icon1Square from "~/assets/images/icon-1-square.svg?component";
+import Icon2Square from "~/assets/images/icon-2-square.svg?component";
+import Icon3Square from "~/assets/images/icon-3-square.svg?component";
 </script>

@@ -9,6 +9,8 @@
     <description>
         My custom rule set that checks my code...
     </description>
+    <!-- Defining another value for the same key in an array literal overrides the previous key/value, which makes it effectively an unused code. -->
+    <rule ref="rulesets/design.xml/EmptyCatchBlock" />
 
     <!-- Defining another value for the same key in an array literal overrides the previous key/value, which makes it effectively an unused code. -->
     <rule ref="rulesets/cleancode.xml/DuplicatedArrayKey" />
@@ -47,6 +49,14 @@
       </properties>
     </rule>
 
+    <!-- Prevent else to ensure early return -->
+    <rule ref="rulesets/cleancode.xml/ErrorControlOperator"/>
+
+    <!-- Prevent assignment in if -->
+    <rule ref="rulesets/cleancode.xml/IfStatementAssignment"/>
+
+    <!-- Prevent else to ensure early return -->
+    <rule ref="rulesets/cleancode.xml/ElseExpression"/>
 
     <!-- Prevent var_dump and debug functions -->
     <rule ref="rulesets/design.xml/DevelopmentCodeFragment"/>
@@ -56,6 +66,20 @@
 
     <!-- Looks for methods named 'getX()' with 'boolean' as the return type. The convention is to name these methods 'isX()' or 'hasX()'. -->
     <rule ref="rulesets/naming.xml/BooleanGetMethodName"/>
+
+    <!-- Prevent short name -->
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="exceptions">
+                <value>
+                    e,url,log,id
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Class/Interface constant names should always be defined in uppercase. -->
+    <rule ref="rulesets/naming.xml/ConstantNamingConventions"/>
 
     <!-- Prevent unused code -->
     <rule ref="rulesets/unusedcode.xml">

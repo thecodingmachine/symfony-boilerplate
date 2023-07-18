@@ -22,6 +22,7 @@ services:
       APP_PREFIX: ${APP_PREFIX}
       MAILER_DSN: ${MAILER_DSN}
       MAIL_HOST: ${MAIL_HOST}
+      APP_SECRET: "secretforapp"
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:

@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Dto\UserDto;
+use App\Dto\Request\UpdateUserDto;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UpdateUser
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
     }
 
-    public function updateUser(User $user, UserDto $userDto): User
+    public function updateUser(User $user, UpdateUserDto $userDto): User
     {
         $user->setEmail($userDto->getEmail());
 
         if ($userDto->getPassword()) {
-            $user->setPassword($userDto->getPassword());
+            $user->setPassword($this->passwordHasher->hashPassword($user, $userDto->getPassword()));
         }
-
-        $this->entityManager->persist($user);
 
         return $user;
     }

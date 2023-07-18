@@ -6,13 +6,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use OneLogin\Saml2\Auth;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AuthController extends AbstractController
 {
@@ -30,7 +30,7 @@ class AuthController extends AbstractController
     }
 
     #[Route('/login', name: 'api_login', methods: ['POST'])]
-    public function login(#[CurrentUser] ?User $user): JsonResponse
+    public function login(#[CurrentUser] User|null $user): JsonResponse
     {
         return new JsonResponse($user);
     }

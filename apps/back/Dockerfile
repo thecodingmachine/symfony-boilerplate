@@ -1,5 +1,5 @@
 # syntax=docker.io/docker/dockerfile:1.4
-ARG IMAGE_VERSION=php:8.1-v4
+ARG IMAGE_VERSION=php:8.2-v4
 ARG APP_ENV=prod
 ARG APP_SOURCE_FILE='./'
 ARG PHP_EXTENSIONS="apcu mysqli pdo_mysql intl gd xdebug"
@@ -51,11 +51,12 @@ ENV PHP_INI_REALPATH_CACHE_TTL="600"
 RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
 
 # This need to be here to prevent docker  to recompile composer layers at each build
-COPY --link --chown=docker:docker  ./config/ /var/www/html/config/
-COPY --link --chown=docker:docker  ./migrations/ /var/www/html/migrations/
-COPY --link --chown=docker:docker  ./phpstan/ /var/www/html/phpstan/
-COPY --link --chown=docker:docker  ./public/ /var/www/html/public/
-COPY --link --chown=docker:docker  ./src/ /var/www/html/src/
-COPY --link --chown=docker:docker  ./migrations/ /var/www/html/migrations/
+COPY --link --chown=1000:1000  ./templates/ /var/www/html/templates/
+COPY --link --chown=1000:1000  ./public/ /var/www/html/public/
+COPY --link --chown=1000:1000  ./phpstan/ /var/www/html/phpstan/
+COPY --link --chown=1000:1000  ./config/ /var/www/html/config/
+COPY --link --chown=1000:1000  ./migrations/ /var/www/html/migrations/
+COPY --link --chown=1000:1000  ./src/ /var/www/html/src/
+
 RUN composer dump-autoload --no-dev --classmap-authoritative
 USER docker

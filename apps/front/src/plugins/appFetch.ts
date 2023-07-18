@@ -2,7 +2,7 @@
 
 import { NitroFetchOptions, NitroFetchRequest } from "nitropack";
 import { useAuthUser } from "~/store/auth";
-import {API_URL} from "~/constants/http";
+import { API_URL } from "~/constants/http";
 
 export default defineNuxtPlugin(() => {
   const store = useAuthUser();
@@ -14,13 +14,15 @@ export default defineNuxtPlugin(() => {
   };
 
   const handleException = (e: any) => {
+    logger.error("An error hapenned during an API call");
+    logger.error(e);
     // Check if 401 so remove auth info
     if (e && e.response && e.response.status === 401 && store.isAuthenticated) {
       logger.error("401 error, removing authentication informations");
       store.resetAuth();
     }
-
-    const cookies = (e.response.headers.get("set-cookie") || "").split(",");
+    // HERE the bug
+    const cookies = e.response.headers.get("set-cookie") || "";
     if (process.server && cookies) {
       event.res.setHeader("set-cookie", cookies);
     }
@@ -36,7 +38,7 @@ export default defineNuxtPlugin(() => {
       ...opts,
     });
 
-    const cookies = (res.headers.get("set-cookie") || "").split(",");
+    const cookies = res.headers.get("set-cookie") || "";
     if (process.server && cookies) {
       event.res.setHeader("set-cookie", cookies);
     }
@@ -53,7 +55,7 @@ export default defineNuxtPlugin(() => {
       ...opts,
     });
 
-    const cookies = (res.headers.get("set-cookie") || "").split(",");
+    const cookies = res.headers.get("set-cookie") || "";
     if (process.server && cookies) {
       event.res.setHeader("set-cookie", cookies);
     }

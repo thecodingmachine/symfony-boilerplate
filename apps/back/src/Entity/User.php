@@ -34,7 +34,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this->id;
     }
 
-    public function getEmail(): string|null
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -51,13 +51,13 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /** @deprecated since Symfony 5.3, use getUserIdentifier instead */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
