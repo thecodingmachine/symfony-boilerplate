@@ -1,17 +1,36 @@
-import { Me } from '../auth/useMe';
-import {API_URL, POST} from "~/constants/http";
+import { POST } from "~/constants/http";
+import { User } from "~/types/user";
+import { Ref } from "vue";
+import useBasicError from "~/composables/useBasicError";
 
-export default async function useCreateUser(email: string, password: string): Promise<Me> {
+export default function useCreateUser(): {
+  errorMessage: Readonly<Ref<string>>;
+  createUser(email: string, password: string): Promise<User | null>;
+} {
   const { $appFetch } = useNuxtApp();
-  const response = await $appFetch<Me>('/users', {
-    method: POST,
-    body: {
-      email,
-      password,
+
+  const { setError, resetError, errorMessage } = useBasicError();
+
+  return {
+    errorMessage,
+    async createUser(email: string, password: string): Promise<User | null> {
+      try {
+        resetError();
+        const response = await $appFetch<User>("/users", {
+          method: POST,
+          body: {
+            email,
+            password,
+          },
+        });
+        if (!response) {
+          throw createError("Error while registering user");
+        }
+        return response;
+      } catch (e: any) {
+        setError(e);
+        throw e;
+      }
     },
-  });
-  if (!response) {
-    throw createError('Error while registering user');
-  }
-  return response;
+  };
 }

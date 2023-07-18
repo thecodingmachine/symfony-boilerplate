@@ -19,8 +19,8 @@ security:
             provider: app_user_provider
             json_login:
                 check_path: api_login
-#            custom_authenticators:
-#               - 'App\Authenticator\Saml2Authenticator'
+    #         custom_authenticators:
+    #           - 'App\Authenticator\Saml2Authenticator'
 
             # activate differents ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -46,7 +46,7 @@ security:
         ROLE_USER:
             - ROLE_RIGHT_ACCESS
 
-# this shall be removed for kb
+
 when@test:
     security:
         password_hashers:

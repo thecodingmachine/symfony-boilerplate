@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtErrorBoundary @error="mHandleError">
-      <NuxtLayout>
+      <NuxtLayout v-if="!isPendingAuth || authStore.isAuthenticated">
         <NuxtPage />
       </NuxtLayout>
     </NuxtErrorBoundary>
@@ -18,22 +18,18 @@ const route = useRoute();
 const mHandleError = (e: unknown) => {
   logger.error("Primary error boundary", e);
 };
-const isPendingValue = computed(() => authStore.isPending);
+const isPendingAuth = computed(() => authStore.isPending);
 // Doing this here instead than in the middleware allow reactivity on the auth user
 watchEffect(async () => {
-  if (isPendingValue.value) {
+  if (isPendingAuth.value) {
     return;
   }
-  /**
   const shouldRedirectToLogin =
     !authStore.isAuthenticated &&
     authStore.authUrl &&
     route.name !== "auth-login";
-   **/
-  const shouldRedirectToLogin =
-    !authStore.isAuthenticated && route.name !== "auth-login";
   if (shouldRedirectToLogin) {
-    await navigateTo("/auth/login", { external: true });
+    await navigateTo(authStore.authUrl, { external: true });
   }
   const shouldRedirectToHomepage =
     authStore.isAuthenticated && route.name === "auth-login";

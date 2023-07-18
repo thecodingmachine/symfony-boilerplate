@@ -1,15 +1,38 @@
-import {API_URL, PUT} from "~/constants/http";
-import {User} from "~/types/user";
+import { PUT } from "~/constants/http";
+import { User, UserId } from "~/types/user";
+import useBasicError from "~/composables/useBasicError";
 
-
-export default async function useUpdateUser(userId: string, user: User): Promise<User> {
+type UserInput = Omit<User, "id">;
+export default function useUpdateUser() {
   const { $appFetch } = useNuxtApp();
-  const response = await $appFetch<User>('/users/' + userId, {
-    method: PUT,
-    body: user,
-  });
-  if (!response) {
-    throw createError('Error while updating user');
-  }
-  return response;
+  const { setError, resetError, errorMessage } = useBasicError();
+  return {
+    errorMessage,
+    async updateUser(
+      userId: UserId,
+      user: UserInput,
+      password: string | undefined = undefined
+    ) {
+      try {
+        resetError();
+        const body = password
+          ? {
+              ...user,
+              password,
+            }
+          : user;
+        const response = await $appFetch<User>("/users/" + userId, {
+          method: PUT,
+          body,
+        });
+        if (!response) {
+          throw createError("Error while updating user");
+        }
+        return response;
+      } catch (e: any) {
+        setError(e);
+        throw e;
+      }
+    },
+  };
 }

@@ -1,13 +1,27 @@
-
-import { defineStore } from 'pinia';
-import useMe, { Me } from '~/composables/api/auth/useMe';
-import {useLogin} from '~/composables/api/auth/useLogin';
-import { HTTP_UNAUTHORIZED } from '~/constants/http';
-import {User} from "~/types/user";
+import { defineStore } from "pinia";
+import useMe, { Me } from "~/composables/api/auth/useMe";
+import { HTTP_UNAUTHORIZED, POST } from "~/constants/http";
+import { User } from "~/types/user";
+import { AppFetch } from "~/types/AppFetch";
 
 type AuthState = {
   authUser: Me | null;
   isPending: boolean;
+  authUrl: string;
+};
+
+const login = async (
+  fetcher: AppFetch<any>,
+  username: string,
+  password: string
+) => {
+  return fetcher("/login", {
+    method: POST,
+    body: {
+      username,
+      password,
+    },
+  }) as Promise<User>;
 };
 
 export const useAuthUser = defineStore({
@@ -15,23 +29,16 @@ export const useAuthUser = defineStore({
   state: (): AuthState => ({
     authUser: null,
     isPending: false,
+    authUrl: "",
     //authUrl: ""
   }),
   actions: {
-    async authenticateUser(username: string, password: string) {
-      try {
-        this.startPending();
-        const { data: me } = await useLogin(username, password);
-        this.setAuthUser(me);
-        this.endPending();
-        return me;
-      } catch (e) {
-        this.endPending();
-        throw e;
-      }
-    },
-    async registerUser(email: string, password: string) {
-      await useRegister(email, password);
+    async authenticateUser(
+      username: string,
+      password: string,
+      fetch: AppFetch<any>
+    ) {
+      return login(fetch, username, password);
     },
     resetAuth() {
       this.authUser = null;
@@ -47,7 +54,7 @@ export const useAuthUser = defineStore({
     },
     async syncMe() {
       if (this.isPending) {
-        return { data: null, error: null, isPending: this.isPending };
+        return;
       }
       // Our session is based on the PHPSESSID cookie
       const me = useMe();
@@ -56,7 +63,7 @@ export const useAuthUser = defineStore({
         const authUser = await me();
         this.setAuthUser(authUser);
         this.endPending();
-        return { data: authUser, error: null, isPending: this.isPending };
+        return;
       } catch (exception: any) {
         this.endPending();
         const is401 = exception?.response?.status === HTTP_UNAUTHORIZED;
@@ -64,14 +71,9 @@ export const useAuthUser = defineStore({
           // TODO error store in appFetch
           throw exception;
         }
-
         const ret = await exception.response._data;
-       // this.authUrl = ret?.url || "";
-        return {
-          data: null,
-          error: ret,
-          isPending: this.isPending,
-        };
+        this.authUrl = ret?.url || "/auth/login";
+        return;
       }
     },
   },
