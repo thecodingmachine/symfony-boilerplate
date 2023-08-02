@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware(async () => {
   // We refresh the data information
   // If the syncMe result in a 401, the component RedirectToLogin will be triggered,
   // so no need to wait the sync
+  logger.info("------ in middleware");
   const mePromise = authStore.syncMe();
   /**
    *   We still wait if the user is not authenticated because that may mean

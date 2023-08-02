@@ -63,6 +63,7 @@ services:
         class: App\Authenticator\Saml2Authenticator
         arguments:
             $checkPath: 'api_login_saml2'
+            $returnTo: "%app.url.base%/api/1.0/auth/sso/saml2/login"
 
 
     OneLogin\Saml2\Auth:

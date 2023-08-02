@@ -56,10 +56,10 @@ export const useAuthUser = defineStore({
       if (this.isPending) {
         return;
       }
+      this.startPending();
       // Our session is based on the PHPSESSID cookie
       const me = useMe();
       try {
-        this.startPending();
         const authUser = await me();
         this.setAuthUser(authUser);
         this.endPending();

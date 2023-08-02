@@ -9,10 +9,14 @@ export default defineNuxtPlugin(() => {
   const event = useRequestEvent();
   const headers: {
     [key: string]: string;
-  } = useRequestHeaders(["cookie"]) as {
-    [key: string]: string;
+  } = {
+    ...(useRequestHeaders(["cookie"]) as {
+      [key: string]: string;
+    }),
+    ...{
+      accept: "application/json",
+    },
   };
-
   const handleException = (e: any) => {
     logger.error("An error hapenned during an API call");
     logger.error(e);
@@ -21,10 +25,9 @@ export default defineNuxtPlugin(() => {
       logger.error("401 error, removing authentication informations");
       store.resetAuth();
     }
-    // HERE the bug
     const cookies = e.response.headers.get("set-cookie") || "";
     if (process.server && cookies) {
-      event.res.setHeader("set-cookie", cookies);
+      event.node.res.setHeader("set-cookie", cookies);
     }
     throw e;
   };
@@ -40,7 +43,7 @@ export default defineNuxtPlugin(() => {
 
     const cookies = res.headers.get("set-cookie") || "";
     if (process.server && cookies) {
-      event.res.setHeader("set-cookie", cookies);
+      event.node.res.setHeader("set-cookie", cookies);
     }
     return res;
   };
@@ -57,7 +60,7 @@ export default defineNuxtPlugin(() => {
 
     const cookies = res.headers.get("set-cookie") || "";
     if (process.server && cookies) {
-      event.res.setHeader("set-cookie", cookies);
+      event.node.res.setHeader("set-cookie", cookies);
     }
     return res._data;
   };

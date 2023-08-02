@@ -88,6 +88,11 @@ restart: down up ## Soft Restart
 .PHONY: frestart
 frestart: fdown fup ## Hard restart
 
+
+.PHONY: fbuild
+fbuild: ;\
+   docker compose build --no-cache
+
 .PHONY: stop-front
 stop-front: sync-env ## stop front container
 	DOCKER_BUILDKIT=1 docker compose stop front
