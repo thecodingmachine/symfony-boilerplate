@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Users</h1>
+    <h1>{{ $t('users.users') }}</h1>
     <div v-show="usersPending">(En cours de chargement)</div>
     <div v-show="error">{{ error }}}</div>
     <table v-if="!usersPending && users">
@@ -17,7 +17,7 @@
               v-if="!authStore.isAuthUser(user)"
               :to="`/users/${user.id}`"
             >
-              <button>Update</button>
+              <button>{{ $t('global.update')}}</button>
             </NuxtLink>
           </td>
           <td>
@@ -25,7 +25,7 @@
               v-if="!authStore.isAuthUser(user)"
               @click="deleteUserClick(user)"
             >
-              Delete
+              {{ $t('global.delete')}}
             </button>
           </td>
         </tr>

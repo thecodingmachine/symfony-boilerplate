@@ -1,12 +1,13 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "rm -rf /tmp/nitro/worker-* && nuxt dev | pino-pretty -c",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint nuxt.config.ts --fix ; nuxi typecheck ; eslint ./src/"
+    "lint": "eslint nuxt.config.ts --fix ; nuxi typecheck ; eslint ./"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",

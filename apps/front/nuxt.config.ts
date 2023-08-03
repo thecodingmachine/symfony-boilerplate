@@ -2,8 +2,10 @@
 import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
-  srcDir: "src/",
-  modules: ["@pinia/nuxt"],
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/i18n",
+  ],
   runtimeConfig: {
     API_URL: process.env.API_URL || "",
   },
@@ -31,5 +33,29 @@ export default defineNuxtConfig({
       },
     },
   },
-  // ssr: false
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        iso: 'en-US',
+        name: 'English',
+        file: 'en.ts',
+      },
+      {
+        code: 'fr',
+        iso: 'fr-FR',
+        name: 'Français',
+        file: 'fr.ts',
+      },
+    ],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    lazy: true,
+    langDir: 'lang',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+    },
+    vueI18n: './i18n.config.ts',
+  }
 });
