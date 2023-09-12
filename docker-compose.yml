@@ -10,8 +10,8 @@ services:
       - traefik.http.routers.back_router.service=back_service
       - traefik.http.services.back_service.loadbalancer.server.port=80
     environment:
-      DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=mariadb-10.11.3"
-      TESTS_DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql_tests:3306/${DATABASE_NAME}?serverVersion=mariadb-10.11.3"
+      DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=mariadb-11.1.2"
+      TESTS_DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql_tests:3306/${DATABASE_NAME}?serverVersion=mariadb-11.1.2"
       APP_SSO_SERVICEPROVIDER_X509CERT: ${APP_SSO_SERVICEPROVIDER_X509CERT}
       APP_SSO_SERVICEPROVIDER_PRIVATEKEY: ${APP_SSO_SERVICEPROVIDER_PRIVATEKEY}
       APP_SSO_IDENTITYPROVIDER_X509CERT: ${APP_SSO_IDENTITYPROVIDER_X509CERT}
@@ -19,14 +19,14 @@ services:
       APP_SSO_IDENTITYPROVIDER_LOGINURL: ${APP_SSO_IDENTITYPROVIDER_LOGINURL}
       APP_SSO_IDENTITYPROVIDER_LOGOUTURL: ${APP_SSO_IDENTITYPROVIDER_LOGOUTURL}
       APP_URL: ${PROTOCOL}://${BASE_DOMAIN}
-      APP_PREFIX: ${APP_PREFIX}
+      API_PREFIX: ${API_PREFIX}
       MAILER_DSN: ${MAILER_DSN}
       MAIL_HOST: ${MAIL_HOST}
       APP_SECRET: "secretforapp"
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
-    image: 'mariadb:10.11'
+    image: 'mariadb:11.1'
     restart:  on-failure
     environment:
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}

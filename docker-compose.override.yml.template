@@ -49,8 +49,6 @@ services:
       - traefik.http.services.phpmyadmin_service.loadbalancer.server.port=80
     environment:
       PMA_HOSTS: "mysql, mysql_tests"
-      PMA_USER: "$DATABASE_USERNAME"
-      PMA_PASSWORD: "$DATABASE_PASSWORD"
       UPLOAD_LIMIT: "100M"
 
   mysql:
