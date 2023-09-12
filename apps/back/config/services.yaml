@@ -6,7 +6,8 @@
 parameters:
     app.mail.host: "%env(MAIL_HOST)%"
     app.url.base: "%env(APP_URL)%"
-    app.url.prefix: "%env(APP_PREFIX)%"
+    app.api.version: "1.0"
+    app.api.url.prefix: "%env(API_PREFIX)%/%app.api.version%"
    # app.url.webapp: "%env(APP_URL_WEBAPP)%"
     # OUR APP
     app.sso.serviceprovider.x509cert: "%env(APP_SSO_SERVICEPROVIDER_X509CERT)%"
@@ -21,8 +22,8 @@ parameters:
         debug: true
         sp:
             entityId: '%app.url.base%'
-            assertionConsumerService: { url: '%app.url.base%/%app.url.prefix%/auth/sso/saml2/login' }
-            singleLogoutService: { url: "%app.url.base%/%app.url.prefix%/auth/sso/saml2/logout" }
+            assertionConsumerService: { url: '%app.url.base%/%app.api.url.prefix%/auth/sso/saml2/login' }
+            singleLogoutService: { url: "%app.url.base%/%app.api.url.prefix%/auth/sso/saml2/logout" }
             NameIDFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
             x509cert: "%app.sso.serviceprovider.x509cert%"
             privateKey: "%app.sso.serviceprovider.privateKey%"
