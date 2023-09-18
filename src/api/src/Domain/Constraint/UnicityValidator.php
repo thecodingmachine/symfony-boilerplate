@@ -15,11 +15,9 @@ use function get_debug_type;
 
 final class UnicityValidator extends ConstraintValidator
 {
-    private TDBMService $tdbmService;
-
-    public function __construct(TDBMService $tdbmService)
-    {
-        $this->tdbmService = $tdbmService;
+    public function __construct(
+        private TDBMService $tdbmService,
+    ) {
     }
 
     public function validate(mixed $value, Constraint $constraint): void
@@ -50,7 +48,7 @@ final class UnicityValidator extends ConstraintValidator
         $existingObject = $this->tdbmService->findObject(
             mainTable            : $constraint->table,
             filter               : [$constraint->column . ' = :value'],
-            parameters           : ['value' => $value->$getterValue(),],
+            parameters           : ['value' => $value->$getterValue()],
             additionalTablesFetch: [],
             className            : $constraint->className,
             resultIteratorClass  : ResultIterator::class
@@ -67,7 +65,6 @@ final class UnicityValidator extends ConstraintValidator
         $this->context
             ->buildViolation($constraint->message)
             ->atPath($constraint->column)
-            ->addViolation()
-        ;
+            ->addViolation();
     }
 }

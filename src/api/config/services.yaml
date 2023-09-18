@@ -63,7 +63,7 @@ services:
     # Commands.
     App\Infrastructure\Command\InitializeS3StorageCommand:
         arguments:
-            $s3Client: '@s3.client'
+            $client: '@s3.client'
             $publicBucket: '%app.storage_public_bucket%'
             $privateBucket: '%app.storage_private_bucket%'
             $publicSource: '%app.storage_public_source%'

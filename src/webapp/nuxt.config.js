@@ -7,7 +7,7 @@ export default {
   /*
    ** SSR Feature (server side rendering)
    */
-  ssr: true,
+  ssr: process.env.NUXT_SSR === '1',
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head

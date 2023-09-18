@@ -12,12 +12,9 @@ use function chr;
 
 abstract class CreateXLSXExport
 {
-    protected TranslatorInterface $translator;
-
     public function __construct(
-        TranslatorInterface $translator
+        protected TranslatorInterface $translator,
     ) {
-        $this->translator = $translator;
     }
 
     /**

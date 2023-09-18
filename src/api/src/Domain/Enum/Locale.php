@@ -14,7 +14,13 @@ use TheCodingMachine\GraphQLite\Annotations as GraphQLite;
 #[GraphQLite\EnumType]
 final class Locale extends Enum
 {
+    /**
+     * @var string
+     */
     private const EN = 'en';
+    /**
+     * @var string
+     */
     private const FR = 'fr';
 
     /**

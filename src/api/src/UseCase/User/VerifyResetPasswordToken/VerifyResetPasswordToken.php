@@ -13,11 +13,9 @@ use function password_verify;
 
 final class VerifyResetPasswordToken
 {
-    private ResetPasswordTokenDao $resetPasswordTokenDao;
-
-    public function __construct(ResetPasswordTokenDao $resetPasswordTokenDao)
-    {
-        $this->resetPasswordTokenDao = $resetPasswordTokenDao;
+    public function __construct(
+        private ResetPasswordTokenDao $resetPasswordTokenDao,
+    ) {
     }
 
     /**

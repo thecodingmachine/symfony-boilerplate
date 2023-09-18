@@ -14,16 +14,10 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class DevFixturesCommand extends Command
 {
-    private KernelInterface $kernel;
-    private AppFixtures $fixtures;
-
     public function __construct(
-        KernelInterface $kernel,
-        AppFixtures $fixtures
+        private KernelInterface $kernel,
+        private AppFixtures $fixtures
     ) {
-        $this->kernel   = $kernel;
-        $this->fixtures = $fixtures;
-
         parent::__construct('app:fixtures:dev');
     }
 

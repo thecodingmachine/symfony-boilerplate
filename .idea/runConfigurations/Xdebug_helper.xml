@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Xdebug helper" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile">
+    <makefile filename="$PROJECT_DIR$/Makefile" target="xdebug-start" workingDirectory="$PROJECT_DIR$" arguments="">
+      <envs>
+        <env name="FROM_PHPSTORM" value="1" />
+      </envs>
+    </makefile>
+    <method v="2" />
+  </configuration>
+</component>

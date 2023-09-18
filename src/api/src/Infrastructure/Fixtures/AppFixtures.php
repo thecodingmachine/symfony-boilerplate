@@ -13,16 +13,10 @@ use App\UseCase\User\DeleteUser;
 
 final class AppFixtures extends Fixtures
 {
-    private UserDao $userDao;
-    private DeleteUser $deleteUser;
-
     public function __construct(
-        UserDao $userDao,
-        DeleteUser $deleteUser
+        private UserDao $userDao,
+        private DeleteUser $deleteUser
     ) {
-        $this->userDao    = $userDao;
-        $this->deleteUser = $deleteUser;
-
         parent::__construct();
     }
 

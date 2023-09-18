@@ -18,18 +18,11 @@ use TheCodingMachine\GraphQLite\Annotations\Mutation;
 
 final class UpdatePassword
 {
-    private VerifyResetPasswordToken $verifyResetPasswordToken;
-    private ResetPasswordTokenDao $resetPasswordTokenDao;
-    private UserDao $userDao;
-
     public function __construct(
-        VerifyResetPasswordToken $verifyResetPasswordToken,
-        ResetPasswordTokenDao $resetPasswordTokenDao,
-        UserDao $userDao
+        private VerifyResetPasswordToken $verifyResetPasswordToken,
+        private ResetPasswordTokenDao $resetPasswordTokenDao,
+        private UserDao $userDao,
     ) {
-        $this->verifyResetPasswordToken = $verifyResetPasswordToken;
-        $this->resetPasswordTokenDao    = $resetPasswordTokenDao;
-        $this->userDao                  = $userDao;
     }
 
     /**

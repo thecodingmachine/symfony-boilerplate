@@ -14,7 +14,13 @@ use TheCodingMachine\GraphQLite\Annotations as GraphQLite;
 #[GraphQLite\EnumType]
 final class Role extends Enum
 {
+    /**
+     * @var string
+     */
     private const ADMINISTRATOR = 'ADMINISTRATOR';
+    /**
+     * @var string
+     */
     private const USER          = 'USER';
 
     /**

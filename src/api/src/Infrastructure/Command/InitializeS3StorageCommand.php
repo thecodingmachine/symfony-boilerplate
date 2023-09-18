@@ -15,25 +15,13 @@ use function Safe\sprintf;
 
 final class InitializeS3StorageCommand extends Command
 {
-    private S3MultiRegionClient $client;
-    private string $publicBucket;
-    private string $privateBucket;
-    private string $publicSource;
-    private string $privateSource;
-
     public function __construct(
-        S3MultiRegionClient $s3Client,
-        string $publicBucket,
-        string $privateBucket,
-        string $publicSource,
-        string $privateSource
+        private S3MultiRegionClient $client,
+        private string $publicBucket,
+        private string $privateBucket,
+        private string $publicSource,
+        private string $privateSource
     ) {
-        $this->client        = $s3Client;
-        $this->publicBucket  = $publicBucket;
-        $this->privateBucket = $privateBucket;
-        $this->publicSource  = $publicSource;
-        $this->privateSource = $privateSource;
-
         parent::__construct('app:init-storage:s3');
     }
 
@@ -46,15 +34,11 @@ final class InitializeS3StorageCommand extends Command
         $createPublicBucket = new CreatePublicBucket($this->client);
         if (! $createPublicBucket->create($this->publicBucket)) {
             $output->writeln(
-                'Bucket "' .
-                $this->publicBucket .
-                '" already exists'
+                'Bucket "' . $this->publicBucket . '" already exists'
             );
         } else {
             $output->writeln(
-                'Bucket "' .
-                $this->publicBucket .
-                '" created'
+                'Bucket "' . $this->publicBucket . '" created'
             );
         }
 

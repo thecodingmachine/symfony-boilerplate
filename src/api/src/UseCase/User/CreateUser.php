@@ -19,18 +19,11 @@ use TheCodingMachine\GraphQLite\Annotations\Security;
 
 final class CreateUser
 {
-    private UserDao $userDao;
-    private UpdateProfilePicture $updateProfilePicture;
-    private ResetPassword $resetPassword;
-
     public function __construct(
-        UserDao $userDao,
-        UpdateProfilePicture $updateProfilePicture,
-        ResetPassword $resetPassword
+        private UserDao $userDao,
+        private UpdateProfilePicture $updateProfilePicture,
+        private ResetPassword $resetPassword,
     ) {
-        $this->userDao              = $userDao;
-        $this->updateProfilePicture = $updateProfilePicture;
-        $this->resetPassword        = $resetPassword;
     }
 
     /**

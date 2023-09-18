@@ -16,11 +16,9 @@ use function Safe\sprintf;
 
 final class UserProvider implements UserProviderInterface
 {
-    private UserDao $userDao;
-
-    public function __construct(UserDao $userDao)
-    {
-        $this->userDao = $userDao;
+    public function __construct(
+        private UserDao $userDao,
+    ) {
     }
 
     public function loadUserByUsername(string $username): UserInterface

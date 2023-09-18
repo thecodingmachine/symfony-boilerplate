@@ -48,40 +48,34 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
         string $lastName,
         string $email,
         Locale $locale,
-        Role $role
+        Role $role,
     ) {
         parent::__construct(
             firstName: $firstName,
             lastName : $lastName,
             email    : $email,
             locale   : strval($locale),
-            role     : strval($role)
+            role     : strval($role),
         );
     }
 
-    /**
-     * @Assert\NotBlank(message="not_blank")
-     * @Assert\Length(max=255, maxMessage="max_length_255")
-     */
+    #[Assert\NotBlank(message: 'not_blank')]
+    #[Assert\Length(max: 255, maxMessage: 'max_length_255')]
     public function getFirstName(): string
     {
         return parent::getFirstName();
     }
 
-    /**
-     * @Assert\NotBlank(message="not_blank")
-     * @Assert\Length(max=255, maxMessage="max_length_255")
-     */
+    #[Assert\NotBlank(message: 'not_blank')]
+    #[Assert\Length(max: 255, maxMessage: 'max_length_255')]
     public function getLastName(): string
     {
         return parent::getLastName();
     }
 
-    /**
-     * @Assert\NotBlank(message="not_blank")
-     * @Assert\Length(max=255, maxMessage="max_length_255")
-     * @Assert\Email(message="invalid_email")
-     */
+    #[Assert\NotBlank(message: 'not_blank')]
+    #[Assert\Length(max: 255, maxMessage: 'max_length_255')]
+    #[Assert\Email(message: 'invalid_email')]
     public function getEmail(): string
     {
         return parent::getEmail();
@@ -98,17 +92,13 @@ class User extends BaseUser implements UserInterface, Serializable, EquatableInt
         parent::setPassword(password_hash($password, PASSWORD_DEFAULT));
     }
 
-    /**
-     * @Assert\Choice(callback={"App\Domain\Enum\Locale", "valuesAsArray"}, message="user.invalid_locale")
-     */
+    #[Assert\Choice(callback: [Locale::class, 'valuesAsArray'], message: 'user.invalid_locale')]
     public function getLocale(): string
     {
         return parent::getLocale();
     }
 
-    /**
-     * @Assert\Choice(callback={"App\Domain\Enum\Role", "valuesAsArray"}, message="user.invalid_role")
-     */
+    #[Assert\Choice(callback: [Role::class, 'valuesAsArray'], message: 'user.invalid_role')]
     public function getRole(): string
     {
         return parent::getRole();

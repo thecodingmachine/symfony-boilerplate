@@ -8,6 +8,14 @@ include .env
 up: .env ## Start the Docker Compose stack.
 	docker-compose up -d
 
+ps: .env ## Status of running containers
+	docker-compose ps
+
+top-lazy: .env ## Use lazy docker to show a docker compose interface
+	@if ! type lazydocker > /dev/null 2>&1; then \
+  		curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash; \
+  	fi
+	lazydocker
 
 down: ## Stop the Docker Compose stack.
 	docker-compose down
@@ -60,6 +68,24 @@ lint-api: ## Launch linter in api
 lint-webapp: ## Launch linter in webapp
 	docker-compose exec webapp yarn lint:fix
 	docker-compose exec webapp yarn lint
+
+.PHONY: xdebug-start
+xdebug-start: up ## Activate x-debug
+	@if ! (docker-compose exec -T api php -m | grep -qi xdebug); then \
+  		echo "php-xdebug is not activated"; \
+  		echo "Ensure env \`PHP_EXTENSION_XDEBUG=1\`"; \
+  		exit 1; \
+  	fi;
+	@if [ "$(FROM_PHPSTORM)" != "1" ]; then echo "From phpstorm type MAJ+F9"; fi
+	@echo "- For browser debug"
+	@echo "    - To Enable go onto this url from your browser (do not forget to place yours breakpoints)"
+	@echo "      http://$(API_SUBDOMAIN).$(DOMAIN)/ping?XDEBUG_SESSION_START=1"
+	@echo "    - To Disable go onto this url from your browser (or just stop listen from phpstorm)"
+	@echo "      http://$(API_SUBDOMAIN).$(DOMAIN)/ping?XDEBUG_SESSION_STOP=1"
+	@echo "    - Disable Server Side Rendering if required (on you .env, change to \`NUXT_SSR=0\`)"
+	@echo "- For cli debug : "
+	@echo "    - type on api container : \`XDEBUG_SESSION=1 php ./my-script.php\`"
+	@echo "    - type on api container : \`XDEBUG_SESSION=1 ./bin/console app:my-script\`"
 
 .PHONY: help
 help: ## This help.

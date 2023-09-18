@@ -14,7 +14,13 @@ use function in_array;
 
 final class UserVoter extends AppVoter
 {
+    /**
+     * @var string
+     */
     public const GET_USER    = 'GET_USER';
+    /**
+     * @var string
+     */
     public const DELETE_USER = 'DELETE_USER';
 
     protected function supports(string $attribute, mixed $subject): bool

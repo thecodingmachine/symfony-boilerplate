@@ -13,11 +13,9 @@ use TheCodingMachine\GraphQLite\Annotations\Security;
 #[Route(path: '/users')]
 final class UserProfilePictureController extends DownloadController
 {
-    private ProfilePictureStorage $profilePictureStorage;
-
-    public function __construct(ProfilePictureStorage $profilePictureStorage)
-    {
-        $this->profilePictureStorage = $profilePictureStorage;
+    public function __construct(
+        private ProfilePictureStorage $profilePictureStorage,
+    ) {
     }
 
     #[Route(path: '/profile-picture/{filename}', methods: ['GET'])]
