@@ -21,4 +21,7 @@ includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-symfony/rules.neon
 
+rules:
+	- App\DevTools\PHPStan\RouteSecurityChecker
+
 ## May have to add static forbidden

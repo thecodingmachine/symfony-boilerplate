@@ -124,4 +124,9 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
             'username' => $this->getUsername(),
         ];
     }
+
+    public function hasRole(string $role): bool
+    {
+        return \in_array($role, $this->getRoles());
+    }
 }
