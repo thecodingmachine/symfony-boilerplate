@@ -1,0 +1,82 @@
+# config/packages/nelmio_security.yaml
+nelmio_security:
+    # signs/verifies all cookies
+    # FIXME :
+    #   - PHPSESSID cookie i snot correctly passed into the signing process, so we cannot use '*'. But additional cookies could be set a signed here
+    #   - see https://github.com/nelmio/NelmioSecurityBundle/issues/154
+    signed_cookie:
+        names: []
+    # prevents framing of the entire site
+    clickjacking:
+        paths:
+            '^/.*': DENY
+        hosts:
+#            - '^foo\.com$'
+#            - '\.example\.org$'
+
+    # prevents redirections outside the website's domain
+    external_redirects:
+        abort: true
+        log: true
+
+    # prevents inline scripts, unsafe eval, external scripts/images/styles/frames, etc
+    csp:
+        hosts: []
+        content_types: []
+        enforce:
+            level1_fallback: false
+            browser_adaptive:
+                enabled: false
+#            report-uri: '%router.request_context.base_url%/nelmio/csp/report'
+            default-src:
+                - 'none'
+            script-src:
+                - 'self'
+            block-all-mixed-content: true # defaults to false, blocks HTTP content over HTTPS transport
+            # upgrade-insecure-requests: true # defaults to false, upgrades HTTP requests to HTTPS transport
+
+    # disables content type sniffing for script resources
+    content_type:
+        nosniff: true
+
+    # forces Microsoft's XSS-Protection with
+    # its block mode
+    xss_protection:
+        enabled: true
+        mode_block: true
+#        report_uri: '%router.request_context.base_url%/nelmio/xss/report'
+
+    # Send a full URL in the ``Referer`` header when performing a same-origin request,
+    # only send the origin of the document to secure destination (HTTPS->HTTPS),
+    # and send no header to a less secure destination (HTTPS->HTTP).
+    # If ``strict-origin-when-cross-origin`` is not supported, use ``no-referrer`` policy,
+    # no referrer information is sent along with requests.
+    referrer_policy:
+        enabled: true
+        policies:
+            - 'no-referrer'
+            - 'strict-origin-when-cross-origin'
+
+    # forces HTTPS handling, don't combine with flexible mode
+    # and make sure you have SSL working on your site before enabling this
+    #    forced_ssl:
+    #        hsts_max_age: 2592000 # 30 days
+    #        hsts_subdomains: true
+    #        redirect_status_code: 302 # default, switch to 301 for permanent redirects
+
+    # flexible HTTPS handling, read the detailed config info
+    # and make sure you have SSL working on your site before enabling this
+
+
+when@prod:
+    nelmio_security:
+        # could also be added at the proxy level
+        forced_ssl:
+        hsts_max_age: 2592000 # 30 days
+        hsts_subdomains: true
+        redirect_status_code: 302 # default, switch to 301 for permanent redirects
+
+#    Seems unnecessary because we are'nt using any insecure page in prod
+#    flexible_ssl:
+#        cookie_name: auth
+#        unsecured_logout: false
