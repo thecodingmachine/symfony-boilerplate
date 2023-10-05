@@ -88,20 +88,21 @@ restart: down up ## Soft Restart
 .PHONY: frestart
 frestart: fdown fup ## Hard restart
 
-.PHONY: stop-front
-stop-front: sync-env ## stop front container
+
+.PHONY: fe-stop
+fe-stop: sync-env ## stop front container
 	DOCKER_BUILDKIT=1 docker compose stop front
 
-.PHONY: rm-front
-rm-front: sync-env ## remove front container
+.PHONY: fe-rm
+fe-rm: sync-env ## remove front container
 	DOCKER_BUILDKIT=1 docker compose rm front -f
 
-.PHONY: start-front
-start-front: sync-env ## start front container
+.PHONY: fe-start
+fe-start: sync-env ## start front container
 	DOCKER_BUILDKIT=1 docker compose up  front -d
 
-.PHONY: reset-front
-reset-front: stop-front rm-front start-front ## reset front container
+.PHONY: fe-restart
+fe-restart: fe-stop fe-rm fe-start ## reset front container
 
 .PHONY: dumpautoload
 dumpautoload: sync-env ## dump the composer autoloader
