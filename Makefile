@@ -133,8 +133,8 @@ frontlint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix
 
 .PHONY: frontcheck
-frontcheck: ## lint front (check)
-	docker sync-env compose exec front yarn lint
+frontcheck: sync-env ## lint front (check)
+	docker compose exec front yarn lint
 
 .PHONY: ci
 ci: cs-fix phpstan phpmd cs-check frontlint ## Run all CI tools
@@ -154,17 +154,22 @@ dump: ## dump database in apps/back/dump/dump.sql (use git lfs)
 	gzip -f apps/back/dump/dump.sql
 	git lfs track ./apps/back/dump/dump.sql.gz
 
+
+.PHONY: network-prune
+network-prune: ## Prune networks
+	docker network prune
+.PHONY: image-prune
+image-prune: ## Prune images
+	docker image prune -a
+.PHONY: system-prune
+system-prune: ## Prune system
+	docker system prune -a
+.PHONY: system-prune
+system-prune-volumes: ## Prune system with --volumes /!\ Data will be lost
+	docker system prune -a --volumes
+prune: system-prune image-prune network-prune
+
+
 .PHONY: help
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
-.PHONY: network-prune
-network-prune: ;\
-    docker network prune
-.PHONY: image-prune
-image-prune: ;\
-    docker image prune -a
-.PHONY: system-prune
-system-prune: ;\
-    docker system prune
-prune: system-prune image-prune network-prune
