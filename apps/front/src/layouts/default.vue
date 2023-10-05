@@ -1,18 +1,18 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
+  <div>
+    <div class="grid">
+      <div class="col-12">
         <layout-app-header />
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-auto bg-light sticky-top vh-100 overflow-auto">
+    <div class="grid">
+      <div class="col-2">
         <layout-menu-app-menu />
       </div>
-      <div class="col-sm p-3 min-vh-100">
+      <div class="col min-h-screen">
         <slot />
       </div>
     </div>
   </div>
 </template>
-;
+<script setup></script>
