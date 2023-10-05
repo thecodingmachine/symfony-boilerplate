@@ -36,6 +36,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  build: {
+    transpile: ["primevue"],
+  },
   watch: [
     "src/assets/styles/_functions.scss",
     "src/assets/styles/_variables.scss",
