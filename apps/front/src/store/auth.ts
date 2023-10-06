@@ -1,86 +1,63 @@
 import { defineStore } from "pinia";
-import useMe, { Me } from "~/composables/api/auth/useMe";
 import { HTTP_UNAUTHORIZED, POST } from "~/constants/http";
-import { User } from "~/types/user";
+import { User } from "~/types/User";
 import { AppFetch } from "~/types/AppFetch";
+import useBasicError from "~/composables/useBasicError";
 
-type AuthState = {
-  authUser: Me | null;
-  isPending: boolean;
-  authUrl: string;
-};
-
-const login = async (
-  fetcher: AppFetch<any>,
-  username: string,
-  password: string
-) => {
+const login = <T>(fetcher: AppFetch<T>, username: string, password: string) => {
   return fetcher("/login", {
     method: POST,
     body: {
       username,
       password,
     },
-  }) as Promise<User>;
+  });
 };
 
-export const useAuthUser = defineStore({
-  id: "auth-store",
-  state: (): AuthState => ({
-    authUser: null,
-    isPending: false,
-    authUrl: "",
-    //authUrl: ""
-  }),
-  actions: {
+export const useAuthUser = defineStore("auth-store", () => {
+  const me = ref();
+  const { error, resetError, setError } = useBasicError();
+  const isMePending = ref(false);
+  const authUrl = ref("/auth/login");
+  const refresh = async ($appFetch: AppFetch<User | undefined>) => {
+    resetError();
+    isMePending.value = true;
+    try {
+      const res = await $appFetch("auth/me");
+      me.value = res;
+    } catch (exception: any) {
+      isMePending.value = false;
+      const is401 = exception?.response?.status === HTTP_UNAUTHORIZED;
+      if (!is401) {
+        return setError(exception);
+      }
+      const ret = await exception.response._data;
+      authUrl.value = ret?.url || "/auth/login";
+    }
+    isMePending.value = false;
+  };
+
+  return {
+    me,
+    meError: error,
+    isMePending,
+    authUrl,
+
+    isAuthenticated: computed(() => !!me.value),
+
+    isAuthUser: (user: User) => me.value?.id === user.id,
+    resetAuth: () => (me.value = null),
+    refresh,
+
     async authenticateUser(
       username: string,
       password: string,
       fetch: AppFetch<any>
     ) {
-      return login(fetch, username, password);
+      const user = await login<User>(fetch, username, password);
+      me.value = user;
+      return user;
     },
-    resetAuth() {
-      this.authUser = null;
-    },
-    setAuthUser(authUser: Me) {
-      this.authUser = authUser;
-    },
-    startPending() {
-      this.isPending = true;
-    },
-    endPending() {
-      this.isPending = false;
-    },
-    async syncMe() {
-      if (this.isPending) {
-        return;
-      }
-      // Our session is based on the PHPSESSID cookie
-      const me = useMe();
-      try {
-        this.startPending();
-        const authUser = await me();
-        this.setAuthUser(authUser);
-        this.endPending();
-        return;
-      } catch (exception: any) {
-        this.endPending();
-        const is401 = exception?.response?.status === HTTP_UNAUTHORIZED;
-        if (!is401) {
-          // TODO error store in appFetch
-          throw exception;
-        }
-        const ret = await exception.response._data;
-        this.authUrl = ret?.url || "/auth/login";
-        return;
-      }
-    },
-  },
-  getters: {
-    isAuthenticated: (state) => !!state.authUser,
-    isAuthUser: (state) => (user: User) => state.authUser?.id === user.id,
-  },
+  };
 });
-
 export default useAuthUser;

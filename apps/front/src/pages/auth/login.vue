@@ -12,6 +12,7 @@
           <input v-model="password" name="password" type="password" />
         </div>
         <button type="submit">Log-in</button>
+        <div v-if="errorMessage">{{ errorMessage }}</div>
       </form>
     </div>
   </div>
@@ -20,12 +21,14 @@
 import { ref } from "vue";
 import { useAuthUser } from "~/store/auth";
 import { AppFetch } from "~/types/AppFetch";
+import useBasicError from "~/composables/useBasicError";
 
 definePageMeta({
   layout: "anonymous",
 });
 
 const authStore = useAuthUser();
+const { errorMessage, setError, resetError } = useBasicError();
 /**
  *
  *  If we’re using ref or reactive to store our state, they don’t get saved and passed along.
@@ -40,11 +43,12 @@ const username = ref("");
 const password = ref("");
 const { $appFetch }: { $appFetch: AppFetch<any> } = useNuxtApp();
 const submitAuthenticateUser = async () => {
+  resetError();
   try {
     await authStore.authenticateUser(username.value, password.value, $appFetch);
     await navigateTo("/");
   } catch (e: any) {
-    window.alert("Bad credentials");
+    await setError(e);
   }
 };
 </script>

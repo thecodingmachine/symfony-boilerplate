@@ -1,4 +1,4 @@
-import { User } from "~/types/user";
+import { User } from "~/types/User";
 import { DELETE } from "~/constants/http";
 
 export default function useDeleteUser() {

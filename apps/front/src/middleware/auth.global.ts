@@ -1,11 +1,13 @@
 import { useAuthUser } from "~/store/auth";
 
 export default defineNuxtRouteMiddleware(async () => {
-  const authStore = useAuthUser();
+  const { $appFetch } = useNuxtApp();
+  const app = usePinia();
+  const authStore = useAuthUser(app);
   // We refresh the data information
   // If the syncMe result in a 401, the component RedirectToLogin will be triggered,
   // so no need to wait the sync
-  const mePromise = authStore.syncMe();
+  const mePromise = authStore.refresh($appFetch);
   /**
    *   We still wait if the user is not authenticated because that may mean
    * the client has not retrieved user information

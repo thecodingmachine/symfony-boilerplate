@@ -1,5 +1,5 @@
 import { PUT } from "~/constants/http";
-import { User, UserId } from "~/types/user";
+import { User, UserId } from "~/types/User";
 import useBasicError from "~/composables/useBasicError";
 
 type UserInput = Omit<User, "id">;

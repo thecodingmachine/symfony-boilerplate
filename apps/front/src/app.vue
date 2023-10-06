@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtErrorBoundary @error="mHandleError">
-      <NuxtLayout v-if="!isPendingAuth || authStore.isAuthenticated">
+      <NuxtLayout v-if="!isMePending || isAuthenticated">
         <NuxtPage />
       </NuxtLayout>
     </NuxtErrorBoundary>
@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { watchEffect } from "vue";
 import { useAuthUser } from "~/store/auth";
+import { storeToRefs } from "pinia";
 
 const authStore = useAuthUser();
 
@@ -18,23 +19,21 @@ const route = useRoute();
 const mHandleError = (e: unknown) => {
   logger.error("Primary error boundary", e);
 };
-const isPendingAuth = computed(() => authStore.isPending);
+const { isAuthenticated, isMePending, authUrl } = storeToRefs(authStore);
 // Doing this here instead than in the middleware allow reactivity on the auth user
 watchEffect(async () => {
-  if (isPendingAuth.value) {
+  if (isMePending.value) {
     return;
   }
   const shouldRedirectToLogin =
-    !authStore.isAuthenticated &&
-    authStore.authUrl &&
-    route.name !== "auth-login";
+    !isAuthenticated.value && authUrl.value && route.fullPath !== authUrl.value;
   if (shouldRedirectToLogin) {
-    await navigateTo(authStore.authUrl, { external: true });
+    return navigateTo(authUrl.value, { external: true });
   }
   const shouldRedirectToHomepage =
-    authStore.isAuthenticated && route.name === "auth-login";
+    isAuthenticated.value && route.fullPath === authUrl.value;
   if (shouldRedirectToHomepage) {
-    await navigateTo("/");
+    return navigateTo("/");
   }
 });
 </script>

@@ -11,9 +11,11 @@ services:
   front:
     build:
       context: ./apps/front/
+      #target: stable
       target: dev
     environment:
       NODE_ENV: development
+     # NODE_ENV: production
     ports:
       - "24678:24678"
     volumes:
@@ -75,6 +77,15 @@ services:
       - SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE=http://$API_DOMAIN/api/1.0/auth/sso/saml2/logout
     volumes:
       - ./apps/ssoidp/idpUser.php:/var/www/simplesamlphp/config/authsources.php
+
+  mail:
+    image: mailhog/mailhog
+    restart: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mail.rule=Host(`mail.$BASE_DOMAIN`)
+      - traefik.http.routers.mail.service=mail
+      - traefik.http.services.mail.loadbalancer.server.port=8025
 
 networks:
   # This could be very usefull to run multiple project on the same machine
