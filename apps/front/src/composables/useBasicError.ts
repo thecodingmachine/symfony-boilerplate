@@ -4,7 +4,9 @@ import { BasicError } from "~/types/BasicError";
 export default function useBasicError() {
   const error: Ref<BasicError | null> = ref(null);
   const errorMessage = computed(() => {
-    return error.value?.detail || error.value?.message || "";
+    return (
+      error.value?.detail || error.value?.message || error.value?.error || ""
+    );
   });
   const setError = async (e: any) => {
     error.value = e;

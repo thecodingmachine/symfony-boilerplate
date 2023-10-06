@@ -30,7 +30,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { User } from "~/types/user";
+import { User } from "~/types/User";
 
 defineProps<
   Omit<User, "id"> & {

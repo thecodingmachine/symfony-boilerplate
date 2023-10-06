@@ -13,5 +13,5 @@ import { useAuthUser } from "~/store/auth";
 
 const authStore = useAuthUser();
 
-const username = authStore.authUser?.username || "";
+const username = authStore.me.email || "";
 </script>

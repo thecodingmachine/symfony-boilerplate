@@ -12,7 +12,6 @@ export default function useAppFetch<T>(
   const defaults: UseFetchOptions<T | undefined | unknown> = {
     $fetch: $appFetch as $Fetch<unknown, NitroFetchRequest>,
   };
-
   // for nice deep defaults, please use unjs/defu
   const params = defu(options, defaults);
 

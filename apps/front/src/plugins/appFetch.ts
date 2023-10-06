@@ -1,11 +1,11 @@
 // TODO : remove that
 
-import { NitroFetchOptions, NitroFetchRequest } from "nitropack";
 import { useAuthUser } from "~/store/auth";
 import { API_URL } from "~/constants/http";
 
 export default defineNuxtPlugin(() => {
-  const store = useAuthUser();
+  const pinia = usePinia();
+  const store = useAuthUser(pinia);
   const event = useRequestEvent();
   const headers: {
     [key: string]: string;
@@ -18,7 +18,6 @@ export default defineNuxtPlugin(() => {
     onResponse(context) {
       const res = context.response;
       const cookies = res.headers.get("set-cookie") || "";
-      console.log(res.status);
       if (res.status === 401 && store.isAuthenticated) {
         logger.error("401 error, removing authentication informations");
         store.resetAuth();

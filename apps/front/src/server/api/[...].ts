@@ -36,6 +36,10 @@ export default defineEventHandler(async (event: H3Event) => {
     cookiePathRewrite: {
       "/*": "/",
     },
+    sendStream: true,
+    fetchOptions: {
+      redirect: "manual",
+    },
   });
   return ret;
 });

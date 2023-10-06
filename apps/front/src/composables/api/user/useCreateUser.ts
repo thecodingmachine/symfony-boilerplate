@@ -1,5 +1,5 @@
 import { POST } from "~/constants/http";
-import { User } from "~/types/user";
+import { User } from "~/types/User";
 import { Ref } from "vue";
 import useBasicError from "~/composables/useBasicError";
 
