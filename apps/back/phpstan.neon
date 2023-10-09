@@ -11,12 +11,14 @@ parameters:
         - src
     doctrine:
         objectManagerLoader: phpstan/entity-manager.php
-
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
     excludePaths:
         - src/Kernel.php
 includes:
-    - vendor/symplify/phpstan-extensions/config/config.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-doctrine/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
 
 ## May have to add static forbidden
