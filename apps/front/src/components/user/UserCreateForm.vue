@@ -1,5 +1,5 @@
 <template>
-  <h1>Register</h1>
+  <h1 v-t="{ path: 'components.user.createForm.title' }"></h1>
   <form @submit.prevent.stop="registerUser">
     <UserForm
       v-model:email="email"
@@ -8,7 +8,9 @@
       :is-password-confirmed="isPasswordConfirmed"
     />
     {{ errorMessage }}
-    <button :disabled="!securedPassword">Register</button>
+    <button :disabled="!isPasswordConfirmed">
+      {{ $t("components.user.createForm.ok") }}
+    </button>
   </form>
 </template>
 <script setup lang="ts">
@@ -25,10 +27,6 @@ const {
 } = useUser();
 
 const registerUser = async () => {
-  if (!securedPassword.value) {
-    // That mean you call this action without checking that data are OK. this shall not be executed
-    throw createError("You need a valid password");
-  }
   try {
     await createUser(email.value, securedPassword.value);
     await navigateTo("/users");

@@ -6,5 +6,6 @@ export default async function useListUsers() {
   return useAppFetch<Array<User>>(() => "/users", {
     key: "listUsers",
     method: GET,
+    lazy: true,
   });
 }

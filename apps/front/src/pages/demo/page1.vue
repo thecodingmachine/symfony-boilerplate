@@ -1,8 +1,8 @@
 <template>
   <div>
     Page 1
-    <img src="~/assets/images/panda.webp" alt="Discover Pandas" />
-    <div class="panda-background">This is to discover background scss</div>
+    <img src="~/assets/images/panda.webp" :alt="$t('pages.page1.altPanda')" />
+    <div class="panda-background">{{ $t("pages.page1.background") }}</div>
   </div>
 </template>
 <script lang="ts" setup>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label for="email">Email</label>
+    <label for="email">{{ $t("components.user.form.email") }}</label>
     <input
       type="text"
       :value="email"
@@ -8,7 +8,7 @@
     />
   </div>
   <div>
-    <label for="password">Password</label>
+    <label for="password">{{ $t("components.user.form.password") }}</label>
     <input
       name="password"
       type="password"
@@ -17,7 +17,9 @@
     />
   </div>
   <div>
-    <label for="passwordConfirm">Confirm password</label>
+    <label for="passwordConfirm">{{
+      $t("components.user.form.passwordConfirm")
+    }}</label>
     <input
       name="passwordConfirm"
       type="password"
@@ -25,7 +27,7 @@
       @input="$emit('update:passwordConfirm', clearInput($event))"
     />
     <span v-if="!isPasswordConfirmed" class="text-danger">
-      The confirm password is not the same as the password
+      {{ $t("components.user.form.errorPasswordConfirm") }}
     </span>
   </div>
 </template>

@@ -3,9 +3,12 @@ import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
   srcDir: "src/",
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "@nuxtjs/i18n"],
   runtimeConfig: {
     API_URL: process.env.API_URL || "",
+  },
+  i18n: {
+    vueI18n: "./modules_config/nuxt/i18n.config.ts", // if you are using custom path, default
   },
   app: {
     head: {

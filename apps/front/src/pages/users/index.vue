@@ -1,12 +1,16 @@
 <template>
   <div>
-    <h1>Users</h1>
-    <div v-show="usersPending">(En cours de chargement)</div>
+    <div>
+      <NuxtLink to="/auth/register"
+        ><Button>{{ $t("pages.user.index.createButton") }}</Button></NuxtLink
+      >
+    </div>
+    <div v-show="usersPending" v-t="{ path: 'pages.user.index.pending' }"></div>
     <div v-show="error">{{ error }}}</div>
-    <table v-if="!usersPending && users">
+    <table v-if="users">
       <thead>
         <tr>
-          <th>Email</th>
+          <th>{{ $t("pages.user.index.title") }}</th>
         </tr>
       </thead>
       <tbody>
@@ -17,16 +21,19 @@
               v-if="!authStore.isAuthUser(user)"
               :to="`/users/${user.id}`"
             >
-              <button>Update</button>
+              <Button severity="secondary">{{
+                $t("pages.user.index.edit")
+              }}</Button>
             </NuxtLink>
           </td>
           <td>
-            <button
+            <Button
               v-if="!authStore.isAuthUser(user)"
+              severity="danger"
               @click="deleteUserClick(user)"
             >
-              Delete
-            </button>
+              {{ $t("pages.user.index.delete") }}
+            </Button>
           </td>
         </tr>
       </tbody>
