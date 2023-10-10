@@ -1,21 +1,31 @@
 <template>
-  <div>
-    <div>
-      <h1>Welcome to the login page</h1>
-      <form @submit.prevent.stop="submitAuthenticateUser">
-        <div>
-          <label for="email">Email</label>
-          <input v-model="username" name="email" type="text" />
+  <main id="main" class="main">
+    <section class="login flex-nowrap">
+      <div class="welcome-box">
+        <div class="content-box no-padding">
+          <h1>{{ $t("pages.auth.login.title") }}</h1>
         </div>
-        <div>
-          <label for="password">Password</label>
-          <input v-model="password" name="password" type="password" />
-        </div>
-        <button type="submit">Log-in</button>
+      </div>
+      <form
+        class="login-form temporary-primary-bg"
+        @submit.prevent.stop="submitAuthenticateUser"
+      >
+        <InputText
+          v-model="username"
+          type="text"
+          :placeholder="$t('pages.auth.login.username')"
+        />
+        <InputText
+          v-model="password"
+          type="password"
+          :placeholder="$t('pages.auth.login.password')"
+        />
+
+        <Button type="submit"> {{ $t("pages.auth.login.ok") }}</Button>
         <div v-if="errorMessage">{{ errorMessage }}</div>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";

@@ -1,8 +1,10 @@
 <template>
-  <div v-show="userPending">(Chargement)</div>
-
-  <form v-if="!userPending" @submit.prevent.stop="updateUser">
-    <h1>Update user {{ data.email }}</h1>
+  <div
+    v-show="userPending"
+    v-t="{ path: 'components.user.updateForm.pending' }"
+  ></div>
+  <form v-if="data" @submit.prevent.stop="updateUser">
+    <h1 v-t="{ path: 'components.user.updateForm.title', args: data }"></h1>
     <UserForm
       v-model:email="email"
       v-model:password="password"
@@ -11,7 +13,9 @@
     />
     {{ errorMessage }}
     {{ error }}
-    <button type="submit">Save</button>
+    <Button type="submit" :disabled="!isPasswordConfirmed">{{
+      $t("components.user.updateForm.ok")
+    }}</Button>
   </form>
 </template>
 
