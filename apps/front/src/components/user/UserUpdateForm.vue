@@ -4,7 +4,7 @@
   <form v-if="!userPending" @submit.prevent.stop="updateUser">
     <h1>Update user {{ data.email }}</h1>
     <UserForm
-      v-model:email="email"
+      v-model:email="localReactive.email"
       v-model:password="password"
       v-model:password-confirm="passwordConfirm"
       :is-password-confirmed="isPasswordConfirmed"
@@ -34,7 +34,7 @@ const {
 } = await useGetUser(props.userId as string);
 
 const {
-  email,
+  localReactive,
   password,
   passwordConfirm,
   isPasswordConfirmed,
@@ -45,7 +45,7 @@ const updateUser = async () => {
     await updateUserApi(
       data.value.id,
       {
-        email: email.value,
+        email: localReactive.email,
       },
       securedPassword.value
     );

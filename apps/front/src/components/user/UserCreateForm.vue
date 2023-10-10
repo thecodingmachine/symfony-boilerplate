@@ -2,7 +2,7 @@
   <h1>Register</h1>
   <form @submit.prevent.stop="registerUser">
     <UserForm
-      v-model:email="email"
+      v-model:email="localReactive.email"
       v-model:password="password"
       v-model:password-confirm="passwordConfirm"
       :is-password-confirmed="isPasswordConfirmed"
@@ -17,7 +17,7 @@ import useUser from "~/composables/user/useUser";
 
 const { createUser, errorMessage } = useCreateUser();
 const {
-  email,
+  localReactive,
   password,
   passwordConfirm,
   isPasswordConfirmed,
@@ -30,7 +30,7 @@ const registerUser = async () => {
     throw createError("You need a valid password");
   }
   try {
-    await createUser(email.value, securedPassword.value);
+    await createUser(localReactive.email, securedPassword.value);
     await navigateTo("/users");
   } catch (e) {
     logger.info(e);
