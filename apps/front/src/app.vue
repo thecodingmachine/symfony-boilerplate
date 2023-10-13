@@ -1,7 +1,9 @@
 <template>
   <div>
     <NuxtErrorBoundary @error="mHandleError">
-      <NuxtLoadingIndicator color="linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,18,71,1) 60%, rgba(0,236,174,1) 100%)"/>
+      <NuxtLoadingIndicator
+        color="linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,18,71,1) 60%, rgba(0,236,174,1) 100%)"
+      />
       <NuxtLayout v-if="!isMePending || isAuthenticated">
         <NuxtPage />
       </NuxtLayout>

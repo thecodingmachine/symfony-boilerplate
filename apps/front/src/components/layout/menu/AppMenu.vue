@@ -2,7 +2,11 @@
   <TieredMenu :model="items" class="h-screen sticky w-full"> </TieredMenu>
 </template>
 <script setup lang="ts">
+import useAuthUser from "~/store/auth";
+
 const { t } = useI18n();
+const authStore = useAuthUser();
+const { $appFetch } = useNuxtApp();
 const items = computed(() => [
   {
     label: t("components.layout.menu.appMenu.users"),
@@ -30,6 +34,10 @@ const items = computed(() => [
   {
     label: t("components.layout.menu.appMenu.quit"),
     icon: "pi pi-fw pi-power-off",
+    command: async () => {
+      await authStore.logoutUser($appFetch);
+      await navigateTo("/", { external: true });
+    },
   },
 ]);
 </script>
