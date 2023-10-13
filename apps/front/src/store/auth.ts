@@ -14,6 +14,12 @@ const login = <T>(fetcher: AppFetch<T>, username: string, password: string) => {
   });
 };
 
+const logout = (fetcher: AppFetch<any>) => {
+  return fetcher("/auth/logout", {
+    method: POST,
+  }) as Promise<null>;
+};
+
 export const useAuthUser = defineStore("auth-store", () => {
   const me = ref();
   const { error, resetError, setError } = useBasicError();
@@ -37,6 +43,12 @@ export const useAuthUser = defineStore("auth-store", () => {
     isMePending.value = false;
   };
 
+  const resetAuth = () => (me.value = null);
+  const logoutUser = async (fetch: AppFetch<any>) => {
+    await logout(fetch);
+    resetAuth();
+  };
+
   return {
     me,
     meError: error,
@@ -46,9 +58,9 @@ export const useAuthUser = defineStore("auth-store", () => {
     isAuthenticated: computed(() => !!me.value),
 
     isAuthUser: (user: User) => me.value?.id === user.id,
-    resetAuth: () => (me.value = null),
+    resetAuth,
     refresh,
-
+    logoutUser,
     async authenticateUser(
       username: string,
       password: string,

@@ -17,6 +17,8 @@ security:
             security: true
             lazy: true
             provider: app_user_provider
+            logout:
+                path: app_logout
             json_login:
                 check_path: api_login
     #         custom_authenticators:
