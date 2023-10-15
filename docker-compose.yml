@@ -10,8 +10,8 @@ services:
       - traefik.http.routers.back_router.service=back_service
       - traefik.http.services.back_service.loadbalancer.server.port=80
     environment:
-      DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=mariadb-11.1.2"
-      TESTS_DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql_tests:3306/${DATABASE_NAME}?serverVersion=mariadb-11.1.2"
+      DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql:3306/${DATABASE_NAME}?serverVersion=11.1.2-MariaDB"
+      TESTS_DATABASE_URL: "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@mysql_tests:3306/${DATABASE_NAME}?serverVersion=11.1.2-MariaDB"
       APP_SSO_SERVICEPROVIDER_X509CERT: ${APP_SSO_SERVICEPROVIDER_X509CERT}
       APP_SSO_SERVICEPROVIDER_PRIVATEKEY: ${APP_SSO_SERVICEPROVIDER_PRIVATEKEY}
       APP_SSO_IDENTITYPROVIDER_X509CERT: ${APP_SSO_IDENTITYPROVIDER_X509CERT}
