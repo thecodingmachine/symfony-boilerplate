@@ -36,6 +36,9 @@ parameters:
             wantAssertionsEncrypted: true
 
 services:
+    App\Service\GooglePlacesService:
+        arguments:
+            $apiKey: '%env(GOOGLE_PLACES_API_KEY)%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

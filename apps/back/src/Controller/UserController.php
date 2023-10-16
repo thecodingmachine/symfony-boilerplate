@@ -37,6 +37,7 @@ class UserController
     }
 
     #[Route('/users', name: 'list_users', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function listUsers(): JsonResponse
     {
         $users = $this->userRepository->findAll();

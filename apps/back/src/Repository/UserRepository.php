@@ -31,4 +31,49 @@ class UserRepository extends ServiceEntityRepository
     {
         return new User($identitier, ['ROLE_ADMIN']);
     }
+
+    /**
+     * Counts the number of identifications made by a user which have an associated Place.
+     *
+     * @param User $user
+     * @return int
+     */
+    public function countIdentifications(User $user): int
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        // Use a join to count the number of payments associated with the user
+        // that also have a Place associated with them.
+        return $qb->select('count(p.id)')
+                  ->join('u.payments', 'p')
+                  ->where('u.id = :userId')
+                  ->andWhere('p.place IS NOT NULL')  // Only count payments with a Place
+                  ->setParameter('userId', $user->getId())
+                  ->getQuery()
+                  ->getSingleScalarResult();
+    }
+
+
+    /**
+     * Counts the number of identifications made by a user which do not have an associated Place.
+     *
+     * @param User $user
+     * @return int
+     */
+    public function countIdentificationsWithoutPlace(User $user): int
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        // Use a join to count the number of payments associated with the user
+        // that do not have a Place associated with them.
+        return $qb->select('count(p.id)')
+                ->join('u.payments', 'p')
+                ->where('u.id = :userId')
+                ->andWhere('p.place IS NULL')  // Only count payments without a Place
+                ->setParameter('userId', $user->getId())
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+
+
 }

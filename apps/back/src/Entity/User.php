@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource()]
 class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,13 +23,30 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     #[ORM\Column(length: 180)]
     private string $password;
 
+    #[ORM\Column(length: 255)]
+    private ?string $first_name = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $last_name = null;
+
+    #[ORM\Column]
+    private ?int $score = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Payment::class, orphanRemoval: true, fetch: "EAGER")]
+    private Collection $payments;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $modified_at = null;
+
     /** @param array<string> $roles */
-    public function __construct(
-        #[ORM\Column(length: 180, unique: true)]
-        private string $email,
-        #[ORM\Column]
-        private array $roles = ['ROLE_USER'],
-    ) {
+    public function __construct(#[ORM\Column(length: 180, unique: true)]
+    private string $email, #[ORM\Column]
+    private array $roles = ['ROLE_USER'])
+    {
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): int|null
@@ -122,6 +142,124 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
             'id' => $this->getId(),
             'email' => $this->getEmail(),
             'username' => $this->getUsername(),
+            'first_name'=> $this->getFirstName(),
+            'last_name'=> $this->getlastName(),
+            'score' => $this->getScore(),
+            'payments_pending' => $this->getPaymentsWithoutPlace(),
+            'roles'=>$this->getRoles()
         ];
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name): static
+    {
+        $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): static
+    {
+        $this->last_name = $last_name;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): static
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPaymentsWithoutPlace(): int
+    {
+        return $this->payments->filter(function(Payment $payment) {
+            return is_null($payment->getPlace());
+        })->count();
+    }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getUser() === $this) {
+                $payment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->modified_at;
+    }
+
+    public function setModifiedAt(\DateTimeImmutable $modified_at): static
+    {
+        $this->modified_at = $modified_at;
+
+        return $this;
+    }
+
+    /**
+     * Adds a specified score to the user's current score.
+     *
+     * @param int $pointsToAdd
+     * @return $this
+     */
+    public function addScore(int $pointsToAdd): static
+    {
+        $this->score += $pointsToAdd;
+
+        return $this;
     }
 }

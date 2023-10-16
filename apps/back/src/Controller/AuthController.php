@@ -42,6 +42,14 @@ class AuthController extends AbstractController
         return new JsonResponse($user);
     }
 
+    #[Route('/logout', name: 'api_logout', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function logout(): JsonResponse
+    {
+
+    }
+
+
     /** @Route("/auth/sso/saml2/metadata", name="getSsoMetadata", methods={"GET"}) */
     public function getMetadata(): Response
     {
