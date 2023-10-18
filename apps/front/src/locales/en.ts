@@ -55,4 +55,20 @@ export default {
       },
     },
   },
+  plugins: {
+    appFetch: {
+      toasterUnauthorizedDetail: "Unauthorized",
+      toasterUnauthorizedSummary: "Unauthorized",
+
+      toasterForbiddenDetail: "Forbidden",
+      toasterForbiddenSummary: "Forbidden",
+
+      toasterCatchAllDetail: "Error",
+      toasterCatchAllSummary: "Error",
+    },
+    error: {
+      toasterCatchAllDetail: "Error",
+      toasterCatchAllSummary: "Error",
+    },
+  }
 };

@@ -55,4 +55,20 @@ export default {
       },
     },
   },
+  plugins: {
+    appFetch: {
+      toasterUnauthorizedDetail: "Vous n'êtes pas authentifié",
+      toasterUnauthorizedSummary: "Erreur d'authentification",
+
+      toasterForbiddenDetail: "Vous n'êtes pas autorisé",
+      toasterForbiddenSummary: "Erreur d'autorisation",
+
+      toasterCatchAllDetail: "Erreur",
+      toasterCatchAllSummary: "Une erreur est survenue",
+    },
+    error: {
+      toasterCatchAllDetail: "Erreur",
+      toasterCatchAllSummary: "Une erreur est survenue",
+    }
+  }
 };
