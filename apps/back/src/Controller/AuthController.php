@@ -42,13 +42,12 @@ class AuthController extends AbstractController
         return new JsonResponse($user);
     }
 
-    #[Route('/logout', name: 'api_logout', methods: ['GET'])]
+    #[Route('/logout', name: 'api_logout', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function logout(): JsonResponse
     {
-
+        throw new \Exception('Will be intercepted before getting here');
     }
-
 
     /** @Route("/auth/sso/saml2/metadata", name="getSsoMetadata", methods={"GET"}) */
     public function getMetadata(): Response

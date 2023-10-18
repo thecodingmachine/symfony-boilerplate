@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\PlaceRepository;
@@ -13,24 +15,24 @@ class Place
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int|null $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string|null $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adress = null;
+    private string|null $adress = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $gps_position = null;
+    private string|null $gps_position = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private \DateTimeImmutable|null $created_at = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $modified_at = null;
+    private \DateTimeImmutable|null $modified_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'place', targetEntity: Payment::class,orphanRemoval: true, fetch: "EAGER")]
+    #[ORM\OneToMany(mappedBy: 'place', targetEntity: Payment::class, orphanRemoval: true, fetch: 'EAGER')]
     private Collection $payments;
 
     public function __construct()
@@ -38,12 +40,12 @@ class Place
         $this->payments = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int|null
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         return $this->name;
     }
@@ -55,7 +57,7 @@ class Place
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAdress(): string|null
     {
         return $this->adress;
     }
@@ -67,7 +69,7 @@ class Place
         return $this;
     }
 
-    public function getGpsPosition(): ?string
+    public function getGpsPosition(): string|null
     {
         return $this->gps_position;
     }
@@ -79,7 +81,7 @@ class Place
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable|null
     {
         return $this->created_at;
     }
@@ -91,7 +93,7 @@ class Place
         return $this;
     }
 
-    public function getModifiedAt(): ?\DateTimeImmutable
+    public function getModifiedAt(): \DateTimeImmutable|null
     {
         return $this->modified_at;
     }
@@ -103,9 +105,7 @@ class Place
         return $this;
     }
 
-    /**
-     * @return Collection<int, Payment>
-     */
+    /** @return Collection<int, Payment> */
     public function getPayments(): Collection
     {
         return $this->payments;

@@ -15,10 +15,11 @@ export default defineNuxtRouteMiddleware(async () => {
    *   If we want to speed up a bit the process, we could check the status of the syncMe request,
    * to know if it has been done once aka if (authStore.hasBeenLoadedOnce)
    * */
-  const shouldWait =
-    process.server || (!authStore.isAuthenticated && process.client);
+  const shouldWait =  process.server || (!authStore.isAuthenticated && process.client);
+
   if (!shouldWait) {
     return;
   }
+  
   await mePromise;
 });

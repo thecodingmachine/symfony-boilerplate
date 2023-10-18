@@ -44,7 +44,7 @@ export const useAuthUser = defineStore("auth-store", () => {
     authUrl,
 
     isAuthenticated: computed(() => !!me.value),
-
+    isAdmin: computed(() => me.value?.roles.includes('ROLE_ADMIN')),
     isAuthUser: (user: User) => me.value?.id === user.id,
     resetAuth: () => (me.value = null),
     refresh,

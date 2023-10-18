@@ -1,0 +1,121 @@
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin: 25px 0;
+    font-family: Arial, sans-serif;
+
+    th {
+        font-weight: bold;
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 2px solid #e0e0e0;
+        color: #333;
+    }
+
+    td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #555;
+    }
+
+    tbody {
+        tr:hover {
+            background-color: #f7f7f7;
+        }
+    }
+}
+
+.places-container {
+    height: 80vh;
+    overflow: auto;
+
+    .place-item {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 5px 0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+    }
+}
+
+.flush-message {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+#main{
+    background-color: #00c9a7;
+    height: 100vh;
+    width: 100vw;
+}
+.login{
+    
+    height: 390px;
+    width: 550px;
+    display: flex;
+    
+    padding: 35px;
+    flex-direction: column;
+    
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px -6px black;
+    background: #12192c;
+    border: 1px solid;
+    gap: 25px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    .welcome-box{
+        font-size: large;
+        font-weight: bold;
+        text-align: center;
+        color:white;
+
+    }
+
+    .login-form{
+        display: flex;
+        flex-direction: column;
+        // background: red;
+        gap: 25px;
+        padding: 10px;
+    }
+
+    .p-inputtext{
+        height: 53px;
+        border: 1px solid white;
+        padding: 25px;
+        background-color: #12192c;
+        color: white;
+    }
+
+    .p-button{
+        background-color: #00c9a7;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+
+    }
+
+    .login-error-message{
+        color: red;
+    }
+}

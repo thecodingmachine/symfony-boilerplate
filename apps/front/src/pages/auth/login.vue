@@ -21,8 +21,8 @@
           :placeholder="$t('pages.auth.login.password')"
         />
 
+        <div class="login-error-message" v-if="errorMessage">Email ou mot de passe erroné</div>
         <Button type="submit"> {{ $t("pages.auth.login.ok") }}</Button>
-        <div v-if="errorMessage">{{ errorMessage }}</div>
       </form>
     </section>
   </main>
@@ -57,7 +57,7 @@ const submitAuthenticateUser = async () => {
   try {
     await authStore.authenticateUser(username.value, password.value, $appFetch);
     await navigateTo("/");
-  } catch (e: any) {
+  } catch (e: any) {  
     await setError(e);
   }
 };

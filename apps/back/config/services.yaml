@@ -79,3 +79,10 @@ services:
             - {name: controller.service_arguments}
         arguments:
             $appUrl: "%app.url.base%"
+
+    App\EventListener\LogoutSubscriber:
+        tags:
+            - name: 'kernel.event_listener'
+              event: 'Symfony\Component\Security\Http\Event\LogoutEvent'
+              dispatcher: security.event_dispatcher.main
+              method: onLogout

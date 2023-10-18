@@ -3,7 +3,7 @@ import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
   srcDir: "src/",
-  modules: ["@pinia/nuxt", "@nuxtjs/i18n"],
+  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/ui"],
   runtimeConfig: {
     API_URL: process.env.API_URL || "",
   },
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: [
+    css: [
     "@/assets/styles/main.scss",
     "primevue/resources/themes/lara-light-blue/theme.css",
     "primeflex/primeflex.css",

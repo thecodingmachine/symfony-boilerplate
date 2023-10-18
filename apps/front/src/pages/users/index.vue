@@ -1,54 +1,28 @@
 <template>
-  <div>
-    <div>
-      <NuxtLink to="/auth/register"
-        ><Button>{{ $t("pages.user.index.createButton") }}</Button></NuxtLink
-      >
-    </div>
-    <div v-show="usersPending" v-t="{ path: 'pages.user.index.pending' }"></div>
-    <div v-show="error">{{ error }}}</div>
-    <table v-if="users">
-      <thead>
-        <tr>
-          <th>{{ $t("pages.user.index.title") }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.email }}</td>
-          <td>
-            <NuxtLink
-              v-if="!authStore.isAuthUser(user)"
-              :to="`/users/${user.id}`"
-            >
-              <Button severity="secondary">{{
-                $t("pages.user.index.edit")
-              }}</Button>
-            </NuxtLink>
-          </td>
-          <td>
-            <Button
-              v-if="!authStore.isAuthUser(user)"
-              severity="danger"
-              @click="deleteUserClick(user)"
-            >
-              {{ $t("pages.user.index.delete") }}
-            </Button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table v-if="users" class="custom-table">
+    <thead>
+      <tr>
+        <th>{{ $t('pages.user.tableHeaders.email') }}</th>
+        <th>{{ $t('pages.user.tableHeaders.firstName') }}</th>
+        <th>{{ $t('pages.user.tableHeaders.lastName') }}</th>
+        <th>{{ $t('pages.user.tableHeaders.score') }}</th>
+        <th>{{ $t('pages.user.tableHeaders.pendingPayments') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="user in users" :key="user.id">
+        <td>{{ user.email }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.score }}</td>
+        <td>{{ user.payments_pending }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script setup lang="ts">
-import { User } from "~/types/User";
-import useAuthUser from "~/store/auth";
 import useListUsers from "~/composables/api/user/useListUsers";
-import useDeleteUser from "~/composables/api/user/useDeleteUser";
-
-const authStore = useAuthUser();
-const { deleteUser } = useDeleteUser();
 
 const {
   data: users,
@@ -57,14 +31,6 @@ const {
   refresh: usersRefresh,
 } = await useListUsers();
 
-const deleteUserClick = async (user: User) => {
-  try {
-    await deleteUser(user);
-    usersRefresh();
-  } catch (e) {
-    logger.error(e);
-  }
-};
 </script>
 
 <style scoped lang="scss"></style>

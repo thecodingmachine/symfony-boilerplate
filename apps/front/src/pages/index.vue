@@ -1,10 +1,26 @@
 <template>
-  <div>
-    Welcome to the homepage Lorem ipsum dolor sit amet, consectetur adipiscing
-    elit. Ut a metus tortor. Integer mattis non odio et scelerisque. Nulla
-    facilisi. Nam consequat aliquam neque, vitae sodales sem varius sit amet.
-  </div>
+  <UContainer class="container columns-2">
+    <UCard>
+      <h2 class="text-lg">
+        {{ $t('pages.dashboard.score.title') }}
+        <span v-if="authStore" class="font-bold text-green-600/100">
+          {{ authStore.me?.score || $t('pages.dashboard.score.defaultScore') }}
+        </span>
+      </h2>
+    </UCard>
+    <UCard>
+      <h2 class="text-lg">
+        {{ $t('pages.dashboard.pendingOperations.title') }}
+        <span class="font-bold text-green-600/100">
+          {{ authStore.me?.payments_pending || $t('pages.dashboard.pendingOperations.defaultPending') }}
+        </span>
+      </h2>
+    </UCard>
+  </UContainer>
 </template>
+
 <script setup lang="ts">
-logger.info("index.vue");
+import { useAuthUser } from "~/store/auth";
+
+const authStore = useAuthUser();
 </script>

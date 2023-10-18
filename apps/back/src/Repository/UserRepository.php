@@ -34,9 +34,6 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * Counts the number of identifications made by a user which have an associated Place.
-     *
-     * @param User $user
-     * @return int
      */
     public function countIdentifications(User $user): int
     {
@@ -53,12 +50,8 @@ class UserRepository extends ServiceEntityRepository
                   ->getSingleScalarResult();
     }
 
-
     /**
      * Counts the number of identifications made by a user which do not have an associated Place.
-     *
-     * @param User $user
-     * @return int
      */
     public function countIdentificationsWithoutPlace(User $user): int
     {
@@ -74,6 +67,4 @@ class UserRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-
-
 }

@@ -2,7 +2,6 @@
   <div>
     <div class="grid">
       <div class="col-12">
-        <layout-app-header />
       </div>
     </div>
     <div class="grid">

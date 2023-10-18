@@ -1,14 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use Symfony\Component\Serializer\Annotation\Groups;
-
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
@@ -16,53 +13,52 @@ class Payment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int|null $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'payments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User|null $user = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $label = null;
+    private string|null $label = null;
 
     #[ORM\Column]
-    private ?float $amount = null;
+    private float|null $amount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $location = null;
+    private string|null $location = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $gps_position = null;
+    private string|null $gps_position = null;
 
-    #[ORM\ManyToOne(inversedBy: 'payments', targetEntity: Place::class, fetch: "EAGER")]
-    private ?Place $place = null;
+    #[ORM\ManyToOne(inversedBy: 'payments', targetEntity: Place::class, fetch: 'EAGER')]
+    private Place|null $place = null;
 
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private \DateTimeImmutable|null $created_at = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $modified_at = null;
+    private \DateTimeImmutable|null $modified_at = null;
 
-
-    public function getId(): ?int
+    public function getId(): int|null
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User|null
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User|null $user): static
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string|null
     {
         return $this->label;
     }
@@ -74,7 +70,7 @@ class Payment
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getAmount(): float|null
     {
         return $this->amount;
     }
@@ -86,27 +82,26 @@ class Payment
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): string|null
     {
-        if($this->getPlace()){
+        if ($this->getPlace()) {
             $place_name = $this->getPlace()->getName();
             $place_adresse = $this->getPlace()->getAdress();
-            $string_location_adress = $place_name . ' - ' . $place_adresse; 
-            return $string_location_adress;    
+
+            return $place_name . ' - ' . $place_adresse;
         }
 
         return null;
-        
     }
 
-    public function setLocation(?string $location): static
+    public function setLocation(string|null $location): static
     {
         $this->location = $location;
 
         return $this;
     }
 
-    public function getGpsPosition(): ?string
+    public function getGpsPosition(): string|null
     {
         return $this->gps_position;
     }
@@ -118,19 +113,19 @@ class Payment
         return $this;
     }
 
-    public function getPlace(): ?Place
+    public function getPlace(): Place|null
     {
         return $this->place;
     }
 
-    public function setPlace(?Place $place): static
+    public function setPlace(Place|null $place): static
     {
         $this->place = $place;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable|null
     {
         return $this->created_at;
     }
@@ -142,7 +137,7 @@ class Payment
         return $this;
     }
 
-    public function getModifiedAt(): ?\DateTimeImmutable
+    public function getModifiedAt(): \DateTimeImmutable|null
     {
         return $this->modified_at;
     }

@@ -21,6 +21,7 @@
     "vue-tsc": "^1.6.5"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.9.0",
     "@nuxtjs/i18n": "^8.0.0-rc.5",
     "@pinia/nuxt": "^0.4.11",
     "defu": "^6.1.2",

@@ -24,27 +24,27 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     private string $password;
 
     #[ORM\Column(length: 255)]
-    private ?string $first_name = null;
+    private string|null $first_name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $last_name = null;
+    private string|null $last_name = null;
 
     #[ORM\Column]
-    private ?int $score = null;
+    private int|null $score = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Payment::class, orphanRemoval: true, fetch: "EAGER")]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Payment::class, orphanRemoval: true, fetch: 'EAGER')]
     private Collection $payments;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private \DateTimeImmutable|null $created_at = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $modified_at = null;
+    private \DateTimeImmutable|null $modified_at = null;
 
     /** @param array<string> $roles */
     public function __construct(#[ORM\Column(length: 180, unique: true)]
     private string $email, #[ORM\Column]
-    private array $roles = ['ROLE_USER'])
+    private array $roles = ['ROLE_USER'],)
     {
         $this->payments = new ArrayCollection();
     }
@@ -142,15 +142,15 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
             'id' => $this->getId(),
             'email' => $this->getEmail(),
             'username' => $this->getUsername(),
-            'first_name'=> $this->getFirstName(),
-            'last_name'=> $this->getlastName(),
+            'first_name' => $this->getFirstName(),
+            'last_name' => $this->getlastName(),
             'score' => $this->getScore(),
             'payments_pending' => $this->getPaymentsWithoutPlace(),
-            'roles'=>$this->getRoles()
+            'roles' => $this->getRoles(),
         ];
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string|null
     {
         return $this->first_name;
     }
@@ -162,7 +162,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string|null
     {
         return $this->last_name;
     }
@@ -174,7 +174,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function getScore(): ?int
+    public function getScore(): int|null
     {
         return $this->score;
     }
@@ -186,21 +186,16 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this;
     }
 
-    /**
-     * @return Collection<int, Payment>
-     */
+    /** @return Collection<int, Payment> */
     public function getPayments(): Collection
     {
         return $this->payments;
     }
 
-    /**
-     * @return int
-     */
     public function getPaymentsWithoutPlace(): int
     {
-        return $this->payments->filter(function(Payment $payment) {
-            return is_null($payment->getPlace());
+        return $this->payments->filter(static function (Payment $payment) {
+            return \is_null($payment->getPlace());
         })->count();
     }
 
@@ -226,7 +221,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable|null
     {
         return $this->created_at;
     }
@@ -238,7 +233,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function getModifiedAt(): ?\DateTimeImmutable
+    public function getModifiedAt(): \DateTimeImmutable|null
     {
         return $this->modified_at;
     }
@@ -253,7 +248,6 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     /**
      * Adds a specified score to the user's current score.
      *
-     * @param int $pointsToAdd
      * @return $this
      */
     public function addScore(int $pointsToAdd): static

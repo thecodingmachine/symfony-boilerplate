@@ -22,10 +22,7 @@ security:
             
             logout:
                 path: api_logout
-                target: api_login
-                invalidate_session: true
-                delete_cookies:
-                    SESSION: ~
+                
     #         custom_authenticators:
     #           - 'App\Authenticator\Saml2Authenticator'
 

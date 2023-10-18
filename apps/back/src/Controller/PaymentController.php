@@ -1,41 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use App\Dto\Request\CreateUserDto;
-use App\Dto\Request\UpdateUserDto;
-use App\Entity\User;
 use App\Entity\Payment;
-use App\Repository\UserRepository;
 use App\Repository\PaymentRepository;
-use App\UseCase\User\CreateUser;
-use App\UseCase\User\UpdateUser;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractController
-{    
-
+{
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly PaymentRepository $paymentRepository,
         private readonly UserRepository $userRepository,
     ) {
     }
-    
-    #[Route("/payments", name: 'api_get_user_payments', methods: ['GET'])]
+
+    #[Route('/payments', name: 'api_get_user_payments', methods: ['GET'])]
     public function getPayments(): JsonResponse
     {
         $loggedUser = $this->getUser(); // Get the currently authenticated user
-        
-        if($loggedUser){
+
+        if ($loggedUser) {
             $user_id = $loggedUser->getId();
             $user = $this->userRepository->find($user_id);
             if (!$user) {
@@ -50,7 +42,7 @@ class PaymentController extends AbstractController
             $paymentsArray = $payments->toArray();
 
             // Convert entities to an array suitable for JSON encoding
-            $data = array_map(function(Payment $payment) {
+            $data = array_map(static function (Payment $payment) {
                 return [
                     'id' => $payment->getId(),
                     'label' => $payment->getLabel(),
@@ -58,19 +50,17 @@ class PaymentController extends AbstractController
                     'location' => $payment->getLocation(),
                     'gps_position' => $payment->getGpsPosition(),
                     'created_at' => $payment->getCreatedAt()->format('Y-m-d H:i:s'),
-                    'modified_at' => $payment->getModifiedAt()->format('Y-m-d H:i:s')
+                    'modified_at' => $payment->getModifiedAt()->format('Y-m-d H:i:s'),
                 ];
             }, $paymentsArray);
 
             return new JsonResponse($data);
-
-    
-        }else{
-            return new JsonResponse(['message' => 'User not authenticated 2'], 401);
         }
+
+        return new JsonResponse(['message' => 'User not authenticated 2'], 401);
     }
 
-    #[Route("/payments/{paymentId}", name: 'api_update_user_payment', methods: ['PUT'])]
+    #[Route('/payments/{paymentId}', name: 'api_update_user_payment', methods: ['PUT'])]
     public function updatePayment(Request $request, int $paymentId): JsonResponse
     {
         $loggedUser = $this->getUser();
@@ -111,6 +101,4 @@ class PaymentController extends AbstractController
 
         return new JsonResponse(['message' => 'Payment updated successfully']);
     }
-
-
 }
