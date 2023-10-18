@@ -4,9 +4,26 @@ import { BasicError } from "~/types/BasicError";
 export default function useBasicError() {
   const error: Ref<BasicError | null> = ref(null);
   const errorMessage = computed(() => {
-    return (
-      error.value?.detail || error.value?.message || error.value?.error || ""
-    );
+    // Dont display message on 500 (handled via toasters)
+    if (
+      error.value?.status &&
+      (error.value.status > 500 || error.value.status === 403)
+    ) {
+      return "";
+    }
+    if (error.value?.detail) {
+      return error.value?.detail;
+    }
+    if (error.value?.message) {
+      return Array.isArray(error.value.message)
+        ? error.value.message.join(".")
+        : error.value.message;
+    }
+
+    if (error.value?.title) {
+      return error.value?.title;
+    }
+    return "";
   });
   const setError = async (e: any) => {
     error.value = e;

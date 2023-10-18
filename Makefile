@@ -129,17 +129,19 @@ cs-check: sync-env ## cs-check
 phpstan: sync-env ## phpstan
 	docker compose exec back composer -- run phpstan
 
-.PHONY: frontlint
-frontlint: sync-env ## lint front (fix)
+be-yaml:
+	docker compose exec back console -- bin/console lint:yaml config
+
+.PHONY: fe-lint
+fe-lint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix
 
 .PHONY: frontcheck
-frontcheck: sync-env ## lint front (check)
+fe-check: sync-env ## lint front (check)
 	docker compose exec front yarn lint
 
 .PHONY: ci
-ci: cs-fix phpstan phpmd cs-check frontlint ## Run all CI tools
-
+ci: cs-fix phpstan phpmd cs-check fe-lint ## Run all CI tools
 
 .PHONY: drop-db-dev
 drop-db-dev: ## Drop database

@@ -6,7 +6,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint nuxt.config.ts --fix ; nuxi typecheck ; eslint ./src/"
+    "lint": "eslint nuxt.config.ts --fix ; nuxi typecheck && eslint ./src/"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
@@ -20,6 +20,8 @@
     "typescript": "^5.0.4",
     "vue-tsc": "^1.6.5"
   },
+
+
   "dependencies": {
     "@nuxtjs/i18n": "^8.0.0-rc.5",
     "@pinia/nuxt": "^0.4.11",

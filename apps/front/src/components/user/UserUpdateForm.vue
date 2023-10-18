@@ -11,12 +11,14 @@
       v-model:password-confirm="passwordConfirm"
       :is-password-confirmed="isPasswordConfirmed"
     />
-    {{ errorMessage }}
-    {{ error }}
     <Button type="submit" :disabled="!isPasswordConfirmed">{{
       $t("components.user.updateForm.ok")
     }}</Button>
   </form>
+  <div>
+    {{ errorMessage }}
+    {{ error }}
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -45,19 +47,15 @@ const {
   securedPassword,
 } = useUser(data);
 const updateUser = async () => {
-  try {
-    await updateUserApi(
-      data.value.id,
-      {
-        email: email.value,
-      },
-      securedPassword.value
-    );
-    userRefresh();
-    await navigateTo("/users");
-  } catch (e) {
-    logger.error(e);
-  }
+  await updateUserApi(
+    data.value.id,
+    {
+      email: email.value,
+    },
+    securedPassword.value
+  );
+  userRefresh();
+  await navigateTo("/users");
 };
 </script>
 

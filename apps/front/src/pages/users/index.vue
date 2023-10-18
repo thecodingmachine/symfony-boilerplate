@@ -7,6 +7,7 @@
     </div>
     <div v-show="usersPending" v-t="{ path: 'pages.user.index.pending' }"></div>
     <div v-show="error">{{ error }}}</div>
+    {{ errorDelete }}
     <table v-if="users">
       <thead>
         <tr>
@@ -48,7 +49,7 @@ import useListUsers from "~/composables/api/user/useListUsers";
 import useDeleteUser from "~/composables/api/user/useDeleteUser";
 
 const authStore = useAuthUser();
-const { deleteUser } = useDeleteUser();
+const { deleteUser, errorMessage: errorDelete } = useDeleteUser();
 
 const {
   data: users,
@@ -63,6 +64,7 @@ const deleteUserClick = async (user: User) => {
     usersRefresh();
   } catch (e) {
     logger.error(e);
+    throw e;
   }
 };
 </script>
