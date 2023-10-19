@@ -70,11 +70,11 @@ nelmio_security:
 
 when@prod:
     nelmio_security:
-        # could also be added at the proxy level
-        forced_ssl:
-        hsts_max_age: 2592000 # 30 days
-        hsts_subdomains: true
-        redirect_status_code: 302 # default, switch to 301 for permanent redirects
+        # depends if you have a reverse proxy that will handle HTTPS, uncomment if you deploy with ansible for instance
+#        forced_ssl:
+#            hsts_max_age: 2592000 # 30 days
+#            hsts_subdomains: true
+#            redirect_status_code: 302 # default, switch to 301 for permanent redirects
 
 #    Seems unnecessary because we are'nt using any insecure page in prod
 #    flexible_ssl:

@@ -61,14 +61,12 @@ class RouteSecurityChecker implements Rule
         $isGrantedAttribute =  $this->getAttribute(IsGranted::class, $attributes);
 
         // LVL 1 NO PROTECTION AT ALL :: Missing vertical controls : no IsGranted and no denyAccessUnlessGranted (even without subject)
-        if ($isGrantedAttribute === null) {
-            if (! $this->isDenyAccessUnlessGrantedCalledInRouteFunction($node, false)) {
-                return $this->buildError(
-                    sprintf('🛑🔓 SECURITY: Route %s::%s is public !', $className, $functionName),
-                    "Add an #[IsGranted] attribute or use the `denyAccessUnlessGranted` function.
-                    If you are sure that this route should remain public, add the " . IKnowWhatImDoingThisIsAPublicRoute::class . ' attribute',
-                );
-            }
+        if ($isGrantedAttribute === null && ! $this->isDenyAccessUnlessGrantedCalledInRouteFunction($node, false)) {
+            return $this->buildError(
+                sprintf('🛑🔓 SECURITY: Route %s::%s is public !', $className, $functionName),
+                "Add an #[IsGranted] attribute or use the `denyAccessUnlessGranted` function.
+                If you are sure that this route should remain public, add the " . IKnowWhatImDoingThisIsAPublicRoute::class . ' attribute',
+            );
         }
 
         if ($this->functionAttributesContain(ThisRouteDoesntNeedAVoter::class, $attributes)){
@@ -76,15 +74,14 @@ class RouteSecurityChecker implements Rule
         }
 
         // LVL 2 VERTICAL ACCESS ONLY :: IsGranted is present BUT no voter is called
-        if ($isGrantedAttribute === null) {
-            if (! $this->isDenyAccessUnlessGrantedCalledInRouteFunction($node, true)) {
-                return $this->buildError(
-                    sprintf('🛑🔓 SECURITY: Route %s::%s is insufficiently protected !', $className, $functionName),
-                    "Pass the 'subject' argument to the \$this->denyAccessUnlessGranted() call.
+        if ($isGrantedAttribute === null && ! $this->isDenyAccessUnlessGrantedCalledInRouteFunction($node, true)) {
+            return $this->buildError(
+                sprintf('🛑🔓 SECURITY: Route %s::%s is insufficiently protected !', $className, $functionName),
+                "Pass the 'subject' argument to the \$this->denyAccessUnlessGranted() call.
                     If you are sure that this route's protection should only on user's permissions, add a ".ThisRouteDoesntNeedAVoter::class." attribute.",
-                );
-            }
-        }else{
+            );
+        }
+        if ($isGrantedAttribute !== null){
             $isGrantedAttributeInstance = $isGrantedAttribute->newInstance();
             \assert($isGrantedAttributeInstance instanceof IsGranted);
             if ($isGrantedAttributeInstance->subject === null) {
@@ -95,7 +92,6 @@ class RouteSecurityChecker implements Rule
                 );
             }
         }
-
         return [];
     }
 
@@ -153,7 +149,6 @@ class RouteSecurityChecker implements Rule
 
             public function enterNode(Node $node): int|null
             {
-                // phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
                 if (
                     $node instanceof MethodCall && $node->name instanceof Node\Identifier
                     && $node->name->toString() === 'denyAccessUnlessGranted'
@@ -165,7 +160,6 @@ class RouteSecurityChecker implements Rule
                 }
 
                 return null;
-                // phpcs:enable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
             }
 
             public function isIsSecurityCheckFunctionCalled(): bool
