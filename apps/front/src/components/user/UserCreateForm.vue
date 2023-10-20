@@ -1,38 +1,32 @@
 <template>
   <h1 v-t="{ path: 'components.user.createForm.title' }"></h1>
-  <form @submit.prevent.stop="registerUser">
-    <UserForm
-      v-model:email="email"
-      v-model:password="password"
-      v-model:password-confirm="passwordConfirm"
-      :is-password-confirmed="isPasswordConfirmed"
-    />
-    {{ errorMessage }}
-    <button :disabled="!isPasswordConfirmed">
-      {{ $t("components.user.createForm.ok") }}
-    </button>
-  </form>
+  <UserForm class="card" @submit="submit" @cancel="navigateToList">
+    <template #buttons="{ isValid, cancel }">
+      <Button type="button" severity="danger" class="mr-2 mb-2" @click="cancel">
+        {{ $t("components.user.createForm.buttonCancel") }}
+      </Button>
+      <Button type="submit" :disabled="!isValid" class="mr-2 mb-2">
+        {{ $t("components.user.createForm.ok") }}
+      </Button>
+    </template>
+  </UserForm>
+  {{ errorMessage }}
 </template>
 <script setup lang="ts">
 import useCreateUser from "~/composables/api/user/useCreateUser";
-import useUser from "~/composables/user/useUser";
-
+import type { UserInput } from "~/types/UserInput";
 const { createUser, errorMessage } = useCreateUser();
-const {
-  email,
-  password,
-  passwordConfirm,
-  isPasswordConfirmed,
-  securedPassword,
-} = useUser();
 
-const registerUser = async () => {
+const submit = async (state: UserInput) => {
   try {
-    await createUser(email.value, securedPassword.value);
+    await createUser(state);
     await navigateTo("/users");
   } catch (e) {
     logger.info(e);
   }
+};
+const navigateToList = () => {
+  return navigateTo("/users/");
 };
 </script>
 

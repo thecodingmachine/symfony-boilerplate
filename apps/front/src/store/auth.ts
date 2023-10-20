@@ -43,7 +43,9 @@ export const useAuthUser = defineStore("auth-store", () => {
     isMePending.value = false;
   };
 
-  const resetAuth = () => (me.value = null);
+  const resetAuth = () => {
+    me.value = null;
+  };
   const logoutUser = async (fetch: AppFetch<any>) => {
     await logout(fetch);
     resetAuth();

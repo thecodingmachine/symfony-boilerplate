@@ -1,9 +1,22 @@
 export default {
   components: {
+    form: {
+      registerPasswordInput: {
+        password: "Password",
+        suggestions: "With:",
+        suggestionsLowercase: "At least 2 lowercase",
+        suggestionsUppercase: "At least 2 uppercase",
+        suggestionsNumber: "At least 2 numbers",
+        suggestionsSymbol: "At least 1 symbol",
+        suggestionsSize: "Minimum 8",
+        suggestionsUnicity: "Unique character",
+      },
+    },
     user: {
       createForm: {
         title: "Create a new user",
         ok: "Create",
+        buttonCancel: "Cancel",
       },
       updateForm: {
         pending: "Loading user",
@@ -12,9 +25,10 @@ export default {
       },
       form: {
         email: "Email",
-        password: "Password",
         passwordConfirm: "Confirm your password",
         errorPasswordConfirm: "The confirmation of the password is invalid",
+        buttonCancel: "Cancel",
+        ok: "Save",
       },
     },
     layout: {

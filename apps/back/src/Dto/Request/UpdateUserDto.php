@@ -13,6 +13,7 @@ class UpdateUserDto
         private string $email,
         #[Assert\AtLeastOneOf([
             new Assert\IsNull(),
+            new Assert\Blank(),
             new Assert\PasswordStrength(['minScore' => Assert\PasswordStrength::STRENGTH_WEAK]),
         ], message: 'The password strength is too low', includeInternalMessages: false)]
         private string|null $password,

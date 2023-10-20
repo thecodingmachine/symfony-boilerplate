@@ -26,10 +26,10 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    "@/assets/styles/main.scss",
-    "primevue/resources/themes/lara-light-blue/theme.css",
     "primeflex/primeflex.css",
     "primeicons/primeicons.css",
+    "primevue/resources/themes/lara-light-blue/theme.css",
+    "@/assets/styles/main.scss",
   ],
   vite: {
     plugins: [svgLoader()],
@@ -42,13 +42,11 @@ export default defineNuxtConfig({
       },
     },
   },
-  build: {
-    transpile: ["primevue"],
-  },
   watch: [
     "src/assets/styles/_functions.scss",
     "src/assets/styles/_variables.scss",
     "src/assets/styles/_mixins.scss",
+    "src/assets/styles/main.scss",
   ],
   // ssr: false
 });

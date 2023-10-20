@@ -1,56 +1,99 @@
 <template>
-  <div>
-    <label for="email">{{ $t("components.user.form.email") }}</label>
-    <input
-      type="text"
-      :value="email"
-      @input="$emit('update:email', clearInput($event))"
-    />
-  </div>
-  <div>
-    <label for="password">{{ $t("components.user.form.password") }}</label>
-    <input
-      name="password"
-      type="password"
-      :value="password"
-      @input="$emit('update:password', clearInput($event))"
-    />
-  </div>
-  <div>
-    <label for="passwordConfirm">{{
-      $t("components.user.form.passwordConfirm")
-    }}</label>
-    <input
-      name="passwordConfirm"
-      type="password"
-      :value="passwordConfirm"
-      @input="$emit('update:passwordConfirm', clearInput($event))"
-    />
-    <span v-if="!isPasswordConfirmed" class="text-danger">
-      {{ $t("components.user.form.errorPasswordConfirm") }}
-    </span>
+  <div class="grid">
+    <div class="col-12">
+      <form @submit.prevent.stop="submit">
+        <div class="field col-12">
+          <span class="p-float-label">
+            <InputText
+              id="user-email"
+              v-model="state.email"
+              type="text"
+              :placeholder="$t('components.user.form.email')"
+            />
+            <label for="user-email">{{
+              $t("components.user.form.email")
+            }}</label>
+          </span>
+        </div>
+        <div class="field col-12">
+          <FormRegisterPasswordInput
+            v-model="password"
+            input-id="user-password"
+          />
+        </div>
+        <div class="field col-12">
+          <FormRegisterPasswordInput
+            v-model="passwordConfirm"
+            input-id="user-passwordConfirm"
+          >
+            {{ $t("components.user.form.passwordConfirm") }}
+          </FormRegisterPasswordInput>
+        </div>
+        <div v-show="!isPasswordConfirmed">
+          {{ $t("components.user.form.errorPasswordConfirm") }}
+        </div>
+        <div>
+          <slot name="buttons" :is-valid="isValid" :cancel="cancel">
+            <Button
+              type="button"
+              severity="danger"
+              class="mr-2 mb-2"
+              @click="cancel"
+            >
+              {{ $t("components.user.form.buttonCancel") }}
+            </Button>
+            <Button type="submit" :disabled="!isValid" class="mr-2 mb-2">
+              {{ $t("components.user.form.ok") }}
+            </Button>
+          </slot>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { User } from "~/types/User";
 
-defineProps<
-  Omit<User, "id"> & {
-    isPasswordConfirmed: boolean;
-    password: string;
-    passwordConfirm: string;
-  }
->();
+interface Props {
+  defaultValue: Omit<User, "id">;
+}
+const props = withDefaults(defineProps<Props>(), {
+  defaultValue() {
+    return {
+      email: "",
+    };
+  },
+});
+const state = reactive({ ...props.defaultValue });
+const password = ref("");
+const passwordConfirm = ref("");
+
+const isPasswordConfirmed = computed(
+  () => password.value === passwordConfirm.value
+);
+
+const isPasswordEmpty = computed(() => !password.value);
+const securedPassword = computed(() =>
+  isPasswordConfirmed && isPasswordEmpty ? password.value : ""
+);
+const isValid = isPasswordConfirmed;
+
 interface EventEmitter {
-  (e: "update:email", email: string): void;
-  (e: "update:password", password: string): void;
-  (e: "update:passwordConfirm", passwordConfirm: string): void;
+  (
+    e: "submit",
+    value: Omit<User, "id"> & {
+      password: string;
+    }
+  ): void;
+  (e: "cancel"): void;
 }
 
-defineEmits<EventEmitter>();
-
-const clearInput = (inputEvent: Event) => {
-  return (inputEvent.target as HTMLInputElement)?.value || "";
+const emits = defineEmits<EventEmitter>();
+const submit = () => {
+  emits("submit", { ...state, password: securedPassword.value });
+};
+const cancel = () => {
+  emits("cancel");
 };
 </script>
 
