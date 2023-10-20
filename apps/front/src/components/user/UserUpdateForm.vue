@@ -1,20 +1,11 @@
 <template>
   <div
-    v-show="userPending"
+    v-show="pendingData"
     v-t="{ path: 'components.user.updateForm.pending' }"
   ></div>
-  <form v-if="data" @submit.prevent.stop="updateUser">
-    <h1 v-t="{ path: 'components.user.updateForm.title', args: data }"></h1>
-    <UserForm
-      v-model:email="email"
-      v-model:password="password"
-      v-model:password-confirm="passwordConfirm"
-      :is-password-confirmed="isPasswordConfirmed"
-    />
-    <Button type="submit" :disabled="!isPasswordConfirmed">{{
-      $t("components.user.updateForm.ok")
-    }}</Button>
-  </form>
+  <h1 v-t="{ path: 'components.user.updateForm.title', args: data }"></h1>
+  <UserForm :default-value="data" @submit="submit" @cancel="navigateToList">
+  </UserForm>
   <div>
     {{ errorMessage }}
     {{ error }}
@@ -24,39 +15,30 @@
 <script setup lang="ts">
 import useGetUser from "~/composables/api/user/useGetUser";
 import useUpdateUser from "~/composables/api/user/useUpdateUser";
-import useUser from "~/composables/user/useUser";
+import type { UserInput } from "~/types/UserInput";
 
-const props = defineProps<{
+interface Props {
   userId: string;
-}>();
+}
+
+const props = defineProps<Props>();
 
 const { errorMessage, updateUser: updateUserApi } = useUpdateUser();
 
 const {
   data,
   error,
-  pending: userPending,
-  refresh: userRefresh,
+  pending: pendingData,
 } = await useGetUser(props.userId as string);
 
-const {
-  email,
-  password,
-  passwordConfirm,
-  isPasswordConfirmed,
-  securedPassword,
-} = useUser(data);
-const updateUser = async () => {
-  await updateUserApi(
-    data.value.id,
-    {
-      email: email.value,
-    },
-    securedPassword.value
-  );
-  userRefresh();
-  await navigateTo("/users");
+const submit = async (value: UserInput) => {
+  // If you need to copy the value, create a clone so it does not track reactivity
+  //data.value = {...data.value, ...value};
+  await updateUserApi(parseInt(props.userId), value);
+  return navigateTo("/users/");
+};
+const navigateToList = () => {
+  return navigateTo("/users/");
 };
 </script>
-
 <style scoped lang="scss"></style>

@@ -1,20 +1,33 @@
 export default {
   components: {
+    form: {
+      registerPasswordInput: {
+        password: "Mot de passe",
+        suggestions: "Avec:",
+        suggestionsLowercase: "Au moins 2 lettres minuscule",
+        suggestionsUppercase: "Au moins 2 lettres majuscule",
+        suggestionsNumber: "Au moins 2 chiffres",
+        suggestionsSymbol: "Au moins 1 symbole",
+        suggestionsSize: "Minimum 8 caractères",
+        suggestionsUnicity: "Des caractères unique",
+      },
+    },
     user: {
       createForm: {
         title: "Créer un nouvel utilisateur",
         ok: "Créer",
+        buttonCancel: "Annuler la création",
       },
       updateForm: {
         pending: "Chargement de l'utilisateur",
         title: "Mise à jour de {email}",
-        ok: "Mettre à jour",
       },
       form: {
         email: "Email",
-        password: "Mot de passe",
-        passwordConfirm: "Confirmez votre mot de passe",
+        passwordConfirm: "Confirmez mot de passe",
         errorPasswordConfirm: "La confirmation du mot de passe est invalide",
+        buttonCancel: "Annuler",
+        ok: "Sauvegarder",
       },
     },
     layout: {

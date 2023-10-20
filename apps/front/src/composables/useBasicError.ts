@@ -23,6 +23,9 @@ export default function useBasicError() {
     if (error.value?.title) {
       return error.value?.title;
     }
+    if (error.value?.error) {
+      return error.value.error;
+    }
     return "";
   });
   const setError = async (e: any) => {
