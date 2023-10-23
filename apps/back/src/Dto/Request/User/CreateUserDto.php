@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Request;
+namespace App\Dto\Request\User;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateUserDto
 {
+    use ProfilePicture;
+
     public function __construct(
         #[Assert\Email]
         #[Assert\NotBlank]

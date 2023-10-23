@@ -129,6 +129,10 @@ cs-check: sync-env ## cs-check
 phpstan: sync-env ## phpstan
 	docker compose exec back composer -- run phpstan
 
+.PHONY: backlint
+backlint: sync-env ## phpstan
+	docker compose exec back composer -- run lint-all
+
 .PHONY: frontlint
 frontlint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix

@@ -2,7 +2,7 @@
 
 namespace UseCase;
 
-use App\Dto\Request\CreateUserDto;
+use App\Dto\Request\User\CreateUserDto;
 use App\Entity\User;
 use App\UseCase\User\CreateUser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

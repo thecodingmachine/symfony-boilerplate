@@ -20,6 +20,12 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     #[ORM\Column(length: 180)]
     private string $password;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private Company|null $company = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private File|null $profilePicture = null;
+
     /** @param array<string> $roles */
     public function __construct(
         #[ORM\Column(length: 180, unique: true)]
@@ -44,11 +50,6 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         $this->email = $email;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return $this->email;
@@ -116,12 +117,34 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         // $this->plainPassword = null;
     }
 
-    public function jsonSerialize(): mixed
+    /** @return array<string,int|string|null> */
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->getId(),
             'email' => $this->getEmail(),
-            'username' => $this->getUsername(),
         ];
+    }
+
+    public function getCompany(): Company|null
+    {
+        return $this->company;
+    }
+
+    public function setCompany(Company|null $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): File|null
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(File|null $profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
     }
 }
