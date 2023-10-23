@@ -1,4 +1,4 @@
-import { PUT } from "~/constants/http";
+import { POST, PUT } from "~/constants/http";
 import { User, UserId } from "~/types/User";
 import useBasicError from "~/composables/useBasicError";
 
@@ -11,19 +11,22 @@ export default function useUpdateUser() {
     async updateUser(
       userId: UserId,
       user: UserInput,
-      password: string | undefined = undefined
+      password: string | undefined = undefined,
+      profilePictureFile: File | null = null
     ) {
       try {
         resetError();
-        const body = password
-          ? {
-              ...user,
-              password,
-            }
-          : user;
+        const formData = new FormData();
+        formData.append('email', user.email)
+        if (password){
+          formData.append('password', password)
+        }
+        if (profilePictureFile){
+          formData.append('profilePictureFile', profilePictureFile)
+        }
         const response = await $appFetch<User>("/users/" + userId, {
-          method: PUT,
-          body,
+          method: POST,
+          body: formData,
         });
         if (!response) {
           throw createError("Error while updating user");

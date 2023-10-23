@@ -8,6 +8,10 @@
     />
   </div>
   <div>
+    <label for="profilePicture">Profile Picture</label>
+    <input type="file" accept="image/*" @input="onSelectFile" />
+  </div>
+  <div>
     <label for="password">{{ $t("components.user.form.password") }}</label>
     <input
       name="password"
@@ -39,6 +43,7 @@ defineProps<
     isPasswordConfirmed: boolean;
     password: string;
     passwordConfirm: string;
+    profilePictureFile: string | undefined;
   }
 >();
 
@@ -46,9 +51,17 @@ interface EventEmitter {
   (e: "update:email", email: string): void;
   (e: "update:password", password: string): void;
   (e: "update:passwordConfirm", passwordConfirm: string): void;
+  (e: "update:profilePictureFile", pictureFile: File | null): void;
 }
 
-defineEmits<EventEmitter>();
+const emit = defineEmits<EventEmitter>();
+
+const onSelectFile = ($event) => {
+  const target = $event.target as HTMLInputElement;
+  if (target && target.files) {
+    emit("update:profilePictureFile", target.files[0]);
+  }
+};
 
 const clearInput = (inputEvent: Event) => {
   return (inputEvent.target as HTMLInputElement)?.value || "";

@@ -5,7 +5,7 @@ import useBasicError from "~/composables/useBasicError";
 
 export default function useCreateUser(): {
   errorMessage: Readonly<Ref<string>>;
-  createUser(email: string, password: string): Promise<User | null>;
+  createUser(email: string, password: string, profilePictureFile: File|null): Promise<User | null>;
 } {
   const { $appFetch } = useNuxtApp();
 
@@ -13,15 +13,16 @@ export default function useCreateUser(): {
 
   return {
     errorMessage,
-    async createUser(email: string, password: string): Promise<User | null> {
+    async createUser(email: string, password: string, profilePictureFile: File|null): Promise<User | null> {
       try {
         resetError();
+        const formData = new FormData();
+        formData.append('email', email)
+        formData.append('password', password)
+        formData.append('profilePictureFile', profilePictureFile)
         const response = await $appFetch<User>("/users", {
           method: POST,
-          body: {
-            email,
-            password,
-          },
+          body: formData,
         });
         if (!response) {
           throw createError("Error while registering user");

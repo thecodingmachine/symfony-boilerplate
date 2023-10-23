@@ -23,6 +23,13 @@ services:
       MAILER_DSN: ${MAILER_DSN}
       MAIL_HOST: ${MAIL_HOST}
       APP_SECRET: "secretforapp"
+      STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT}
+      STORAGE_S3_KEY: ${STORAGE_S3_KEY}
+      STORAGE_S3_SECRET: ${STORAGE_S3_SECRET}
+      STORAGE_PUBLIC_SOURCE: ${STORAGE_PUBLIC_SOURCE}
+      STORAGE_PRIVATE_SOURCE: ${STORAGE_PRIVATE_SOURCE}
+      STORAGE_PUBLIC_BUCKET_NAME: ${STORAGE_PUBLIC_BUCKET_NAME}
+      STORAGE_PRIVATE_BUCKET_NAME: ${STORAGE_PRIVATE_BUCKET_NAME}
    #   APP_URL_WEBAPP: "${PROTOCOL}://${DOMAIN}"
 
   mysql:
@@ -47,7 +54,8 @@ services:
     working_dir: /home/node/app
     environment:
       # This is used only per the proxy
-      NUXT_API_URL: http://${API_DOMAIN}/
+      NUXT_API_URL: "${PROTOCOL}://${API_DOMAIN}/"
+      PUBLIC_STORAGE_URL: "${PROTOCOL}://${MINIO_DOMAIN}/${STORAGE_PUBLIC_BUCKET_NAME}/"
   proxy:
     image: traefik:3.0
     container_name: tcm_proxy
@@ -67,8 +75,26 @@ services:
           - "${API_DOMAIN}"
           - "${BASE_DOMAIN}"
 
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.minio_console_router.rule=${MINIO_CONSOLE_ROUTER_RULE}
+      - traefik.http.routers.minio_console_router.service=minio_console_service
+      - traefik.http.services.minio_console_service.loadbalancer.server.port=9001
+      - traefik.http.routers.minio_s3_router.rule=${MINIO_ROUTER_RULE}
+      - traefik.http.routers.minio_s3_router.service=minio_s3_service
+      - traefik.http.services.minio_s3_service.loadbalancer.server.port=9000
+    environment:
+      MINIO_ROOT_USER: ${STORAGE_S3_KEY}
+      MINIO_ROOT_PASSWORD: ${STORAGE_S3_SECRET}
+    volumes:
+      - minio_data:/data
+
 volumes:
   mysql_db:
+  minio_data:
 networks:
   # This could be very usefull to run multiple project on the same machine
   tcm_network:

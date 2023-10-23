@@ -9,6 +9,8 @@
       v-model:email="email"
       v-model:password="password"
       v-model:password-confirm="passwordConfirm"
+      v-model:profile-picture-file="profilePictureFile"
+      :profile-picture-url="profilePictureUrl"
       :is-password-confirmed="isPasswordConfirmed"
     />
     {{ errorMessage }}
@@ -41,6 +43,8 @@ const {
   email,
   password,
   passwordConfirm,
+  profilePictureUrl,
+  profilePictureFile,
   isPasswordConfirmed,
   securedPassword,
 } = useUser(data);
@@ -51,7 +55,8 @@ const updateUser = async () => {
       {
         email: email.value,
       },
-      securedPassword.value
+      securedPassword?.value,
+      profilePictureFile.value
     );
     userRefresh();
     await navigateTo("/users");

@@ -45,6 +45,10 @@ security:
             - ROLE_RIGHT_USER_CREATE
             - ROLE_RIGHT_USER_DELETE
             - ROLE_RIGHT_USER_UPDATE
+            - ROLE_RIGHT_COMPANY_READ
+            - ROLE_RIGHT_COMPANY_CREATE
+            - ROLE_RIGHT_COMPANY_DELETE
+            - ROLE_RIGHT_COMPANY_UPDATE
         ROLE_USER:
             - ROLE_RIGHT_ACCESS
 
