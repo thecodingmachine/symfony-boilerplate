@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 import useAuthUser from "~/store/auth";
 import useListUsers from "~/composables/api/user/useListUsers";
 import useDeleteUser from "~/composables/api/user/useDeleteUser";

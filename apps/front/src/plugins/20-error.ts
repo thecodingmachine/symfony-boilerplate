@@ -1,4 +1,4 @@
-import { BasicError } from "~/types/BasicError";
+import type { BasicError } from "~/types/BasicError";
 
 export default defineNuxtPlugin((nuxtApp) => {
   // Here you can handle your errors globally
@@ -11,10 +11,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.hook("app:error", (..._args) => {
     logger.error("app:error");
+    logger.error(_args);
     // if (process.client) {
     //   console.log(..._args)
     // }
-  })
+  });
 
   nuxtApp.vueApp.config.errorHandler = (..._args) => {
     logger.info("global error handler");

@@ -1,7 +1,7 @@
 import type { UseFetchOptions } from "nuxt/app";
 import { defu } from "defu";
-import { $Fetch, NitroFetchRequest } from "nitropack";
-import { AsyncData } from "#app";
+import type { $Fetch, NitroFetchRequest } from "nitropack";
+import type { AsyncData } from "#app";
 import { FetchError } from "ofetch";
 
 export default function useAppFetch<T>(

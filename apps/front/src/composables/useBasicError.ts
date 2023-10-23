@@ -1,5 +1,5 @@
-import { Ref } from "vue";
-import { BasicError } from "~/types/BasicError";
+import type { Ref } from "vue";
+import type { BasicError } from "~/types/BasicError";
 
 export default function useBasicError() {
   const error: Ref<BasicError | null> = ref(null);

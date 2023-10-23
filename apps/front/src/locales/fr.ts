@@ -69,6 +69,6 @@ export default {
     error: {
       toasterCatchAllDetail: "Erreur",
       toasterCatchAllSummary: "Une erreur est survenue",
-    }
-  }
+    },
+  },
 };

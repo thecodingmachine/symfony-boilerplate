@@ -1,5 +1,5 @@
 import { GET } from "~/constants/http";
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 import useAppFetch from "~/composables/useAppFetch";
 
 export default async function useGetUser(userId: string) {

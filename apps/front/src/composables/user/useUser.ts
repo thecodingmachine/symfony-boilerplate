@@ -1,4 +1,4 @@
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 
 export default function useUser(user: Ref<User> | undefined = undefined) {
   const password = ref("");
