@@ -6,12 +6,17 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const GROUP_USER_DETAILS = 'details';
+    public const GROUP_USER_LIST = 'list';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,6 +24,12 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
 
     #[ORM\Column(length: 180)]
     private string $password;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private Company|null $company = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private File|null $profilePicture = null;
 
     /** @param array<string> $roles */
     public function __construct(
@@ -29,11 +40,13 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     ) {
     }
 
+    #[Groups([self::GROUP_USER_DETAILS, self::GROUP_USER_LIST])]
     public function getId(): int|null
     {
         return $this->id;
     }
 
+    #[Groups([self::GROUP_USER_DETAILS, self::GROUP_USER_LIST])]
     public function getEmail(): string
     {
         return $this->email;
@@ -44,11 +57,6 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         $this->email = $email;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return $this->email;
@@ -116,17 +124,36 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
         // $this->plainPassword = null;
     }
 
-    public function jsonSerialize(): mixed
-    {
-        return [
-            'id' => $this->getId(),
-            'email' => $this->getEmail(),
-            'username' => $this->getUsername(),
-        ];
-    }
-
     public function hasRole(string $role): bool
     {
         return \in_array($role, $this->getRoles());
+    }
+
+    public function getCompany(): Company|null
+    {
+        return $this->company;
+    }
+
+    public function setCompany(Company|null $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): File|null
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(File|null $profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
+    }
+
+    #[Groups([self::GROUP_USER_DETAILS])]
+    public function getProfilePictureUrl(){
+
+        return $this->getProfilePicture()?->getStoragePath();
     }
 }

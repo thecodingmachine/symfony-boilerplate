@@ -27,6 +27,7 @@ export default {
         email: "Email",
         passwordConfirm: "Confirm your password",
         errorPasswordConfirm: "The confirmation of the password is invalid",
+        confirmDeleteUserPicture: "Do you confirm ?",
         buttonCancel: "Cancel",
         ok: "Save",
       },
@@ -83,6 +84,12 @@ export default {
     error: {
       toasterCatchAllDetail: "Error",
       toasterCatchAllSummary: "Error",
+    },
+  },
+  misc: {
+    confirmPopup: {
+      accept: "Confirm",
+      reject: "Cancel",
     },
   },
 };

@@ -134,6 +134,12 @@ be-yaml:
 
 .PHONY: fe-lint
 fe-lint: sync-env ## lint front (fix)
+.PHONY: backlint
+backlint: sync-env ## phpstan
+	docker compose exec back composer -- run lint-all
+
+.PHONY: frontlint
+frontlint: sync-env ## lint front (fix)
 	docker compose exec front yarn lint --fix
 
 .PHONY: frontcheck

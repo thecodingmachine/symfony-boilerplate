@@ -31,4 +31,6 @@ class UserRepository extends ServiceEntityRepository
     {
         return new User($identitier, ['ROLE_ADMIN']);
     }
+
+
 }

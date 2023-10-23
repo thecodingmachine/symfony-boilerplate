@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   modules: ["@pinia/nuxt", "@nuxtjs/i18n", "nuxt-primevue"],
   runtimeConfig: {
     API_URL: process.env.API_URL || "",
+    PUBLIC_STORAGE_URL: process.env.PUBLIC_STORAGE_URL,
+    public: {
+      publicStorageUrl: process.env.PUBLIC_STORAGE_URL,
+    },
   },
   primevue: {
     /* Options */

@@ -17,9 +17,9 @@ import useCreateUser from "~/composables/api/user/useCreateUser";
 import type { UserInput } from "~/types/UserInput";
 const { createUser, errorMessage } = useCreateUser();
 
-const submit = async (state: UserInput) => {
+const submit = async (user: UserInput) => {
   try {
-    await createUser(state);
+    await createUser(user);
     await navigateTo("/users");
   } catch (e) {
     logger.info(e);

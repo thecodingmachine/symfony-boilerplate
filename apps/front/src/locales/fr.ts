@@ -1,5 +1,6 @@
 export default {
   components: {
+    toast: {},
     form: {
       registerPasswordInput: {
         password: "Mot de passe",
@@ -26,6 +27,8 @@ export default {
         email: "Email",
         passwordConfirm: "Confirmez mot de passe",
         errorPasswordConfirm: "La confirmation du mot de passe est invalide",
+        confirmDeleteUserPicture:
+          "Confirmez-vous la suppression de la photo de profil ?",
         buttonCancel: "Annuler",
         ok: "Sauvegarder",
       },
@@ -82,6 +85,12 @@ export default {
     error: {
       toasterCatchAllDetail: "Erreur",
       toasterCatchAllSummary: "Une erreur est survenue",
+    },
+  },
+  misc: {
+    confirmPopup: {
+      accept: "Confirmer",
+      reject: "Anuler",
     },
   },
 };

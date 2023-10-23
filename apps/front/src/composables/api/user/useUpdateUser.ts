@@ -1,10 +1,8 @@
-import { PUT } from "~/constants/http";
+import { POST } from "~/constants/http";
 import type { User, UserId } from "~/types/User";
+import type { UserInput } from "~/types/UserInput";
 import useBasicError from "~/composables/useBasicError";
 
-type UserInput = Omit<User, "id"> & {
-  password: string;
-};
 export default function useUpdateUser() {
   const { $appFetch } = useNuxtApp();
   const { setError, resetError, errorMessage } = useBasicError();
@@ -13,9 +11,13 @@ export default function useUpdateUser() {
     async updateUser(userId: UserId, user: UserInput) {
       try {
         resetError();
+        const formData = new FormData();
+        formData.append("email", user.email);
+        formData.append("password", user.password);
+        formData.append("profilePictureFile", user.profilePicture);
         const response = await $appFetch<User>("/users/" + userId, {
-          method: PUT,
-          body: user,
+          method: POST,
+          body: formData,
         });
         if (!response) {
           throw createError("Error while updating user");

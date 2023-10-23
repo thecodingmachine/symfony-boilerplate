@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Dto\Request\CreateUserDto;
-use App\Dto\Request\UpdateUserDto;
+use App\Dto\Request\User\CreateUserDto;
+use App\Dto\Request\User\UpdateUserDto;
 use App\Entity\User;
 use App\Mailer\UserMailer;
 use App\Repository\UserRepository;
@@ -29,7 +29,9 @@ class CreateUser
         }
 
         $user = new User($userDto->getEmail());
-        $this->updateUser->updateUser($user, new UpdateUserDto($userDto->getEmail(), $userDto->getPassword()));
+        $userUpdateDto = new UpdateUserDto($userDto->getEmail(), $userDto->getPassword());
+        $userUpdateDto->setProfilePicture($userDto->getProfilePicture());
+        $this->updateUser->updateUser($user, $userUpdateDto);
         $this->entityManager->persist($user);
 
         $this->userMailer->sendRegistrationMail($user);
