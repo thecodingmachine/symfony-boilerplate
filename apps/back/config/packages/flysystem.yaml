@@ -1,0 +1,43 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+
+services:
+    Aws\S3\S3MultiRegionClient:
+        arguments:
+            - version: 'latest'
+              use_path_style_endpoint: true
+              endpoint: '%env(STORAGE_S3_ENDPOINT)%'
+              credentials:
+                  key: '%env(STORAGE_S3_KEY)%'
+                  secret: '%env(STORAGE_S3_SECRET)%'
+flysystem:
+    storages:
+        # Private Storage
+        private.storage.s3:
+            adapter: 'aws'
+            options:
+                client: 'Aws\S3\S3MultiRegionClient'
+                bucket: '%env(STORAGE_PRIVATE_BUCKET_NAME)%'
+
+        private.storage.memory:
+          adapter: 'memory'
+
+        private.storage:
+          adapter: 'lazy'
+          options:
+            source: '%env(STORAGE_PRIVATE_SOURCE)%'
+
+        public.storage.s3:
+          adapter: 'aws'
+          visibility: public
+          options:
+            client: 'Aws\S3\S3MultiRegionClient'
+            bucket: '%env(STORAGE_PUBLIC_BUCKET_NAME)%'
+
+        public.storage.memory:
+          adapter: 'memory'
+
+        public.storage:
+          adapter: 'lazy'
+          options:
+            source: '%env(STORAGE_PUBLIC_SOURCE)%'
+
