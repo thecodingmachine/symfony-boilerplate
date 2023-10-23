@@ -1,5 +1,7 @@
 import { useAuthUser } from "~/store/auth";
 import { API_URL } from "~/constants/http";
+import type { ComposerTranslation } from "vue-i18n";
+import type { ToastServiceMethods } from "primevue/toastservice";
 
 export default defineNuxtPlugin((nuxtApp) => {
   //const pinia = usePinia();
@@ -10,7 +12,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   } = useRequestHeaders(["cookie"]) as {
     [key: string]: string;
   };
-  const store = useAuthUser(pinia);
   const appFetch = $fetch.create({
     baseURL: API_URL,
     headers: {
@@ -20,8 +21,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     //ignoreResponseError: true,
     onResponse(context) {
-      const t = nuxtApp.vueApp.config.globalProperties.$t;
-      const toast = nuxtApp.vueApp.config.globalProperties.$toast;
+      const store = useAuthUser(pinia);
+      const t = nuxtApp.vueApp.config.globalProperties
+        .$t as ComposerTranslation;
+      const toast = nuxtApp.vueApp.config.globalProperties
+        .$toast as ToastServiceMethods;
       const res = context.response;
       const cookies = res.headers.get("set-cookie") || "";
       if (process.server && cookies) {

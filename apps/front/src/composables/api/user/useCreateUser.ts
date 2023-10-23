@@ -1,6 +1,6 @@
 import { POST } from "~/constants/http";
-import { User } from "~/types/User";
-import { Ref } from "vue";
+import type { User } from "~/types/User";
+import type { Ref } from "vue";
 import useBasicError from "~/composables/useBasicError";
 
 export default function useCreateUser(): {

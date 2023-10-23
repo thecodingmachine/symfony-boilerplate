@@ -1,5 +1,5 @@
 import { FetchError } from "ofetch";
-import { AsyncData } from "#app";
+import type { AsyncData } from "#app";
 import useAppFetch from "~/composables/useAppFetch";
 
 interface LoggedHealthCheckResponse {

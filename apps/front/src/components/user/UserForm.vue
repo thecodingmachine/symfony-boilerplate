@@ -32,7 +32,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 
 defineProps<
   Omit<User, "id"> & {
@@ -41,7 +41,6 @@ defineProps<
     passwordConfirm: string;
   }
 >();
-
 interface EventEmitter {
   (e: "update:email", email: string): void;
   (e: "update:password", password: string): void;

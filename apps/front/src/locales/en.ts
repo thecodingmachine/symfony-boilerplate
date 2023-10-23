@@ -70,5 +70,5 @@ export default {
       toasterCatchAllDetail: "Error",
       toasterCatchAllSummary: "Error",
     },
-  }
+  },
 };

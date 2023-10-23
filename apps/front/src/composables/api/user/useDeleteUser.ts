@@ -1,4 +1,4 @@
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 import { DELETE } from "~/constants/http";
 import useBasicError from "~/composables/useBasicError";
 

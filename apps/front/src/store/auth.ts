@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { HTTP_UNAUTHORIZED, POST } from "~/constants/http";
-import { User } from "~/types/User";
-import { AppFetch } from "~/types/AppFetch";
+import type { User } from "~/types/User";
+import type { AppFetch } from "~/types/AppFetch";
 import useBasicError from "~/composables/useBasicError";
 
 const login = <T>(fetcher: AppFetch<T>, username: string, password: string) => {
@@ -51,7 +51,7 @@ export const useAuthUser = defineStore("auth-store", () => {
 
   return {
     me,
-    meError: error,
+    meError: computed(() => error),
     isMePending,
     authUrl,
 

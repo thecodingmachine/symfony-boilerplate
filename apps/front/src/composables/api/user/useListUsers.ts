@@ -1,4 +1,4 @@
-import { User } from "~/types/User";
+import type { User } from "~/types/User";
 import { GET } from "~/constants/http";
 import useAppFetch from "~/composables/useAppFetch";
 

@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useAuthUser } from "~/store/auth";
-import { AppFetch } from "~/types/AppFetch";
+import type { AppFetch } from "~/types/AppFetch";
 import useBasicError from "~/composables/useBasicError";
 
 definePageMeta({
