@@ -1,5 +1,5 @@
 # Prod Deployment
-@see [here](../gitlab-ci/gitlab-ci-tags-prod.yml)
+@see LINK TODO../gitlab-ci/gitlab-ci-tags-prod.yml
 
 This happen only when tag are pushed with format x.x.x
 
@@ -16,7 +16,7 @@ As best practice, add the public key into gitlab variable so it is not lost
 
 ## Prepare a demo server
 
-Theses steps are basis steps, it should be good enough for a demonstration environnement
+These steps are basis steps, it should be good enough for a demonstration environnement
 
 ```
 cd /
