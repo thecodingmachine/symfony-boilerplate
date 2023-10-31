@@ -4,8 +4,8 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Deploy Ready',
+    Svg: require('@site/static/img/docker.svg').default,
     description: (
       <>
         Docusaurus was designed from the ground up to be easily installed and
@@ -14,7 +14,7 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Web app essentials',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
@@ -24,7 +24,7 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Just start implementing !',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
