@@ -48,11 +48,9 @@
          --cache-from ${IMAGE_DESTINATION}:latest
          --build-arg BUILDKIT_INLINE_CACHE=1
          -t $IMAGE_DESTINATION
-         -t ${IMAGE_DESTINATION}:latest
          --target=${TARGET}
       '
     - docker push ${IMAGE_DESTINATION}
-    - docker push ${IMAGE_DESTINATION}:latest
 
 .build image:
   extends:
