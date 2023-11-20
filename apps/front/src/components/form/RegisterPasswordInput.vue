@@ -57,7 +57,7 @@
 defineOptions({
   inheritAttrs: false,
 });
-const props = defineProps<{
+defineProps<{
   inputId: string;
 }>();
 </script>
