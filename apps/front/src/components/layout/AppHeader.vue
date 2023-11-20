@@ -3,10 +3,10 @@
     <div class="col-2 col-offset-8"></div>
     <div class="col-2">
       <p
-        v-if="username"
+        v-if="authStore.me?.email"
         v-t="{
           path: 'components.layout.appHeader.welcome',
-          args: { username },
+          args: { username: authStore.me.email },
         }"
       ></p>
     </div>
@@ -16,6 +16,4 @@
 import { useAuthUser } from "~/store/auth";
 
 const authStore = useAuthUser();
-
-const username = authStore.me.email || "";
 </script>

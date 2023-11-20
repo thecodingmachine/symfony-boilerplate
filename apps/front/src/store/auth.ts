@@ -21,7 +21,7 @@ const logout = (fetcher: AppFetch<any>) => {
 };
 
 export const useAuthUser = defineStore("auth-store", () => {
-  const me = ref();
+  const me: Ref<null | User> = ref(null);
   const { error, resetError, setError } = useBasicError();
   const isMePending = ref(false);
   const authUrl = ref("/auth/login");
@@ -29,7 +29,14 @@ export const useAuthUser = defineStore("auth-store", () => {
     resetError();
     isMePending.value = true;
     try {
-      const res = await $appFetch("auth/me");
+      const res = await $appFetch("auth/me", {
+        // This override the default behavior of onResponse interceptor from $appFetch
+        // Because when logout, the next /me gonna answer 401 but you dont want to display any errors
+        onResponse: () => {},
+      });
+      if (!res) {
+        throw createError("res expect a value");
+      }
       me.value = res;
     } catch (exception: any) {
       isMePending.value = false;
@@ -48,7 +55,7 @@ export const useAuthUser = defineStore("auth-store", () => {
   };
   const logoutUser = async (fetch: AppFetch<any>) => {
     await logout(fetch);
-    resetAuth();
+    await refresh(fetch);
   };
 
   return {
