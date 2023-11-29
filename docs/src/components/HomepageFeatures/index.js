@@ -2,44 +2,46 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-const FeatureList = [
-  {
-    title: 'Deploy Ready',
-    Svg: require('@site/static/img/docker.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'Web app essentials',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: 'Just start implementing !',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
-  },
-];
 
-function Feature({Svg, title, description}) {
+function FeatureList() {
+    return [
+        {
+            title: 'Deploy Ready',
+            src: '/img/docker.svg',
+            description: (
+                <>
+                    Static analysis tools for your source code and a Docker Compose stack that will help you building a solid infrastructure in production.
+                </>
+            ),
+        },
+        {
+            title: 'Robust yet Modular stack',
+            src: '/img/robust_modular.svg',
+            description: (
+                <>
+                    This boilerplate relies on a very common a stable set of copmponents : Symfony 6, Nuxt 3 and REST. Adding a new tech in the stack, is easy, adapt it according to your needs !
+                </>
+            ),
+        },
+        {
+            title: 'Just start implementing !',
+            src: '/img/fast_code.png',
+            description: (
+                <>
+                    This boilerplate's philosophy is to embed the common use cases that will be needed to 90% of Web Apps. You just start implementing features.
+
+                </>
+            ),
+        },
+    ];
+}
+
+
+function Feature({src, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img className={styles.featureSvg} role="img" src={src} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
@@ -54,7 +56,7 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
+          {FeatureList().map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
         </div>
