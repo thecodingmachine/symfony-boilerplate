@@ -2,7 +2,7 @@
 nelmio_security:
     # signs/verifies all cookies
     # FIXME :
-    #   - PHPSESSID cookie i snot correctly passed into the signing process, so we cannot use '*'. But additional cookies could be set a signed here
+    #   - PHPSESSID cookie is not correctly passed into the signing process, so we cannot use '*'. But additional cookies could be set a signed here
     #   - see https://github.com/nelmio/NelmioSecurityBundle/issues/154
     signed_cookie:
         names: []
