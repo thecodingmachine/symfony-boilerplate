@@ -29,6 +29,13 @@ export default {
         buttonCancel: "Annuler",
         ok: "Sauvegarder",
       },
+      list: {
+        createButton: "Créer un utilisateur",
+        pending: "Chargement des utilisateurs",
+        title: "Utilisateurs",
+        edit: "Editer",
+        delete: "Supprimer",
+      },
     },
     layout: {
       appHeader: {
@@ -39,8 +46,18 @@ export default {
           users: "Utilisateurs",
           page1: "page1",
           page2: "page2",
-          page3: "page3",
+          validation: "validation",
           quit: "Quitter",
+        },
+      },
+    },
+    demo: {
+      validation: {
+        form: {
+          startDate: "Date de début",
+          textField: "Champ texte",
+          siret: "Siret",
+          nestedDemoEntityName: "Nom de l'entité imbriquée",
         },
       },
     },
@@ -61,10 +78,6 @@ export default {
     user: {
       index: {
         createButton: "Créer un utilisateur",
-        pending: "Chargement des utilisateurs",
-        title: "Utilisateurs",
-        edit: "Editer",
-        delete: "Supprimer",
       },
     },
   },

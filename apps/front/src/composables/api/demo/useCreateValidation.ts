@@ -1,11 +1,7 @@
 import { POST } from "~/constants/http";
-import type { User } from "~/types/User";
 import useBasicError from "~/composables/useBasicError";
 
-type UserInput = Omit<User, "id"> & {
-  password: string;
-};
-export default function useCreateUser() {
+export default function useCreateValidation() {
   const { $appFetch } = useNuxtApp();
 
   const { setError, resetError, errorMessage, error, violations } =
@@ -15,15 +11,15 @@ export default function useCreateUser() {
     errorMessage,
     error,
     violations,
-    async createUser(user: UserInput) {
+    async post<T extends Record<string, any>>(state: T) {
       try {
         resetError();
-        const response = await $appFetch<User>("/users", {
+        const response = await $appFetch<T>("/demo/validation", {
           method: POST,
-          body: user,
+          body: state,
         });
         if (!response) {
-          throw createError("Error while registering user");
+          throw createError("Error while registering demo/validation");
         }
         return response;
       } catch (e: any) {

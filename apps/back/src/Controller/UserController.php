@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DevTools\PHPStan\ThisRouteDoesntNeedAVoter;
 use App\Dto\Request\CreateUserDto;
 use App\Dto\Request\UpdateUserDto;
 use App\Entity\User;
@@ -29,9 +30,11 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'create_user', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted(UserVoter::CREATE_USER)]
+    #[ThisRouteDoesntNeedAVoter]
     public function createUser(#[MapRequestPayload] CreateUserDto $userDto): JsonResponse
     {
-        $this->denyAccessUnlessGranted(UserVoter::CREATE_USER);
         $user = $this->createUser->createUser($userDto);
 
         $this->entityManager->flush();
@@ -40,7 +43,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'list_users', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[IsGranted(UserVoter::VIEW_ANY_USER)]
+    #[ThisRouteDoesntNeedAVoter]
     public function listUsers(\Symfony\Bundle\SecurityBundle\Security $security): JsonResponse
     {
         $users = $this->userRepository->findAll();
@@ -49,7 +54,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/{id}', name: 'get_user', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[IsGranted(UserVoter::VIEW_ANY_USER)]
+    #[ThisRouteDoesntNeedAVoter]
     public function getUserEntity(User $user): JsonResponse
     {
         return new JsonResponse([
@@ -60,6 +67,7 @@ class UserController extends AbstractController
 
     #[Route('/users/{id}', name: 'update_user', methods: ['PUT'])]
     #[IsGranted(UserVoter::EDIT_ANY_USER, subject: 'user')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function updateUser(User $user, #[MapRequestPayload] UpdateUserDto $userDto): JsonResponse
     {
         $user = $this->updateUser->updateUser($user, $userDto);
@@ -74,6 +82,7 @@ class UserController extends AbstractController
 
     #[Route('/users/{id}', name: 'delete_user', methods: ['DELETE'])]
     #[IsGranted(UserVoter::DELETE_ANY_USER, subject: 'user')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function deleteUser(User $user): JsonResponse
     {
         $this->entityManager->remove($user);

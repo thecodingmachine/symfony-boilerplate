@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="surface-ground">
     <div class="grid">
       <div class="col-12">
         <layout-app-header />

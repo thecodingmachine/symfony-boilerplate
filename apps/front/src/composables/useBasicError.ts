@@ -1,10 +1,10 @@
 import type { Ref } from "vue";
 import type { BasicError } from "~/types/BasicError";
-
+import { setProperty } from "dot-prop";
 export default function useBasicError() {
   const error: Ref<BasicError | null> = ref(null);
   const errorMessage = computed(() => {
-    // Dont display message on 500 (handled via toasters)
+    // Dont display message on 500/403 (handled via toasters)
     if (
       error.value?.status &&
       (error.value.status > 500 || error.value.status === 403)
@@ -40,6 +40,24 @@ export default function useBasicError() {
       error.value = null;
     },
     error: readonly(error),
+    violations: computed(() => {
+      const errorType = error.value?.type;
+      if (errorType !== "https://symfony.com/errors/validation") {
+        return {};
+      }
+      const violationsInResponse = error.value?.violations;
+      if (!violationsInResponse) {
+        return {};
+      }
+      return violationsInResponse.reduce((previous, current) => {
+        // Maybe have to handle nested object
+        return setProperty(
+          { ...previous },
+          current.propertyPath,
+          current.title,
+        );
+      }, {});
+    }),
     errorMessage,
   };
 }

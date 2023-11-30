@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Dto\Request\CreateUserDto;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -22,13 +24,13 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function createUser(string $identitier): User
+    public function createUser(CreateUserDto $userDto): User
     {
-        return new User($identitier, ['ROLE_USER']);
+        return new User((string) Uuid::uuid4(), $userDto->getEmail(), ['ROLE_USER']);
     }
 
-    public function createAdmin(string $identitier): User
+    public function createAdmin(CreateUserDto $userDto): User
     {
-        return new User($identitier, ['ROLE_ADMIN']);
+        return new User((string) Uuid::uuid4(), $userDto->getEmail(), ['ROLE_ADMIN']);
     }
 }

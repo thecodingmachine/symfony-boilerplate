@@ -12,16 +12,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private int|null $id = null;
-
     #[ORM\Column(length: 180)]
     private string $password;
 
     /** @param array<string> $roles */
     public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(length: 36)]
+        private string $id,
         #[ORM\Column(length: 180, unique: true)]
         private string $email,
         #[ORM\Column]
@@ -29,7 +27,7 @@ class User implements UserInterface, \JsonSerializable, PasswordAuthenticatedUse
     ) {
     }
 
-    public function getId(): int|null
+    public function getId(): string
     {
         return $this->id;
     }

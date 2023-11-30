@@ -7,9 +7,10 @@ type UserInput = Omit<User, "id"> & {
 };
 export default function useUpdateUser() {
   const { $appFetch } = useNuxtApp();
-  const { setError, resetError, errorMessage } = useBasicError();
+  const { setError, resetError, errorMessage, violations } = useBasicError();
   return {
     errorMessage,
+    violations,
     async updateUser(userId: UserId, user: UserInput) {
       try {
         resetError();

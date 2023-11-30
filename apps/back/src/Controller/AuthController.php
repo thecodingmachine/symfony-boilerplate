@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DevTools\PHPStan\IKnowWhatImDoingThisIsAPublicRoute;
+use App\DevTools\PHPStan\ThisRouteDoesntNeedAVoter;
 use App\Entity\User;
 use OneLogin\Saml2\Auth;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +24,7 @@ class AuthController extends AbstractController
     ) {
     }
 
+    #[IKnowWhatImDoingThisIsAPublicRoute]
     #[Route('/auth/sso/saml2/login', name: 'api_login_saml2', methods: ['POST'])]
     public function samlLogin(): Response
     {
@@ -30,6 +33,7 @@ class AuthController extends AbstractController
     }
 
     #[Route('/login', name: 'api_login', methods: ['POST'])]
+    #[IKnowWhatImDoingThisIsAPublicRoute]
     public function login(#[CurrentUser] User|null $user): JsonResponse
     {
         return new JsonResponse($user);
@@ -37,12 +41,14 @@ class AuthController extends AbstractController
 
     #[Route('/auth/me', name: 'api_me')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[ThisRouteDoesntNeedAVoter]
     public function getLoggedUser(#[CurrentUser] User $user): JsonResponse
     {
         return new JsonResponse($user);
     }
 
-    /** @Route("/auth/sso/saml2/metadata", name="getSsoMetadata", methods={"GET"}) */
+    #[Route('/auth/sso/saml2/metadata', name: 'api_get_auth_sso_saml2_metadata')]
+    #[IKnowWhatImDoingThisIsAPublicRoute]
     public function getMetadata(): Response
     {
         $auth = $this->auth;

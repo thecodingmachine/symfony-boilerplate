@@ -5,4 +5,9 @@ export interface BasicError {
   error?: string;
   title?: string;
   status?: number;
+  type?: string;
+  violations: Array<{
+    propertyPath: string;
+    title: string;
+  }>;
 }

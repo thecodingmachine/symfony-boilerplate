@@ -10,6 +10,6 @@ export function useHealthCheckFetch(): AsyncData<
   FetchError | null
 > {
   return useAppFetch<LoggedHealthCheckResponse>(
-    () => "/api/1.0/healthcheck/logged"
+    () => "/api/1.0/healthcheck/logged",
   );
 }
