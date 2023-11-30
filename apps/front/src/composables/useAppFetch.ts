@@ -6,7 +6,7 @@ import { FetchError } from "ofetch";
 
 export default function useAppFetch<T>(
   url: string | Request | Ref<string | Request> | (() => string | Request),
-  options: UseFetchOptions<T | undefined | unknown> = {}
+  options: UseFetchOptions<T | undefined | unknown> = {},
 ) {
   const { $appFetch } = useNuxtApp();
   const defaults: UseFetchOptions<T | undefined | unknown> = {

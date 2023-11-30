@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div>Page 2</div>
+    <div>Simple test of server calls</div>
+    Result:
     <div v-if="data">
       {{ data.success }}
     </div>

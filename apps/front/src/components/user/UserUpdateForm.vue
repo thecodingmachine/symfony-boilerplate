@@ -4,12 +4,14 @@
     v-t="{ path: 'components.user.updateForm.pending' }"
   ></div>
   <h1 v-t="{ path: 'components.user.updateForm.title', args: data }"></h1>
-  <UserForm :default-value="data" @submit="submit" @cancel="navigateToList">
+  <UserForm
+    :default-value="data"
+    :violations="violations"
+    @submit="submit"
+    @cancel="navigateToList"
+  >
   </UserForm>
-  <div>
-    {{ errorMessage }}
-    {{ error }}
-  </div>
+  {{ error }}
 </template>
 
 <script setup lang="ts">
@@ -23,18 +25,14 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { errorMessage, updateUser: updateUserApi } = useUpdateUser();
+const { violations, updateUser: updateUserApi } = useUpdateUser();
 
-const {
-  data,
-  error,
-  pending: pendingData,
-} = await useGetUser(props.userId as string);
+const { data, error, pending: pendingData } = await useGetUser(props.userId);
 
 const submit = async (value: UserInput) => {
   // If you need to copy the value, create a clone so it does not track reactivity
   //data.value = {...data.value, ...value};
-  await updateUserApi(parseInt(props.userId), value);
+  await updateUserApi(props.userId, value);
   return navigateTo("/users/");
 };
 const navigateToList = () => {

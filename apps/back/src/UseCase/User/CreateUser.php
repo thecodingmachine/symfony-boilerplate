@@ -28,7 +28,7 @@ class CreateUser
             throw new BadRequestHttpException('Email already exists');
         }
 
-        $user = new User($userDto->getEmail());
+        $user = $this->userRepository->createUser($userDto);
         $this->updateUser->updateUser($user, new UpdateUserDto($userDto->getEmail(), $userDto->getPassword()));
         $this->entityManager->persist($user);
 

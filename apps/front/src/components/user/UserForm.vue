@@ -9,28 +9,37 @@
               v-model="state.email"
               type="text"
               :placeholder="$t('components.user.form.email')"
+              :class="{ 'p-invalid': violations.email }"
             />
             <label for="user-email">{{
               $t("components.user.form.email")
             }}</label>
           </span>
+          <small class="p-error">{{ violations.email }}</small>
         </div>
         <div class="field col-12">
           <FormRegisterPasswordInput
             v-model="password"
             input-id="user-password"
+            :class="{
+              'p-invalid': violations.password || !isPasswordConfirmed,
+            }"
           />
+          <small class="p-error">
+            {{ violations.password }}
+          </small>
         </div>
         <div class="field col-12">
           <FormRegisterPasswordInput
             v-model="passwordConfirm"
             input-id="user-passwordConfirm"
+            :class="{ 'p-invalid': !isPasswordConfirmed }"
           >
             {{ $t("components.user.form.passwordConfirm") }}
           </FormRegisterPasswordInput>
-        </div>
-        <div v-show="!isPasswordConfirmed">
-          {{ $t("components.user.form.errorPasswordConfirm") }}
+          <small v-show="!isPasswordConfirmed" class="p-error">
+            {{ $t("components.user.form.errorPasswordConfirm") }}
+          </small>
         </div>
         <div>
           <slot name="buttons" :is-valid="isValid" :cancel="cancel">
@@ -54,8 +63,14 @@
 <script setup lang="ts">
 import type { User } from "~/types/User";
 
+interface State extends Omit<User, "id"> {}
 interface Props {
-  defaultValue: Omit<User, "id">;
+  defaultValue?: State;
+  violations?: {
+    [K in keyof State]?: string;
+  } & {
+    password?: string;
+  };
 }
 const props = withDefaults(defineProps<Props>(), {
   defaultValue() {
@@ -63,18 +78,21 @@ const props = withDefaults(defineProps<Props>(), {
       email: "",
     };
   },
+  violations() {
+    return {};
+  },
 });
 const state = reactive({ ...props.defaultValue });
 const password = ref("");
 const passwordConfirm = ref("");
 
 const isPasswordConfirmed = computed(
-  () => password.value === passwordConfirm.value
+  () => password.value === passwordConfirm.value,
 );
 
 const isPasswordEmpty = computed(() => !password.value);
 const securedPassword = computed(() =>
-  isPasswordConfirmed && isPasswordEmpty ? password.value : ""
+  isPasswordConfirmed && isPasswordEmpty ? password.value : "",
 );
 const isValid = isPasswordConfirmed;
 
@@ -83,7 +101,7 @@ interface EventEmitter {
     e: "submit",
     value: Omit<User, "id"> & {
       password: string;
-    }
+    },
   ): void;
   (e: "cancel"): void;
 }

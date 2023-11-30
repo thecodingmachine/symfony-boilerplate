@@ -73,7 +73,7 @@ export const useAuthUser = defineStore("auth-store", () => {
     async authenticateUser(
       username: string,
       password: string,
-      fetch: AppFetch<any>
+      fetch: AppFetch<any>,
     ) {
       const user = await login<User>(fetch, username, password);
       me.value = user;

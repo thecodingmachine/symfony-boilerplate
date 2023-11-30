@@ -29,7 +29,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         .$toast as ToastServiceMethods;
       const res = context.response;
       const cookies = res.headers.get("set-cookie") || "";
-      if (process.server && cookies) {
+      if (process.server && cookies && event) {
         // Send to browser cookies
         event.node.res.setHeader("set-cookie", cookies);
       }

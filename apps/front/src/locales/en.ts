@@ -30,6 +30,13 @@ export default {
         buttonCancel: "Cancel",
         ok: "Save",
       },
+      list: {
+        createButton: "New user",
+        pending: "Loading users",
+        title: "Users",
+        edit: "Edit",
+        delete: "Delete",
+      },
     },
     layout: {
       appHeader: {
@@ -40,8 +47,18 @@ export default {
           users: "Users",
           page1: "page1",
           page2: "page2",
-          page3: "page3",
+          validation: "validation",
           quit: "Quit",
+        },
+      },
+    },
+    demo: {
+      validation: {
+        form: {
+          startDate: "Date de début",
+          textField: "Champ texte",
+          siret: "Siret",
+          nestedDemoEntityName: "Nom de l'entité imbriquée",
         },
       },
     },
@@ -61,11 +78,7 @@ export default {
     },
     user: {
       index: {
-        createButton: "New user",
-        pending: "Loading users",
-        title: "Users",
-        edit: "Edit",
-        delete: "Delete",
+        createButton: "Create an user",
       },
     },
   },

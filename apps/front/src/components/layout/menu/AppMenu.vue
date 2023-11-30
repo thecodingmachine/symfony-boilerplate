@@ -46,9 +46,9 @@ const items = computed(() => [
     route: "/demo/page2",
   },
   {
-    label: t("components.layout.menu.appMenu.page3"),
-    icon: "pi pi-fw pi-pencil",
-    route: "/demo/page3",
+    label: t("components.layout.menu.appMenu.validation"),
+    icon: "pi pi-fw pi-id-card",
+    route: "/demo/validation",
   },
   {
     separator: true,

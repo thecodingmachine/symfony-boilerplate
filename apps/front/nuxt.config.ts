@@ -9,6 +9,9 @@ export default defineNuxtConfig({
   },
   primevue: {
     /* Options */
+    options: {
+      unstyled: false,
+    },
   },
   i18n: {
     vueI18n: "./modules_config/nuxt/i18n.config.ts",
@@ -28,7 +31,7 @@ export default defineNuxtConfig({
           rel: "icon",
           type: "image/svg+xml",
           href: "/favicon.svg",
-        }
+        },
       ],
     },
   },

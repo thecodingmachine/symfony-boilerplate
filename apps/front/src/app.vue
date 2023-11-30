@@ -40,6 +40,6 @@ watchEffect(
   },
   {
     flush: "pre",
-  }
+  },
 );
 </script>

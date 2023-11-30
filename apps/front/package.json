@@ -1,6 +1,5 @@
 {
   "private": true,
-
   "scripts": {
     "build": "nuxt build",
     "dev": "rm -rf /tmp/nitro/worker-* && nuxt dev | pino-pretty -c",
@@ -29,6 +28,7 @@
     "h3": "^1.11.1",
     "nitropack": "^2.8.1",
     "nuxt": "3.10.3",
+    "dot-prop": "^8.0.2",
     "ofetch": "^1.3.3",
     "ohash": "^1.1.3",
     "pinia": "^2.1.7",
