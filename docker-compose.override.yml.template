@@ -39,6 +39,7 @@ services:
       - |
         composer install
         composer run  console  --  doctrine:migrations:migrate -n
+        composer run  console  --  app:storage:init-buckets
 
   phpmyadmin:
     image: phpmyadmin

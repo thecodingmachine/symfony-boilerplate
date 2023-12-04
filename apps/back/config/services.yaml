@@ -76,3 +76,8 @@ services:
             - {name: controller.service_arguments}
         arguments:
             $appUrl: "%app.url.base%"
+
+    App\Command\InitS3Buckets:
+        arguments:
+            $publicBucketName: "%env(STORAGE_PUBLIC_BUCKET_NAME)%"
+            $privateBucketName: "%env(STORAGE_PRIVATE_BUCKET_NAME)%"
