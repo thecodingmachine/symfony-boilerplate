@@ -1,14 +1,92 @@
-# Boilerplate TheCodingMachine
+<p align="center">
+    <img src="https://media.githubusercontent.com/media/thecodingmachine/symfony-boilerplate/v2/docs/logo_boilerplate.svg" alt="Symfony Boilerplate" width="250" height="250" />
+</p>
+<h3 align="center">Symfony Boilerplate V2</h3>
+<p align="center"><a href="https://thecodingmachine.github.io/symfony-boilerplate">Documentation</a></p>
 
-# Setup the project
+
+---
+
+This is a template of a *README*. Adapt it according to the comments and your needs.
+
+---
+
+# Symfony Boilerplate
+
+> Replace this title and the following description with your project name and description.
+
+A web application built with Nuxt 3, Symfony 6.4 (LTS), and Docker.
+
+## Get help
+
+```
+make help
+```
+This will display help
+
+## Prerequisites
+
+### Linux
+
+Install the latest version of [Docker](https://docs.docker.com/install/) and
+[Docker Compose](https://docs.docker.com/compose/install/).
+
+### macOS
+
+Consider installing [Orbstack](https://orbstack.dev/) as a drop-in replacement of Docker Desktop
+
+## Setup
+
+This boilerplate is best to use at the start of the project
+
+### Starting a new project
+
+1. Create your Git repository on the platform of your choice, then add a new remote to it:
+
+```
+git remote add boilerplate https://github.com/thecodingmachine/symfony-boilerplate.git
+```
+
+2. pull the source code from the latest release to your current branch:
+
+```
+git pull boilerplate v2
+```
+
+3. Update the .env.dist accoding to your need. Minimal configuration to update:
+
+```
+APP_NAME
+DATABASE_PASSWORD
+DATABASE_USERNAME
+SF_APP_SECRET
+```
+
+### First setup on local environment
+
+When cloning your project, you need to 
+
+- Copy a .env.dist as a .env
+- Create expected values into your "/etc/hosts"
+- Copy docker-compose.override.yml.template into docker-compose.override.yml
+
+A specific makefile task has been created:
 
 ```
 make init-dev
 ```
 
-# Merge request
+### Start the project
 
-To check:
+You can start the project with usual docker compose command `docker compose up -d`
+
+
+A specific makefile task has been created: `make up`
+You can stop logging with `Ctrl+C`
+Then, you can init the database: `make reset-db`
+
+
+# Merge request checklist:
 
 - if entities has changed, a new migration should be created
 
@@ -29,95 +107,22 @@ The database access is configured directly via the environment variable "DATABAS
 During development it is safe to assume:
 
 ```
-composer run  console -- doctrine:schema:update  --force
+db-dev-mig
 ```
 
 working
 
-- In production
+- For production
 
 To deploy new structures in production (IE mapping update):
-1. Generate a migration
+1. Reset the database `make reset-db`
+2. Generate a migration `make db-mig-diff`
+
+3. Apply the migration
 
 ```
-composer run  console  -- doctrine:migrations:diff
+make migrate
 ```
-
-2. Apply the migration in production
-
-```
-composer run  console  --  doctrine:migrations:migrate
-```
-
-### Create an entity
-
-- Entity
-
-```
-declare(strict_types=1);
-
-namespace App\Modules\Dummy\Entity;
-use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
-
-#[ORM\Entity()]
-class Dummy implements JsonSerializable {
-
-    #[ORM\Id()]
-    #[ORM\GeneratedValue(strategy: "CUSTOM")]
-    #[ORM\Column(type: "uuid", unique: true)]
-    #[ORM\CustomIdGenerator(class: \Ramsey\Uuid\Doctrine\UuidGenerator::class)]
-    private $id;
-
-    public function jsonSerialize(): array { 
-        return [
-            "id" => $this->id
-        ];
-
-    }
-
-}
-```
-
-- Repository (here the name of the entity is event, and the domain name is event too)
-
-
-```
-<?php
-
-declare(strict_types=1);
-
-namespace App\Modules\Dummy\Repository;
-
-use App\Modules\Dummy\Entity\Dummy as EntityDummy;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-
-class Dummy
-{
-    private EntityManagerInterface $entityManager;
-  /**
-   * @var EntityRepository<EntityDummy>
-   */
-    private EntityRepository $repository;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-        $this->repository = $this->entityManager->getRepository(EntityDummy::class);
-    }
-
-    /**
-     * @return iterable<EntityDummy>
-     */
-    public function findAll(): iterable
-    {
-        return $this->repository->findAll();
-    }
-}
-```
-
-
 
 # BASICS
 
@@ -139,12 +144,3 @@ docker run --rm  --volume=`pwd`/app/backend:/usr/src/app/:rw thecodingmachine/ph
 ## Must to read
 
 https://symfony.com/doc/current/configuration.html#configuration-environments
-
-## Update the database
-
-
-connect to the container then run
-
-```
-php bin/console doctrine:sc:update --dump-sql
-```

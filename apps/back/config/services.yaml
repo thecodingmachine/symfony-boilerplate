@@ -8,7 +8,6 @@ parameters:
     app.url.base: "%env(APP_URL)%"
     app.api.version: "1.0"
     app.api.url.prefix: "%env(API_PREFIX)%/%app.api.version%"
-   # app.url.webapp: "%env(APP_URL_WEBAPP)%"
     # OUR APP
     app.sso.serviceprovider.x509cert: "%env(APP_SSO_SERVICEPROVIDER_X509CERT)%"
     app.sso.serviceprovider.privateKey: "%env(APP_SSO_SERVICEPROVIDER_PRIVATEKEY)%"

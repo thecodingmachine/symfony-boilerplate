@@ -1,0 +1,19 @@
+<svg width="560" height="510" viewBox="0 0 560 510" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 129L45.5 161.5L161.5 45L110.5 6L61 10.5L21 56.5L16 129Z" fill="CurrentColor" stroke="CurrentColor" stroke-width="10"/>
+<path d="M544.5 129L515 161.5L399 45L450 6L499.5 10.5L539.5 56.5L544.5 129Z" fill="CurrentColor" stroke="CurrentColor" stroke-width="10"/>
+<path d="M370.5 186L342 207.5L334.5 247.5L396 391L451 360L461.5 275.5L398.5 224L396 199.5L370.5 186Z" fill="CurrentColor"/>
+<path d="M189 186L217.5 207.5L225 247.5L163.5 391L108.5 360L98 275.5L161 224L163.5 199.5L189 186Z" fill="CurrentColor"/>
+<path d="M6 300.5L33.5 176.5M6 300.5L33.5 414M6 300.5L68.298 229.5M33.5 176.5L161.5 44.5M33.5 176.5L68.298 229.5M161.5 44.5L251.5 16.5H307.5L398.5 47L529 176.5L554 300.5L529 414L398.5 505H158.5L33.5 414M161.5 44.5L177.5 102.5L164 199.5L161.5 224.5L98.5 275.5M33.5 414L108.5 359L98.5 275.5M98.5 275.5L68.298 229.5M227 405L241.5 392.5H319L333 405L292.5 449.5L349 473L336 486H227L212.5 473L266.5 449.5L227 405Z" stroke="CurrentColor" stroke-width="10"/>
+<path d="M554 300.5L526.5 176.5M554 300.5L526.5 414M554 300.5L491.702 229.5M526.5 176.5L398.5 44.5M526.5 176.5L491.702 229.5M398.5 44.5L308.5 16.5H252.5L161.5 47L31 176.5L6 300.5L31 414L161.5 505H401.5L526.5 414M398.5 44.5L382.5 102.5L396 199.5L398.5 224.5L461.5 275.5M526.5 414L451.5 359L461.5 275.5M461.5 275.5L491.702 229.5M333 405L318.5 392.5H241L227 405L267.5 449.5L211 473L224 486H333L347.5 473L293.5 449.5L333 405Z" stroke="CurrentColor" stroke-width="10"/>
+<path d="M159 505.5L185 455.5L164.5 440L160.5 374.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M402 506L376 456L396.5 440.5L399.5 372.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M181 318L229 405.5L164 440" stroke="CurrentColor" stroke-width="10"/>
+<path d="M379.5 317.5L331 406L396 440.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M185 455.5L213.5 473.5L227 505.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M376 456L349 473L335 506" stroke="CurrentColor" stroke-width="10"/>
+<path d="M176.5 103L215 120L217.5 208.5H342.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M384 103L345.5 120L343 208.5H218" stroke="CurrentColor" stroke-width="10"/>
+<path d="M225 247H334.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M241.5 393L226 246.5L218 207.5" stroke="CurrentColor" stroke-width="10"/>
+<path d="M319 393.5L334.5 247L342.5 208" stroke="CurrentColor" stroke-width="10"/>
+</svg>

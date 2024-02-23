@@ -64,12 +64,12 @@ class RouteSecurityChecker implements Rule
         if ($isGrantedAttribute === null && ! $this->isDenyAccessUnlessGrantedCalledInRouteFunction($node, false)) {
             return $this->buildError(
                 sprintf('🛑🔓 SECURITY: Route %s::%s is public !', $className, $functionName),
-                "Add an #[IsGranted] attribute or use the `denyAccessUnlessGranted` function.
-                If you are sure that this route should remain public, add the " . IKnowWhatImDoingThisIsAPublicRoute::class . ' attribute',
+                'Add an #[IsGranted] attribute or use the `denyAccessUnlessGranted` function.
+                If you are sure that this route should remain public, add the ' . IKnowWhatImDoingThisIsAPublicRoute::class . ' attribute',
             );
         }
 
-        if ($this->functionAttributesContain(ThisRouteDoesntNeedAVoter::class, $attributes)){
+        if ($this->functionAttributesContain(ThisRouteDoesntNeedAVoter::class, $attributes)) {
             return [];
         }
 
@@ -78,20 +78,21 @@ class RouteSecurityChecker implements Rule
             return $this->buildError(
                 sprintf('🛑🔓 SECURITY: Route %s::%s is insufficiently protected !', $className, $functionName),
                 "Pass the 'subject' argument to the \$this->denyAccessUnlessGranted() call.
-                    If you are sure that this route's protection should only on user's permissions, add a ".ThisRouteDoesntNeedAVoter::class." attribute.",
+                    If you are sure that this route's protection should only on user's permissions, add a " . ThisRouteDoesntNeedAVoter::class . ' attribute.',
             );
         }
-        if ($isGrantedAttribute !== null){
+        if ($isGrantedAttribute !== null) {
             $isGrantedAttributeInstance = $isGrantedAttribute->newInstance();
             \assert($isGrantedAttributeInstance instanceof IsGranted);
             if ($isGrantedAttributeInstance->subject === null) {
                 return $this->buildError(
                     sprintf('🛑🔓 SECURITY: Route %s::%s is insufficiently protected !', $className, $functionName),
                     "Pass the 'subject' argument to the 'IsGranted' attribute.
-                    If you are sure that this route's protection should only on user's permissions, add a ".ThisRouteDoesntNeedAVoter::class.' attribute.',
+                    If you are sure that this route's protection should only on user's permissions, add a " . ThisRouteDoesntNeedAVoter::class . ' attribute.',
                 );
             }
         }
+
         return [];
     }
 
@@ -126,9 +127,7 @@ class RouteSecurityChecker implements Rule
         ));
     }
 
-    /**
-     * @return array<RuleError>
-     */
+    /** @return array<RuleError> */
     private function buildError(string $message, string $tip): array
     {
         return [
