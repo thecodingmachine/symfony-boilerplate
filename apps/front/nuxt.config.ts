@@ -20,8 +20,15 @@ export default defineNuxtConfig({
       viewport: "width=device-width, initial-scale=1",
       title: "Boilerplate TCM v2",
       meta: [
-        // <meta name="description" content="My amazing site">
-        //  { name: 'description', content: 'My amazing site.' }
+        // <meta name="description" content="Boilerplate Symfony / Nuxt / Docker">
+        { name: "description", content: "Boilerplate Symfony / Nuxt / Docker" },
+      ],
+      link: [
+        {
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/favicon.svg",
+        }
       ],
     },
   },

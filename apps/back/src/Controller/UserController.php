@@ -8,7 +8,6 @@ use App\Dto\Request\CreateUserDto;
 use App\Dto\Request\UpdateUserDto;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Security\Enum\Right;
 use App\Security\Voter\UserVoter;
 use App\UseCase\User\CreateUser;
 use App\UseCase\User\UpdateUser;
@@ -17,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
