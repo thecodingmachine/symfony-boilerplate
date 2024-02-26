@@ -14,6 +14,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   };
   const appFetch = $fetch.create({
     baseURL: API_URL,
+    retryStatusCodes: [408, 409, 425, 429, 502, 503, 504],
     headers: {
       Accept: "application/json",
       // Send to API custom headers + specific cookies
