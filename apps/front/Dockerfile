@@ -1,5 +1,5 @@
 # syntax=docker.io/docker/dockerfile:1.4
-ARG IMAGE_VERSION=node:18
+ARG IMAGE_VERSION=node:20
 
 # This is stage copy buildings file
 FROM ${IMAGE_VERSION} as dev
