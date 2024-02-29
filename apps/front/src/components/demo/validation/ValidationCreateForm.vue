@@ -17,12 +17,6 @@
 <script lang="ts" setup>
 import useCreateValidation from "~/composables/api/demo/useCreateValidation";
 
-/**
-const violations = reactive({
-  textField: "",
-  siret: "",
-  startDate: "",
-});**/
 const { violations, post } = useCreateValidation();
 const submit = async (state: any) => {
   await post(state);
