@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class DemoController extends AbstractController
+class DemoValidationController extends AbstractController
 {
     #[Route('/demo/validation', name: 'create_demo_validation', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]

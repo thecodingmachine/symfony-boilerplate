@@ -122,7 +122,7 @@ interface Props {
   defaultValue?: State;
   violations?: Violations<State>;
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   defaultValue() {
     return createDefault();
   },
@@ -136,7 +136,7 @@ interface EventEmitter {
 }
 
 const emits = defineEmits<EventEmitter>();
-const state = reactive(createDefault());
+const state = reactive({ ...props.defaultValue });
 const createNewChild = () => {
   state.nestedDemoEntityList.push(createDefaultNestedEntity());
 };

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DevTools\PHPStan\ThisRouteDoesntNeedAVoter;
-use App\Dto\Request\CreateUserDto;
-use App\Dto\Request\UpdateUserDto;
+use App\Dto\Request\User\CreateUserDto;
+use App\Dto\Request\User\UpdateUserDto;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\Voter\UserVoter;
-use App\UseCase\User\CreateUser;
-use App\UseCase\User\UpdateUser;
+use App\UseCase\User\CreateUserUseCase;
+use App\UseCase\User\UpdateUserUseCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,13 +24,12 @@ class UserController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
-        private readonly CreateUser $createUser,
-        private readonly UpdateUser $updateUser,
+        private readonly CreateUserUseCase $createUser,
+        private readonly UpdateUserUseCase $updateUser,
     ) {
     }
 
     #[Route('/users', name: 'create_user', methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[IsGranted(UserVoter::CREATE_USER)]
     #[ThisRouteDoesntNeedAVoter]
     public function createUser(#[MapRequestPayload] CreateUserDto $userDto): JsonResponse
@@ -43,7 +42,6 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'list_users', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[IsGranted(UserVoter::VIEW_ANY_USER)]
     #[ThisRouteDoesntNeedAVoter]
     public function listUsers(\Symfony\Bundle\SecurityBundle\Security $security): JsonResponse
@@ -54,9 +52,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/{id}', name: 'get_user', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[IsGranted(UserVoter::VIEW_ANY_USER)]
-    #[ThisRouteDoesntNeedAVoter]
+    #[IsGranted(UserVoter::VIEW_ANY_USER, subject: 'user')]
     public function getUserEntity(User $user): JsonResponse
     {
         return new JsonResponse([
@@ -67,7 +63,6 @@ class UserController extends AbstractController
 
     #[Route('/users/{id}', name: 'update_user', methods: ['PUT'])]
     #[IsGranted(UserVoter::EDIT_ANY_USER, subject: 'user')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function updateUser(User $user, #[MapRequestPayload] UpdateUserDto $userDto): JsonResponse
     {
         $user = $this->updateUser->updateUser($user, $userDto);
@@ -82,7 +77,6 @@ class UserController extends AbstractController
 
     #[Route('/users/{id}', name: 'delete_user', methods: ['DELETE'])]
     #[IsGranted(UserVoter::DELETE_ANY_USER, subject: 'user')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function deleteUser(User $user): JsonResponse
     {
         $this->entityManager->remove($user);

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Dto\Request\CreateUserDto;
-use App\Dto\Request\UpdateUserDto;
+use App\Dto\Request\User\CreateUserDto;
 use App\Entity\User;
+use App\Exception\User\UnexpectedNotUpdatedPassword;
 use App\Mailer\UserMailer;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class CreateUser
+class CreateUserUseCase
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
         private readonly UserMailer $userMailer,
-        private readonly UpdateUser $updateUser,
+        private readonly PasswordUseCase $passwordUseCase,
     ) {
     }
 
@@ -29,7 +29,9 @@ class CreateUser
         }
 
         $user = $this->userRepository->createUser($userDto);
-        $this->updateUser->updateUser($user, new UpdateUserDto($userDto->getEmail(), $userDto->getPassword()));
+        if (!$this->passwordUseCase->updatePassword($user, $userDto)) {
+            throw new UnexpectedNotUpdatedPassword();
+        }
         $this->entityManager->persist($user);
 
         $this->userMailer->sendRegistrationMail($user);
