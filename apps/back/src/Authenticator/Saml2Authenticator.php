@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Authenticator;
 
+use App\Entity\User;
 use App\Exception\Authenticator\SsoConsumerAuthNException;
 use App\Exception\Authenticator\SsoConsumerException;
 use OneLogin\Saml2\Auth;
@@ -22,6 +23,7 @@ use Symfony\Component\Security\Http\HttpUtils;
 
 class Saml2Authenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
+    /** @param UserProviderInterface<User> $userProvider */
     public function __construct(
         private readonly UserProviderInterface $userProvider,
         private readonly HttpUtils $httpUtils,

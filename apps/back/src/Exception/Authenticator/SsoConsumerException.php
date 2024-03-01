@@ -14,6 +14,7 @@ class SsoConsumerException extends Exception
     {
         $message = '[SSOService] - Login response has error. Reason: ' . $auth->getLastErrorReason() . '. Errors: '
             . implode(', ', $auth->getErrors());
+
         parent::__construct($message, $code, $previous);
     }
 }
