@@ -3,7 +3,7 @@
     <span class="p-float-label">
       <slot :updated="updated" :is-active-violation="displayError" />
     </span>
-    <small v-if="displayError" class="p-error">{{ violation }}</small>
+    <small v-if="displayError" class="p-error">{{ $t(violation) }}</small>
   </div>
 </template>
 <script setup lang="ts">
