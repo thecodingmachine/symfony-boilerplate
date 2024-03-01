@@ -40,5 +40,8 @@
     "sass": "^1.71.1",
     "vite-svg-loader": "^5.1.0",
     "vue": "^3.4.20"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
   }
 }
