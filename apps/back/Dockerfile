@@ -4,7 +4,7 @@ ARG APP_ENV=prod
 ARG APP_SOURCE_FILE='./'
 ARG PHP_EXTENSIONS="apcu mysqli pdo_mysql intl gd xdebug"
 
-FROM thecodingmachine/${IMAGE_VERSION}-slim-apache as dev
+FROM thecodingmachine/php:8.2-v4-slim-apache as dev
 ENV APP_ENV=dev
 ENV APP_DEBUG=1
 ENV TEMPLATE_PHP_INI=development
