@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Authenticator;
 
-use App\Exception\SsoConsumerAuthNException;
-use App\Exception\SsoConsumerException;
+use App\Exception\Authenticator\SsoConsumerAuthNException;
+use App\Exception\Authenticator\SsoConsumerException;
 use OneLogin\Saml2\Auth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

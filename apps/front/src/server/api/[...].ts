@@ -27,7 +27,7 @@ import logger from "~/utils/logger";
 
 export default defineEventHandler(async (event: H3Event) => {
   const { API_URL } = useRuntimeConfig();
-  const target = new URL(event.req.url as string, API_URL);
+  const target = new URL(event.node.req.url as string, API_URL);
   logger.info("----API Proxy");
   const ret = await proxyRequest(event, target.toString(), {
     headers: {

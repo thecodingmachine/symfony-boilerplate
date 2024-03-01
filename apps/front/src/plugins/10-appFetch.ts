@@ -12,6 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   } = useRequestHeaders(["cookie"]) as {
     [key: string]: string;
   };
+
   const appFetch = $fetch.create({
     baseURL: API_URL,
     retryStatusCodes: [408, 409, 425, 429, 502, 503, 504],
@@ -19,6 +20,21 @@ export default defineNuxtPlugin((nuxtApp) => {
       Accept: "application/json",
       // Send to API custom headers + specific cookies
       ...headers,
+    },
+    onRequest({ options }) {
+      const requestUrl = useRequestURL();
+      const referer = requestUrl.href;
+
+      if (!options.headers) {
+        options.headers = {};
+      }
+      /** This is usefull to have the referer even during SSR, so on a 401 the backend can calculate a returnTO
+       *
+       * An interesting feature would be to send a refererPath (instead of the full href)
+       * so the php would calculate a returnTo with the path,
+       * allowing nuxt to consider the returnTo as non-external
+       */
+      options.headers = { ...options.headers, referer };
     },
     //ignoreResponseError: true,
     onResponse(context) {

@@ -9,33 +9,29 @@
     </NuxtLayout>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import { watchEffect } from "vue";
 import { useAuthUser } from "~/store/auth";
 import { storeToRefs } from "pinia";
 
 const authStore = useAuthUser();
 
-const route = useRoute();
-
 const { isAuthenticated, isMePending, authUrl } = storeToRefs(authStore);
+
 // Doing this here instead than in the middleware allow reactivity on the auth user
 watchEffect(
   async () => {
     if (isMePending.value) {
       return;
     }
+    const routeRequest = useRequestURL();
+    const href = routeRequest.href;
     const shouldRedirectToLogin =
       !isAuthenticated.value &&
       authUrl.value &&
-      route.fullPath !== authUrl.value;
+      decodeURIComponent(href) !== decodeURIComponent(authUrl.value);
     if (shouldRedirectToLogin) {
       return navigateTo(authUrl.value, { external: true });
-    }
-    const shouldRedirectToHomepage =
-      isAuthenticated.value && route.fullPath === authUrl.value;
-    if (shouldRedirectToHomepage) {
-      return navigateTo("/");
     }
   },
   {
