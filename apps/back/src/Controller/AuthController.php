@@ -34,7 +34,8 @@ class AuthController extends AbstractController
 
     #[Route('/login', name: 'api_login', methods: ['POST'])]
     #[IKnowWhatImDoingThisIsAPublicRoute]
-    public function login(#[CurrentUser] User|null $user): JsonResponse
+    public function login(#[CurrentUser]
+    User|null $user,): JsonResponse
     {
         return new JsonResponse($user);
     }
@@ -42,7 +43,8 @@ class AuthController extends AbstractController
     #[Route('/auth/me', name: 'api_me')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ThisRouteDoesntNeedAVoter]
-    public function getLoggedUser(#[CurrentUser] User $user): JsonResponse
+    public function getLoggedUser(#[CurrentUser]
+    User $user,): JsonResponse
     {
         return new JsonResponse($user);
     }

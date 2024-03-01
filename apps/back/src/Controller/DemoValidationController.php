@@ -17,7 +17,8 @@ class DemoValidationController extends AbstractController
     #[Route('/demo/validation', name: 'create_demo_validation', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ThisRouteDoesntNeedAVoter]
-    public function create(#[MapRequestPayload] CreateDemoValidationDto $createDemoValidationDto): JsonResponse
+    public function create(#[MapRequestPayload]
+    CreateDemoValidationDto $createDemoValidationDto,): JsonResponse
     {
         return $this->json($createDemoValidationDto);
     }
