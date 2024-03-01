@@ -12,13 +12,13 @@
       >
         <InputText
           v-model="username"
-          type="text"
           :placeholder="$t('pages.auth.login.username')"
+          type="text"
         />
         <InputText
           v-model="password"
-          type="password"
           :placeholder="$t('pages.auth.login.password')"
+          type="password"
         />
 
         <Button type="submit"> {{ $t("pages.auth.login.ok") }}</Button>
@@ -27,17 +27,20 @@
     </section>
   </main>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue";
 import { useAuthUser } from "~/store/auth";
 import type { AppFetch } from "~/types/AppFetch";
 import useBasicError from "~/composables/useBasicError";
+import useInternalUrl from "~/composables/url/useInternalUrl";
 
 definePageMeta({
   layout: "anonymous",
+  middleware: ["redirect-authenticated"],
 });
 
 const authStore = useAuthUser();
+const route = useRoute();
 const { errorMessage, setError, resetError } = useBasicError();
 /**
  *
@@ -52,11 +55,16 @@ const { errorMessage, setError, resetError } = useBasicError();
 const username = ref("");
 const password = ref("");
 const { $appFetch }: { $appFetch: AppFetch<any> } = useNuxtApp();
+const internalUrl = useInternalUrl();
 const submitAuthenticateUser = async () => {
   resetError();
   try {
+    const continueUrl = "" + route.query.returnTo;
     await authStore.authenticateUser(username.value, password.value, $appFetch);
-    await navigateTo("/");
+    if (route.query.returnTo && internalUrl.isInternalUrl(continueUrl)) {
+      return await navigateTo(continueUrl, { external: true });
+    }
+    return await navigateTo("/");
   } catch (e: any) {
     await setError(e);
   }

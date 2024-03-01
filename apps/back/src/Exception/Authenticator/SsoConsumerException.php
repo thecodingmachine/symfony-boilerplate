@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Exception\Authenticator;
 
 use Exception;
 use OneLogin\Saml2\Auth;

@@ -21,6 +21,7 @@ security:
                 path: app_logout
             json_login:
                 check_path: api_login
+            entry_point: App\Authenticator\LoginFormAuthenticationEntryPoint
     #         custom_authenticators:
     #           - 'App\Authenticator\Saml2Authenticator'
 
