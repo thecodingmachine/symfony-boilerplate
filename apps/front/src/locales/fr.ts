@@ -97,4 +97,5 @@ export default {
       toasterCatchAllSummary: "Une erreur est survenue",
     },
   },
+  "This value should not be blank.": "Ce champ ne peux pas être vide",
 };
