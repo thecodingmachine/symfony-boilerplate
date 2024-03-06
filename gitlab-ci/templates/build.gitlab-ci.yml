@@ -30,6 +30,7 @@
     TARGET: "" # required
     CONTEXT_PATH: "" # required
     IMAGE_DESTINATION: "" # required
+    IMAGE_LATEST: "" # required
     DOCKER_BUILDKIT: 1
   image: docker
   services:
@@ -38,14 +39,14 @@
     - if [[ -z $TARGET ]]; then echo "TARGET is required"; exit 1; fi
     - if [[ -z $CONTEXT_PATH ]]; then echo "CONTEXT_PATH is required"; exit 1; fi
     - if [[ -z $IMAGE_DESTINATION ]]; then echo "IMAGE_DESTINATION is required"; exit 1; fi
-    - mkdir -p $HOME/.docker
-    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+    - if [[ -z IMAGE_LATEST ]]; then echo "IMAGE_LATEST is required"; exit 1; fi
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - 'docker build
          "${CONTEXT_PATH}"
          --pull
+         --cache-from ${IMAGE_LATEST}
          --cache-from ${IMAGE_DESTINATION}
-         --cache-from ${IMAGE_DESTINATION}:latest
          --build-arg BUILDKIT_INLINE_CACHE=1
          -t $IMAGE_DESTINATION
          --target=${TARGET}
@@ -54,7 +55,7 @@
 
 .build image:
   extends:
-    - '.build image kaniko'
+    - '.build image buildx'
 
 # IMAGE_TAG is required except if script part is overwrited (to allow multiple remove in one task).
 .delete image:

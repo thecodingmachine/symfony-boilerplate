@@ -19,7 +19,7 @@
     TESTS_DATABASE_URL: "mysql://user:secret@mysql_tests:3306/api?serverVersion=mariadb-10.11.3"
   before_script:
     - cd ./apps/back
-    - composer install --no-scripts
+    - composer install
   cache: [*app_back_cache]
 
 .app back cache-rw:
