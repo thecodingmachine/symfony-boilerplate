@@ -3,7 +3,7 @@ ARG IMAGE_VERSION=node:20
 
 # This is stage copy buildings file
 FROM ${IMAGE_VERSION} as dev
-ENV NODE_ENV=dev
+ENV NODE_ENV=development
 USER node
 
 FROM ${IMAGE_VERSION} as prepare-common-front-file

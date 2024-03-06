@@ -5,10 +5,11 @@ test back build:
   stage: 'test'
   extends:
     - '.app back cache-rw'
-  extends:
     - '.app back'
   script:
     - exit 0
+  variables:
+    API_PREFIX: "/api"
   needs:
     - 'build back dev'
   rules:
@@ -17,6 +18,8 @@ test back build:
 
 test back analyze:
   stage: 'test'
+  variables:
+    API_PREFIX: "/api"
   extends:
     - '.app back'
   script:

@@ -9,6 +9,7 @@ build back dev:
     TARGET: dev
     CONTEXT_PATH: ./apps/back
     IMAGE_DESTINATION: $BACK_IMAGE_DEV
+    IMAGE_LATEST: $BACK_IMAGE_LATEST
   rules:
     - !reference [.except hotfix rules, rules]
     - when: always
@@ -21,10 +22,23 @@ build back stable:
     TARGET: stable
     CONTEXT_PATH: ./apps/back
     IMAGE_DESTINATION: $BACK_IMAGE_STABLE
+    IMAGE_LATEST: $BACK_IMAGE_LATEST
   rules:
     - !reference [.MR rules, rules]
     - !reference [.rc rules, rules]
     - !reference [.stable rules, rules]
+
+build back latest:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: stable
+    CONTEXT_PATH: ./apps/back
+    IMAGE_DESTINATION: $BACK_IMAGE_LATEST
+    IMAGE_LATEST: $BACK_IMAGE_LATEST
+  rules:
+    - !reference [.rc rules, rules]
 
 build front dev:
   stage: 'build'
@@ -34,6 +48,7 @@ build front dev:
     TARGET: dev
     CONTEXT_PATH: ./apps/front
     IMAGE_DESTINATION: $FRONT_IMAGE_DEV
+    IMAGE_LATEST: $FRONT_IMAGE_LATEST
   rules:
     - !reference [.except hotfix rules, rules]
     - when: always
@@ -46,9 +61,20 @@ build front stable:
     TARGET: stable
     CONTEXT_PATH: ./apps/front
     IMAGE_DESTINATION: $FRONT_IMAGE_STABLE
+    IMAGE_LATEST: $FRONT_IMAGE_LATEST
   rules:
     - !reference [.MR rules, rules]
     - !reference [.rc rules, rules]
     - !reference [.stable rules, rules]
 
-
+build front latest:
+  stage: 'build'
+  extends:
+    - '.build image'
+  variables:
+    TARGET: stable
+    CONTEXT_PATH: ./apps/front
+    IMAGE_DESTINATION: $FRONT_IMAGE_LATEST
+    IMAGE_LATEST: $FRONT_IMAGE_LATEST
+  rules:
+    - !reference [.rc rules, rules]
