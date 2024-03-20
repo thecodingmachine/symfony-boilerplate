@@ -22,8 +22,8 @@ security:
             json_login:
                 check_path: api_login
             entry_point: App\Authenticator\LoginFormAuthenticationEntryPoint
-    #         custom_authenticators:
-    #           - 'App\Authenticator\Saml2Authenticator'
+            #custom_authenticators:
+            #   - 'App\Authenticator\Saml2Authenticator'
 
             # activate differents ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -34,10 +34,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/%app.api.url.prefix%/login$', roles: PUBLIC_ACCESS }
-        - { path: '^/%app.api.url.prefix%/auth/sso/', roles: PUBLIC_ACCESS }
-        - { path: '^/%app.api.url.prefix%/healthcheck$', roles: PUBLIC_ACCESS }
-        - { path: '^/%app.api.url.prefix%/', roles: IS_AUTHENTICATED_FULLY }
+        - { path: '^/%app.url.api.prefix%/login$', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.api.prefix%/auth/sso/', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.api.prefix%/healthcheck$', roles: PUBLIC_ACCESS }
+        - { path: '^/%app.url.api.prefix%/', roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_ADMIN:

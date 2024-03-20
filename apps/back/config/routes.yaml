@@ -2,5 +2,5 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 app_logout:
-  path: "%app.api.url.prefix%/auth/logout"
+  path: "%app.url.api.prefix%/auth/logout"
   methods: POST
