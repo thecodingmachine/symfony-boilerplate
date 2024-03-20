@@ -20,7 +20,7 @@ front linter:
   extends:
     - '.app front'
   script:
-    - yarn lint
+    - npm run lint
   rules:
     - !reference [.except hotfix rules, rules]
     - when: always

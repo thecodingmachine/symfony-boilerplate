@@ -10,4 +10,4 @@ A default dockerfile is provided, the image expose the builded nuxt app on the p
 
 ## Dev
 
-Expose the port 24678 of the container, mount the root front directory into /home/node/app and run `yarn install && yarn dev -- -o` as the start command
+Expose the port 24678 of the container, mount the root front directory into /home/node/app and run `npm install && npm run dev -- -o` as the start command

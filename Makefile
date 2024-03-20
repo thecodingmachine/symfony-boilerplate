@@ -134,11 +134,11 @@ be-yaml:
 
 .PHONY: fe-lint
 fe-lint: sync-env ## lint front (fix)
-	docker compose exec front yarn lint --fix
+	docker compose exec front npm run lint --fix
 
 .PHONY: frontcheck
 fe-check: sync-env ## lint front (check)
-	docker compose exec front yarn lint
+	docker compose exec front npm run lint
 
 .PHONY: ci
 ci: cs-fix phpstan phpmd cs-check fe-lint ## Run all CI tools

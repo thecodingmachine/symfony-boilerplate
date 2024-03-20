@@ -24,7 +24,7 @@ services:
      - /bin/sh
      - -c
      - |
-       yarn install && yarn dev -- -o
+       npm install && npm run dev -- -o
 
   initback:
     extends:

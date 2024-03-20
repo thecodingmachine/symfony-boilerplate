@@ -37,7 +37,7 @@
   key:
     prefix: "front"
     files:
-      - apps/front/yarn.lock
+      - apps/front/package-lock.json
   paths:
     - apps/front/node_modules
   policy: pull
@@ -46,7 +46,7 @@
   image: ${FRONT_IMAGE_DEV}
   before_script:
     - cd ./apps/front
-    - yarn install
+    - npm install
   cache: [*app_front_cache]
 
 .app front cache-rw:

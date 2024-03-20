@@ -12,12 +12,12 @@ ENV NODE_ENV=production
 COPY --link --chown=node:node ./src/ /home/node/app/src/
 COPY --link --chown=node:node ./nuxt.config.ts /home/node/app/nuxt.config.ts
 COPY --link --chown=node:node ./package.json /home/node/app/package.json
-COPY --link --chown=node:node ./yarn.lock /home/node/app/yarn.lock
+COPY --link --chown=node:node ./package-lock.json /home/node/app/package-lock.json
 COPY --link --chown=node:node ./.eslintrc.cjs /home/node/app/.eslintrc.cjs
 COPY --link --chown=node:node ./tsconfig.json /home/node/app/tsconfig.json
 WORKDIR /home/node/app
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npm run build
 
 FROM ${IMAGE_VERSION} as stable
 COPY --chown=node:node --from=prepare-common-front-file /home/node/app/.output /home/node/app/.output
