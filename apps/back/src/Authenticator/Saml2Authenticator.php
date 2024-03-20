@@ -11,6 +11,7 @@ use OneLogin\Saml2\Auth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -29,6 +30,8 @@ class Saml2Authenticator extends AbstractAuthenticator implements Authentication
         private readonly HttpUtils $httpUtils,
         private readonly string $checkPath,
         private readonly Auth $auth,
+        private readonly string $webAppUrl,
+        private readonly UrlGeneratorInterface $router,
     ) {
     }
 
@@ -99,9 +102,16 @@ class Saml2Authenticator extends AbstractAuthenticator implements Authentication
     /** @inheritDoc */
     public function start(Request $request, AuthenticationException|null $authException = null)
     {
+        $referer = (string) $request->headers->get('referer');
+        $finalReturnTo = $this->webAppUrl;
+        if (str_starts_with($referer, $this->webAppUrl)) {
+            $finalReturnTo = $referer;
+        }
+
+        $returnTo = $this->router->generate('api_login_saml2', ['returnTo' => $finalReturnTo], UrlGeneratorInterface::ABSOLUTE_URL);
         $session = $request->getSession();
         $auth = $this->auth;
-        $url = $auth->login(null, [], false, false, true);
+        $url = $auth->login($returnTo, [], false, false, true);
         $authNRequestId = $auth->getLastRequestID();
         $session->set('AuthNRequestID', $authNRequestId);
 
